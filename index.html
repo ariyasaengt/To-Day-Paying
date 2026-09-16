@@ -152,10 +152,9 @@
 </head>
 <body>
 
-<!-- 🔒 Auth Section (Google & Email only) -->
 <div id="authSection">
     <div class="auth-card">
-        <h2><i data-lucide="layout-dashboard"></i> To-Day Paying</h2>
+        <h2><i data-lucide="layout-dashboard" size="20"></i> To-Day Paying</h2>
         <p>เข้าสู่ระบบเพื่อจัดการข้อมูลส่วนบุคคลของคุณ</p>
 
         <div class="auth-error-msg" id="authErrorMsg"></div>
@@ -186,7 +185,6 @@
     </div>
 </div>
 
-<!-- 📱 Main Workspace -->
 <div class="app-container" id="appMainSection" style="display: none;">
     <div class="header">
         <div>
@@ -211,7 +209,7 @@
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i></p>
+                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" size="12" style="margin-left:4px;"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:15px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -242,7 +240,7 @@
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:6px 10px; border-radius:8px;">
-                            <p style="margin:0; font-size:10px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" size="9" style="margin-left:3px;"></i></p>
+                            <p style="margin:0; font-size:10px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" size="12" style="margin-left:3px;"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:var(--warning);">150</p>
                         </div>
                         <div style="text-align:right;">
@@ -256,7 +254,7 @@
     </div>
 
     <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:14px; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; font-size:13px; margin-bottom:15px; color:#92400e; margin-top:15px;">
-        <span><i data-lucide="shopping-bag" size="14" style="margin-right:6px;"></i> บันทึกค่ากินอยู่รายวัน</span>
+        <span><i data-lucide="shopping-bag" size="16" style="margin-right:6px;"></i> บันทึกค่ากินอยู่รายวัน</span>
         <span>ใช้วันนี้: <span id="ui-spent-today" style="font-weight:600;">0.00 บ.</span></span>
         <span>รวมเดือนนี้: <span id="ui-spent-month" style="font-weight:600;">0.00 บ.</span></span>
     </div>
@@ -283,7 +281,7 @@
 </div>
 
 <div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน" style="display:none;">
-    <i data-lucide="plus" size="22"></i>
+    <i data-lucide="plus" size="20"></i>
 </div>
 
 <div class="modal-overlay" id="addBillModal">
@@ -592,6 +590,7 @@
         document.getElementById('ui-spent-today').innerText = `${spentToday.toLocaleString()} บ.`;
         document.getElementById('ui-spent-month').innerText = `${totalVariableExpense.toLocaleString()} บ.`;
         updateDashboard();
+        lucide.createIcons();
     }
 
     function updateDashboard() {
