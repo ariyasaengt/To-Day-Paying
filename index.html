@@ -118,8 +118,7 @@
 
         .form-group { margin-bottom: 14px; position: relative; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight: 500;}
-        .form-group input, .form-group select { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none; }
-        .form-group select { cursor: pointer; }
+        .form-group input, .form-group select { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
         .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
         
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
@@ -196,7 +195,7 @@
                 <label>รหัสผ่าน</label>
                 <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6" autocomplete="current-password">
             </div>
-            <button type="button" class="submit-btn" id="emailAuthSubmitBtn">เข้าสู่ระบบ</button>
+            <button type="submit" class="submit-btn" id="emailAuthSubmitBtn">เข้าสู่ระบบ</button>
         </form>
         
         <p style="margin-top:16px; font-size:12px;">
@@ -315,7 +314,7 @@
             <h2 style="font-size:18px;">เพิ่มรายรับประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addRecurringIncomeModal')"><i data-lucide="x"></i></button>
         </div>
-        <form onsubmit="event.preventDefault();">
+        <form id="addRecurringIncomeForm" onsubmit="saveNewRecurringIncome(event)">
             <div class="form-group">
                 <label>ชื่อรายการรายรับ</label>
                 <input type="text" id="newIncName" placeholder="เช่น ค่าเช่าห้อง, งานเสริมประจำ" required>
@@ -354,7 +353,7 @@
                     <input type="text" id="newIncAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
-            <button type="button" class="submit-btn" id="saveIncBtn">เพิ่มรายรับประจำ</button>
+            <button type="submit" class="submit-btn">เพิ่มรายรับประจำ</button>
         </form>
     </div>
 </div>
@@ -365,7 +364,7 @@
             <h2 style="font-size:18px;">เพิ่มรายจ่ายประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x"></i></button>
         </div>
-        <form onsubmit="event.preventDefault();">
+        <form id="addBillForm" onsubmit="saveNewBill(event)">
             <div class="form-group">
                 <label>ชื่อรายการ / บริการ</label>
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง" required>
@@ -416,7 +415,7 @@
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
-            <button type="button" class="submit-btn" id="saveBillBtn">เพิ่มรายจ่ายประจำ</button>
+            <button type="submit" class="submit-btn">เพิ่มรายจ่ายประจำ</button>
         </form>
     </div>
 </div>
@@ -427,7 +426,7 @@
             <h2 style="font-size:18px;">บันทึกรายการรายวัน</h2>
             <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button>
         </div>
-        <form onsubmit="event.preventDefault();">
+        <form id="txForm" onsubmit="submitTransaction(event)">
             <div class="form-group">
                 <label>ประเภท</label>
                 <select id="inputType">
@@ -453,7 +452,7 @@
                     <option value="others">อื่นๆ</option>
                 </select>
             </div>
-            <button type="button" class="submit-btn" id="saveTxBtn">บันทึก</button>
+            <button type="submit" class="submit-btn">บันทึก</button>
         </form>
     </div>
 </div>
@@ -464,13 +463,13 @@
             <h2 id="settingsModalTitle" style="font-size:18px;">ตั้งค่า</h2>
             <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button>
         </div>
-        <form onsubmit="event.preventDefault();">
+        <form id="settingsForm" onsubmit="saveSettings(event)">
             <input type="hidden" id="settingKey">
             <div class="form-group">
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
                 <input type="number" id="settingValue" required min="0" step="0.01">
             </div>
-            <button type="button" class="submit-btn" id="saveSettingsBtn">บันทึกข้อมูล</button>
+            <button type="submit" class="submit-btn">บันทึกข้อมูล</button>
         </form>
     </div>
 </div>
@@ -677,7 +676,8 @@
         document.getElementById('addRecurringIncomeModal').classList.add('active');
     }
 
-    document.getElementById('saveIncBtn').addEventListener('click', function() {
+    function saveNewRecurringIncome(e) {
+        e.preventDefault();
         const name = document.getElementById('newIncName').value.trim();
         const amount = Number(document.getElementById('newIncAmount').value) || 0;
         const dateType = document.getElementById('newIncDateType').value;
@@ -696,7 +696,7 @@
         }).then(() => {
             closeModal('addRecurringIncomeModal');
         }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
-    });
+    }
 
     function toggleRecurringIncomeStatus(key, currentStatus) {
         const nextStatus = currentStatus === 'received' ? 'pending' : 'received';
@@ -809,7 +809,8 @@
         document.getElementById('addBillModal').classList.add('active');
     }
 
-    document.getElementById('saveBillBtn').addEventListener('click', function() {
+    function saveNewBill(e) {
+        e.preventDefault();
         const name = document.getElementById('newBillName').value.trim();
         const category = document.getElementById('newBillCat').value;
         const amount = Number(document.getElementById('newBillAmount').value) || 0;
@@ -829,7 +830,7 @@
         }).then(() => {
             closeModal('addBillModal');
         }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
-    });
+    }
 
     function toggleBillStatus(key, currentStatus) {
         const nextStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
@@ -848,7 +849,8 @@
         document.getElementById('txModal').classList.add('active');
     }
 
-    document.getElementById('saveTxBtn').addEventListener('click', function() {
+    function submitTransaction(e) {
+        e.preventDefault();
         const type = document.getElementById('inputType').value;
         const amount = Number(document.getElementById('inputAmount').value) || 0;
         const name = document.getElementById('inputName').value.trim();
@@ -865,7 +867,7 @@
         }).then(() => {
             closeModal('txModal');
         }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
-    });
+    }
 
     function openSettingsModal(type) {
         document.getElementById('settingKey').value = type;
@@ -874,13 +876,14 @@
         document.getElementById('settingsModal').classList.add('active');
     }
 
-    document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+    function saveSettings(e) {
+        e.preventDefault();
         const key = document.getElementById('settingKey').value;
         const val = Number(document.getElementById('settingValue').value) || 0;
         db.ref(getUserDbPath(`settings/${key}`)).set(val).then(() => {
             closeModal('settingsModal');
         }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
-    });
+    }
 
     function toggleBankFields() {
         const method = document.getElementById('newBillMethod').value;
