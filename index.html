@@ -46,8 +46,14 @@
         * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         
-        /* แก้ไขการจัดวางไอคอน Lucide ให้ตรงบรรทัดและไม่ล้น */
-        .lucide { display: inline-block; vertical-align: -0.15em; stroke-width: 2.2px; }
+        /* ควบคุมขนาดและตำแหน่งของไอคอน Lucide ทุกตัวให้พอดีเป๊ะกับข้อความ */
+        svg.lucide {
+            width: 1em !important;
+            height: 1em !important;
+            vertical-align: -0.125em;
+            stroke-width: 2.2px;
+            display: inline-block;
+        }
 
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; min-height: 100vh; }
         
@@ -68,7 +74,7 @@
             box-shadow: var(--card-shadow);
             text-align: center;
         }
-        .auth-card h2 { margin: 0 0 8px; color: var(--text-dark); font-size: 24px; font-weight: 700; display: flex; justify-content: center; align-items: center; gap: 10px;}
+        .auth-card h2 { margin: 0 0 8px; color: var(--text-dark); font-size: 24px; font-weight: 700; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .auth-card p { margin: 0 0 24px; font-size: 13px; color: var(--text-light); }
 
         .auth-error-msg {
@@ -115,7 +121,7 @@
         .submit-btn:hover { opacity: 0.9; }
 
         .header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; background: var(--panel-bg); padding: 18px 20px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
-        .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); display: flex; align-items: center; gap: 10px; font-weight: 700;}
+        .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; font-weight: 700;}
         .header h1 i { color: var(--primary); }
         .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
         
@@ -164,7 +170,7 @@
 
 <div id="authSection">
     <div class="auth-card">
-        <h2><i data-lucide="wallet-cards" size="24" style="color:var(--primary);"></i> To-Day Paying</h2>
+        <h2><i data-lucide="wallet-cards"></i> To-Day Paying</h2>
         <p>ระบบจัดการงบประมาณและบันทึกรายจ่ายประจำวัน</p>
 
         <div class="auth-error-msg" id="authErrorMsg"></div>
@@ -198,28 +204,28 @@
 <div class="app-container" id="appMainSection" style="display: none;">
     <div class="header">
         <div>
-            <h1><i data-lucide="layout-dashboard" size="20"></i> To-Day Paying</h1>
+            <h1><i data-lucide="layout-dashboard"></i> To-Day Paying</h1>
             <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
         <div class="header-controls">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
-            <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon" size="14"></i> โหมดมืด</button>
-            <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:rgba(244,63,94,0.3);"><i data-lucide="log-out" size="14"></i> ออก</button>
+            <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon"></i> โหมดมืด</button>
+            <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:rgba(244,63,94,0.3);"><i data-lucide="log-out"></i> ออก</button>
         </div>
     </div>
 
     <div class="top-dashboard-grid">
         <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
-                <h3><i data-lucide="wallet" size="16" style="color:var(--primary);"></i> ส่วนบันทึกรายรับ</h3>
-                <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus" size="16"></i></button>
+                <h3><i data-lucide="wallet" style="color:var(--primary);"></i> ส่วนบันทึกรายรับ</h3>
+                <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus"></i></button>
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 180px;">
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p style="display:flex; align-items:center; gap:4px;">รายได้หลัก <i data-lucide="edit-3" size="13"></i></p>
+                        <p style="display:flex; align-items:center; gap:4px;">รายได้หลัก <i data-lucide="edit-3"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:15px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -234,7 +240,7 @@
 
         <div class="panel" style="background: #1e293b; color: #ffffff; margin-bottom:0; border: none;">
             <div class="panel-header" style="border-bottom-color: rgba(255,255,255,0.15);">
-                <h3 style="color: #ffffff;"><i data-lucide="pie-chart" size="16" style="color: #38bdf8;"></i> สรุปภาพรวม (Runway)</h3>
+                <h3 style="color: #ffffff;"><i data-lucide="pie-chart" style="color: #38bdf8;"></i> สรุปภาพรวม (Runway)</h3>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                 <div>
@@ -250,7 +256,7 @@
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.12); padding:8px 12px; border-radius:10px;">
-                            <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; gap:3px; font-weight:500;">งบต่อวัน <i data-lucide="edit-3" size="13"></i></p>
+                            <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; gap:3px; font-weight:500;">งบต่อวัน <i data-lucide="edit-3"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:#fbbf24;">150</p>
                         </div>
                         <div style="text-align:right;">
@@ -264,7 +270,7 @@
     </div>
 
     <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 16px; box-shadow: var(--card-shadow);">
-        <span style="display:flex; align-items:center; gap:8px; font-weight:500;"><i data-lucide="shopping-bag" size="16" style="color:var(--primary);"></i> บันทึกค่ากินอยู่รายวัน</span>
+        <span style="display:flex; align-items:center; gap:8px; font-weight:500;"><i data-lucide="shopping-bag" style="color:var(--primary);"></i> บันทึกค่ากินอยู่รายวัน</span>
         <span>ใช้วันนี้: <span id="ui-spent-today" style="font-weight:600; color:var(--text-dark);">0.00 บ.</span></span>
         <span>รวมเดือนนี้: <span id="ui-spent-month" style="font-weight:600; color:var(--text-dark);">0.00 บ.</span></span>
     </div>
@@ -272,10 +278,10 @@
     <div class="main-dashboard-grid">
         <div class="panel">
             <div class="panel-header">
-                <h3><i data-lucide="calendar-check" size="16" style="color:var(--primary);"></i> รายการค่าใช้จ่ายประจำ</h3>
+                <h3><i data-lucide="calendar-check" style="color:var(--primary);"></i> รายการค่าใช้จ่ายประจำ</h3>
                 <div style="display:flex; align-items:center; gap:12px;">
                     <span id="ui-bill-tracker" style="font-size:11px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
-                    <button class="action-btn" onclick="openAddBillModal()" title="เพิ่มรายจ่ายประจำ"><i data-lucide="plus" size="16"></i></button>
+                    <button class="action-btn" onclick="openAddBillModal()" title="เพิ่มรายจ่ายประจำ"><i data-lucide="plus"></i></button>
                 </div>
             </div>
             <div class="list-container" id="fixed-expenses-container" style="max-height: 400px;"></div>
@@ -283,7 +289,7 @@
 
         <div class="panel">
             <div class="panel-header">
-                <h3><i data-lucide="list" size="16" style="color:var(--primary);"></i> ประวัติรายการรายวัน</h3>
+                <h3><i data-lucide="list" style="color:var(--primary);"></i> ประวัติรายการรายวัน</h3>
             </div>
             <div class="list-container" id="history-container" style="max-height: 400px;"></div>
         </div>
@@ -291,14 +297,15 @@
 </div>
 
 <div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน">
-    <i data-lucide="plus" size="24"></i>
+    <i data-lucide="plus"></i>
 </div>
 
+<!-- Modals -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 style="font-size:18px;">เพิ่มรายจ่ายประจำใหม่</h2>
-            <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x" size="16"></i></button>
+            <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x"></i></button>
         </div>
         <form id="addBillForm" onsubmit="saveNewBill(event); return false;">
             <div class="form-group">
@@ -347,7 +354,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h2 style="font-size:18px;">บันทึกรายการรายวัน</h2>
-            <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x" size="16"></i></button>
+            <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button>
         </div>
         <form id="txForm" onsubmit="submitTransaction(event); return false;">
             <div class="form-group">
@@ -384,7 +391,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h2 id="settingsModalTitle" style="font-size:18px;">ตั้งค่า</h2>
-            <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x" size="16"></i></button>
+            <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button>
         </div>
         <form id="settingsForm" onsubmit="saveSettings(event); return false;">
             <input type="hidden" id="settingKey">
@@ -556,9 +563,9 @@
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
                         <div class="check-btn ${isPaid ? 'checked' : ''}" onclick="toggleBillStatus('${key}', '${b.status}')">
-                            <i data-lucide="check" size="16"></i>
+                            <i data-lucide="check"></i>
                         </div>
-                        <button class="del-btn" onclick="deleteFixedBill('${key}')"><i data-lucide="trash-2" size="14"></i></button>
+                        <button class="del-btn" onclick="deleteFixedBill('${key}')"><i data-lucide="trash-2"></i></button>
                     </div>
                 </div>`;
             });
@@ -700,7 +707,7 @@
     function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
         const isDark = document.body.classList.contains('dark-mode');
-        document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun" size="14"></i> โหมดสว่าง' : '<i data-lucide="moon" size="14"></i> โหมดมืด';
+        document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun"></i> โหมดสว่าง' : '<i data-lucide="moon"></i> โหมดมืด';
         lucide.createIcons();
     }
 
