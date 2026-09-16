@@ -35,7 +35,7 @@
             .main-dashboard-grid { grid-template-columns: 1.5fr 1fr; align-items: start; }
         }
 
-        .panel { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); }
+        .panel { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); margin-bottom: 20px;}
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;}
         .panel-header h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; font-weight: 500;}
         
@@ -90,7 +90,6 @@
         .status-warn { background: #fef3c7; color: var(--warning); }
         .status-danger { background: #fee2e2; color: var(--danger); }
         
-        .edit-icon-inline { width: 14px; height: 14px; vertical-align: -2px; margin-left: 4px; color: #94a3b8; cursor: pointer; }
         .editable-price { cursor: pointer; border-bottom: 1px dashed var(--primary); transition: color 0.2s; }
         .editable-price:hover { color: var(--primary); }
     </style>
@@ -112,7 +111,7 @@
 
     <!-- ส่วนที่ 1: สรุปภาพรวม -->
     <div class="top-dashboard-grid">
-        <div class="panel">
+        <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
                 <h3><i data-lucide="wallet"></i> ส่วนบันทึกรายรับ (Monthly Income)</h3>
                 <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus"></i></button>
@@ -122,7 +121,7 @@
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" class="edit-icon-inline"></i></p>
+                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" size="12" style="margin-left:4px;"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:16px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -135,7 +134,7 @@
             </div>
         </div>
 
-        <div class="panel" style="background: var(--text-dark); color: white;">
+        <div class="panel" style="background: var(--text-dark); color: white; margin-bottom:0;">
             <div class="panel-header" style="border-bottom-color: #334155;">
                 <h3 style="color: white;"><i data-lucide="pie-chart"></i> สรุปภาพรวม (Runway Calculator)</h3>
                 <span class="status-badge" id="ui-liquidity-status">กำลังประมวลผล...</span>
@@ -154,7 +153,7 @@
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:8px 12px; border-radius:10px;">
-                            <p style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" class="edit-icon-inline" style="color:#cbd5e1;"></i></p>
+                            <p style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:16px; font-weight:600; color:var(--warning);">150</p>
                         </div>
                         <div style="text-align:right;">
@@ -175,8 +174,18 @@
         <span id="ui-spent-status">สถานะ: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
+    <!-- กราฟแสดงการใช้จ่ายรายเดือน (Trend Chart) -->
+    <div class="panel">
+        <div class="panel-header">
+            <h3><i data-lucide="trending-up"></i> กราฟแนวโน้มการใช้จ่ายรายวัน (Monthly Spending Trend)</h3>
+        </div>
+        <div style="position: relative; height:220px; width:100%;">
+            <canvas id="trendChart"></canvas>
+        </div>
+    </div>
+
     <div class="main-dashboard-grid">
-        <!-- 2.1 รายจ่ายประจำ (เพิ่มปุ่ม (+) สำหรับเพิ่มรายจ่ายประจำใหม่ได้แล้ว!) -->
+        <!-- 2.1 รายจ่ายประจำ -->
         <div class="panel">
             <div class="panel-header">
                 <h3><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ</h3>
@@ -185,7 +194,6 @@
                         <span id="ui-bill-tracker" style="font-size:12px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
                         <p style="margin:0; font-size:11px; color:var(--text-light); font-weight:300;">ยอดรอชำระ: <span id="ui-unpaid-amount" style="color:var(--danger); font-weight:500;">฿0</span></p>
                     </div>
-                    <!-- ปุ่มบวกสำหรับเพิ่มรายจ่ายประจำ -->
                     <button class="action-btn" onclick="openAddBillModal()" title="เพิ่มรายจ่ายประจำ"><i data-lucide="plus"></i></button>
                 </div>
             </div>
@@ -207,7 +215,7 @@
                 <div class="panel-header">
                     <h3><i data-lucide="list"></i> ประวัติรายการรายวัน</h3>
                 </div>
-                <div class="list-container" id="history-container" style="max-height: 250px;"></div>
+                <div class="list-container" id="history-container" style="max-height: 220px;"></div>
             </div>
         </div>
     </div>
@@ -262,7 +270,7 @@
     </div>
 </div>
 
-<!-- Modal พิเศษ: เพิ่มรายจ่ายประจำ (Fixed Expense) ใหม่ -->
+<!-- Modal 2: เพิ่มรายจ่ายประจำ (เปลี่ยนช่องวันที่เป็น Date Picker หรือเลือกวัน) -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -286,8 +294,9 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>วันที่ครบกำหนดตัดรอบ (1-31)</label>
-                <input type="number" id="newBillDue" placeholder="เช่น 25" min="1" max="31" required>
+                <label>วันที่ครบกำหนดตัดรอบ (เลือกวันที่)</label>
+                <!-- เปลี่ยนเป็น type="date" หรือช่องเลือกวันที่แบบปฏิทิน -->
+                <input type="date" id="newBillDue" required>
             </div>
             <div class="form-group">
                 <label>ยอดเงิน (฿)</label>
@@ -382,13 +391,10 @@
             selector.innerHTML += `<option value="${val}">${label}</option>`;
         }
         selector.value = currentViewMonth;
-        document.getElementById('ui-current-month-lbl').innerText = `[${selector.options[selector.selectedIndex].text}]`;
     }
 
     function changeMonth() {
         currentViewMonth = document.getElementById('monthSelector').value;
-        const selector = document.getElementById('monthSelector');
-        document.getElementById('ui-current-month-lbl').innerText = `[${selector.options[selector.selectedIndex].text}]`;
         document.getElementById('btn-add-floating').style.display = (currentViewMonth !== actualCurrentMonth) ? 'none' : 'flex';
         loadDataForMonth();
     }
@@ -423,7 +429,7 @@
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
-    const firebaseConfig = { apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", authDomain: "todaypaying-7e8b0.firebaseapp.com", projectId: "todaypaying-7e8b0", storageBucket: "todaypaying-7e8b0.firebasestorage.app", messagingSenderId: "584971063665", appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" };
+    const firebaseConfig = { apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", authDomain: "todaypaying-7e8b0.firebaseapp.com", projectId: "todaypaying-7e8b0", storageBucket: "todaypaying-7e8b0.firebasestorage.app", messagingSenderId: "584971063665", appID: "1:584971063665:web:3a42354f8136e5c4ebe6d0" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/"); 
 
@@ -433,32 +439,7 @@
     let spentToday = 0; 
     let totalBills = 0, paidBills = 0;
     let globalBillsData = null, globalTxData = null, billsForCalendar = [];
-    let activeTxListener = null; let myChart = null; 
-
-    // Auto-Seed ข้อมูลตั้งต้นเพื่อป้องกันหน้าจอว่างเปล่า
-    function checkAndSeedDefaultData() {
-        db.ref('todaypaying/settings').once('value').then((snap) => {
-            if (!snap.exists()) db.ref('todaypaying/settings').set({ salary: 17625, daily_target: 150 });
-        });
-        db.ref('todaypaying/fixed_expenses').once('value').then((snap) => {
-            if (!snap.exists()) {
-                const defaultBills = {
-                    "sub_01": { name: "YouTube Premium", category: "entertainment", dueDate: 21, amount: 129.00, payment_method: "ตัดบัตร / บัญชี", status: "unpaid" },
-                    "sub_02": { name: "Adobe Creative Cloud", category: "software", dueDate: 25, amount: 304.95, payment_method: "ตัดบัตรเครดิต", status: "unpaid" },
-                    "sub_03": { name: "Freepik", category: "software", dueDate: 1, amount: 1249.00, payment_method: "ตัดบัตรเครดิต", status: "paid" },
-                    "sub_04": { name: "Umay+", category: "loan", dueDate: 30, amount: 1000.00, payment_method: "แอปธนาคาร", status: "paid" },
-                    "sub_05": { name: "Google One", category: "software", dueDate: 29, amount: 750.00, payment_method: "Google Play", status: "unpaid" },
-                    "sub_06": { name: "Shopee", category: "loan", dueDate: 30, amount: 790.99, payment_method: "ShopeePay", status: "paid" },
-                    "sub_07": { name: "ค่าผ่อนโทรศัพท์มือถือ", category: "device", dueDate: 30, amount: 2763.00, payment_method: "แอปธนาคาร", status: "paid", installment_total: 24, installment_paid: 5 },
-                    "sub_08": { name: "ค่าบริการอินเทอร์เน็ต", category: "utility", dueDate: 26, amount: 1709.86, payment_method: "SCB", status: "paid" },
-                    "sub_09": { name: "ค่าหอพัก / ค่าห้อง", category: "housing", dueDate: 30, amount: 4500.00, payment_method: "โอนจ่าย", status: "paid" },
-                    "sub_10": { name: "ค่าอุปกรณ์ถ่ายทำ", category: "work", dueDate: 30, amount: 1000.00, payment_method: "เงินสด", status: "unpaid" },
-                    "sub_11": { name: "Netflix", category: "entertainment", dueDate: 1, amount: 100.00, payment_method: "ตัดบัตร", status: "unpaid" }
-                };
-                db.ref('todaypaying/fixed_expenses').set(defaultBills);
-            }
-        });
-    }
+    let activeTxListener = null; let myChart = null; let trendChart = null;
 
     db.ref('todaypaying/settings').on('value', (snap) => {
         if(snap.val()) settingsData = { ...settingsData, ...snap.val() };
@@ -490,14 +471,20 @@
                 
                 totalBills++;
                 if(isPaid) { totalFixedPaid += amt; paidBills++; } else { totalFixedUnpaid += amt; }
-                if(b.dueDate) billsForCalendar.push({ key: key, date: b.dueDate, name: b.name, amount: amt, isPaid: isPaid });
+                
+                // ดึงวันจาก dueDate (รองรับทั้งแบบตัวเลขเดิมและแบบวันที่ YYYY-MM-DD)
+                let dueDay = b.dueDate;
+                if(typeof dueDay === 'string' && dueDay.includes('-')) {
+                    dueDay = new Date(dueDay).getDate();
+                }
+                if(dueDay) billsForCalendar.push({ key: key, date: dueDay, name: b.name, amount: amt, isPaid: isPaid });
 
                 let dueText = '';
                 if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;">ชำระแล้ว</span>`;
                 else {
-                    if (b.dueDate < today) dueText = `<span style="color:var(--danger); font-weight:600;">เกินกำหนด</span>`;
-                    else if (b.dueDate - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;">อีก ${b.dueDate - today} วัน</span>`;
-                    else dueText = `<span style="color:var(--text-light); font-weight:400;">วันที่ ${b.dueDate}</span>`;
+                    if (dueDay < today) dueText = `<span style="color:var(--danger); font-weight:600;">เกินกำหนด</span>`;
+                    else if (dueDay - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;">อีก ${dueDay - today} วัน</span>`;
+                    else dueText = `<span style="color:var(--text-light); font-weight:400;">วันที่ ${dueDay}</span>`;
                 }
                 
                 const catName = t.fixedCats[b.category] || b.category || 'General';
@@ -550,12 +537,14 @@
         const extraIncomeContainer = document.getElementById('extra-income-container'); extraIncomeContainer.innerHTML = '';
         
         let catTotals = {}; 
+        let dailyTrend = {}; // สำหรับกราฟแนวโน้มรายเดือน
         const isPastMonth = currentViewMonth !== actualCurrentMonth;
         const todayStr = new Date().toISOString().split('T')[0];
         const t = translations[currentLang];
 
         if(globalTxData){
-            const txArray = Object.keys(globalTxData).map(key => ({ key, ...globalTxData[key] })).reverse(); 
+            const txArray = Object.keys(globalTxData).map(key => ({ key, ...globalTxData[key] }));
+            
             txArray.forEach(tx => {
                 const amt = tx.amount || 0;
                 const delBtn = isPastMonth ? '' : `<button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button>`;
@@ -573,9 +562,22 @@
                     totalVariableExpense += amt; 
                     if (tx.date === todayStr && !isPastMonth) spentToday += amt;
                     
+                    // สะสมยอดตามวันสำหรับกราฟ Trend
+                    if(tx.date) {
+                        dailyTrend[tx.date] = (dailyTrend[tx.date] || 0) + amt;
+                    }
+
                     const catName = t.catsExpense[tx.category] || tx.category;
                     catTotals[catName] = (catTotals[catName] || 0) + amt;
+                }
+            });
 
+            // Render ประวัติแบบเรียงจากใหม่ไปเก่า
+            [...txArray].reverse().forEach(tx => {
+                if(tx.type === 'expense') {
+                    const amt = tx.amount || 0;
+                    const delBtn = isPastMonth ? '' : `<button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button>`;
+                    const catName = t.catsExpense[tx.category] || tx.category;
                     historyContainer.innerHTML += `
                     <div class="item-card">
                         <div><div class="item-info"><h4>${tx.name}</h4><p>${catName} • ${tx.date}</p></div></div>
@@ -583,9 +585,10 @@
                     </div>`;
                 }
             });
-            updateChartAndTable(catTotals);
+
+            updateChartAndTable(catTotals, dailyTrend);
         } else {
-            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีประวัติรายวัน</p>`; updateChartAndTable({});
+            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีประวัติรายวัน</p>`; updateChartAndTable({}, {});
         }
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } }); updateDashboard();
     }
@@ -626,13 +629,46 @@
         document.getElementById('ui-unpaid-amount').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
     }
 
-    function updateChartAndTable(catData) {
+    function updateChartAndTable(catData, trendData) {
+        // 1. โดนัทชาร์ตสัดส่วน
         const ctx = document.getElementById('expenseChart').getContext('2d');
         const labels = Object.keys(catData); const values = Object.values(catData);
         const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
         
         if(myChart) { myChart.data.labels = labels; myChart.data.datasets[0].data = values; myChart.update(); } 
         else { myChart = new Chart(ctx, { type: 'doughnut', data: { labels: labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '70%' } }); }
+
+        // 2. กราฟเส้นแนวโน้มรายเดือน (Trend Chart)
+        const tCtx = document.getElementById('trendChart').getContext('2d');
+        const sortedDates = Object.keys(trendData || {}).sort();
+        const trendValues = sortedDates.map(d => trendData[d]);
+        
+        if(trendChart) {
+            trendChart.data.labels = sortedDates;
+            trendChart.data.datasets[0].data = trendValues;
+            trendChart.update();
+        } else {
+            trendChart = new Chart(tCtx, {
+                type: 'line',
+                data: {
+                    labels: sortedDates,
+                    datasets: [{
+                        label: 'รายจ่าย (บาท)',
+                        data: trendValues,
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
 
         const tableBody = document.getElementById('breakdown-table-body'); tableBody.innerHTML = '';
         let totalVal = values.reduce((a, b) => a + b, 0);
@@ -698,13 +734,13 @@
         db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); }).catch(err => alert("บันทึกไม่สำเร็จ: " + err));
     }
 
-    // เพิ่มรายจ่ายประจำใหม่
     function openAddBillModal() { document.getElementById('addBillModal').classList.add('active'); }
     function saveNewBill(e) {
         e.preventDefault();
         const name = document.getElementById('newBillName').value;
         const category = document.getElementById('newBillCat').value;
-        const dueDate = Number(document.getElementById('newBillDue').value);
+        const dueDateVal = document.getElementById('newBillDue').value; // ได้ค่ามาเป็น "2026-09-21"
+        const dueDate = new Date(dueDateVal).getDate(); // ดึงเฉพาะวันที่ (1-31)
         const amount = Number(document.getElementById('newBillAmount').value);
         const payment_method = document.getElementById('newBillMethod').value || 'โอนจ่าย';
 
@@ -767,7 +803,6 @@
 
     initMonthSelector(); 
     applyTranslations(); 
-    checkAndSeedDefaultData();
     loadDataForMonth();
 </script>
 </body>
