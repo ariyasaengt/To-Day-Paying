@@ -11,6 +11,7 @@
     
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -29,7 +30,6 @@
             --warning: #f59e0b; 
         }
 
-        /* 🌙 Dark Mode Variables */
         body.dark-mode {
             --bg-color: #0f172a;
             --panel-bg: #1e293b;
@@ -46,7 +46,83 @@
 
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 10px; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
-        .header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: var(--panel-bg); padding: 15px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);}
+        /* Auth Screen */
+        #authSection {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .auth-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px 22px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .auth-card h2 { margin: 0 0 6px; color: var(--primary); font-size: 22px; display: flex; justify-content: center; align-items: center; gap: 8px;}
+        .auth-card p { margin: 0 0 18px; font-size: 13px; color: var(--text-light); }
+
+        .auth-tab-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            background: var(--input-bg);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+        .auth-tab-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-light);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .auth-tab-btn.active {
+            background: var(--panel-bg);
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-weight: 600;
+        }
+
+        .google-btn {
+            width: 100%;
+            background: white;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 11px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-bottom: 14px;
+        }
+        .google-btn:hover { background: #f8fafc; }
+        .divider { display: flex; align-items: center; text-align: center; margin: 14px 0; color: var(--text-light); font-size: 11px; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
+        .divider span { padding: 0 10px; }
+
+        /* Dashboard UI */
+        .header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: var(--panel-bg); padding: 15px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid var(--border-color);}
         .header h1 { margin: 0; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap:8px; font-weight: 600;}
         .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
         
@@ -55,11 +131,9 @@
         .icon-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-dark); padding: 6px 10px; border-radius: 10px; font-size: 12px; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; font-weight: 500;}
         .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
 
-        /* 🔔 Alert Banner */
         .alert-banner { display: none; background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; border-radius: 12px; padding: 10px 14px; margin-bottom: 15px; font-size: 12px; align-items: center; justify-content: space-between; gap: 10px; }
         body.dark-mode .alert-banner { background: #881337; border-color: #9f1239; color: #ffe4e6; }
 
-        /* ⚡ Quick Presets Bar */
         .quick-presets-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
         .preset-chip { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: var(--text-dark); }
         .preset-chip:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
@@ -118,7 +192,6 @@
         .cal-cell.today { background: var(--primary); color: white; }
         .bill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--danger); margin-top: auto; }
 
-        /* 🎯 Savings Goal Progress */
         .progress-bar-bg { width: 100%; height: 8px; background: var(--border-color); border-radius: 10px; overflow: hidden; margin-top: 6px; }
         .progress-bar-fill { height: 100%; background: var(--success); width: 0%; border-radius: 10px; transition: width 0.3s; }
 
@@ -143,7 +216,6 @@
         .editable-price { cursor: pointer; border-bottom: 1px dashed var(--primary); transition: color 0.2s; }
         .editable-price:hover { color: var(--primary); }
 
-        /* Unified Custom Web App UI Dropdown */
         .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
         .custom-select { 
             display: flex; 
@@ -192,7 +264,75 @@
 </head>
 <body>
 
-<div class="app-container">
+<!-- 🔒 Auth Section: รองรับ Google, Phone OTP, และ Email/Password -->
+<div id="authSection">
+    <div class="auth-card">
+        <h2><i data-lucide="layout-dashboard"></i> Todaypaying</h2>
+        <p>เข้าสู่ระบบเพื่อจัดการข้อมูลส่วนบุคคลของคุณ</p>
+
+        <!-- Login with Google -->
+        <button class="google-btn" onclick="loginWithGoogle()">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+            เข้าสู่ระบบด้วย Google
+        </button>
+
+        <div class="divider"><span>หรือเลือกวิธีอื่น</span></div>
+
+        <!-- แท็บสลับระหว่าง อีเมล กับ เบอร์โทร -->
+        <div class="auth-tab-buttons">
+            <button class="auth-tab-btn active" id="tabEmailBtn" onclick="switchAuthTab('email')">
+                <i data-lucide="mail" size="14"></i> อีเมล
+            </button>
+            <button class="auth-tab-btn" id="tabPhoneBtn" onclick="switchAuthTab('phone')">
+                <i data-lucide="phone" size="14"></i> เบอร์โทรศัพท์
+            </button>
+        </div>
+
+        <!-- 1. แบบฟอร์ม Email/Password -->
+        <div id="emailAuthContainer">
+            <form id="emailAuthForm" onsubmit="handleEmailAuth(event)">
+                <div class="form-group" style="text-align:left;">
+                    <label>อีเมล</label>
+                    <input type="email" id="authEmail" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group" style="text-align:left;">
+                    <label>รหัสผ่าน</label>
+                    <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6">
+                </div>
+                <button type="submit" class="submit-btn" id="authSubmitBtn">เข้าสู่ระบบ</button>
+            </form>
+            
+            <p style="margin-top:14px; font-size:12px;">
+                <span id="authToggleText">ยังไม่มีบัญชีใช่หรือไม่?</span> 
+                <a href="javascript:void(0)" onclick="toggleAuthMode()" id="authToggleLink" style="color:var(--primary); font-weight:600; text-decoration:none;">สมัครสมาชิก</a>
+            </p>
+        </div>
+
+        <!-- 2. แบบฟอร์มเบอร์โทรศัพท์ (Phone OTP) -->
+        <div id="phoneAuthContainer" style="display: none;">
+            <div id="phoneStep1">
+                <div class="form-group" style="text-align:left;">
+                    <label>เบอร์โทรศัพท์มือถือ</label>
+                    <input type="tel" id="phoneNumber" placeholder="+66812345678 (ใส่รหัสประเทศ)" required>
+                </div>
+                <div id="recaptcha-container" style="display: flex; justify-content: center; margin-bottom: 10px;"></div>
+                <button type="button" class="submit-btn" onclick="sendPhoneOtp()">ส่งรหัส OTP</button>
+            </div>
+
+            <div id="phoneStep2" style="display: none;">
+                <div class="form-group" style="text-align:left;">
+                    <label>รหัสยืนยัน OTP 6 หลัก</label>
+                    <input type="number" id="verificationCode" placeholder="123456" maxlength="6">
+                </div>
+                <button type="button" class="submit-btn" onclick="verifyPhoneOtp()">ยืนยันรหัส OTP</button>
+                <p style="margin-top:10px;"><a href="javascript:void(0)" onclick="resetPhoneAuth()" style="font-size:12px; color:var(--text-light);">← เปลี่ยนเบอร์โทรศัพท์</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 📱 Main Workspace -->
+<div class="app-container" id="appMainSection" style="display: none;">
     <!-- Header -->
     <div class="header">
         <div>
@@ -204,10 +344,11 @@
             <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon" size="14"></i></button>
             <button class="icon-btn" onclick="exportCSV()" id="btn-export" title="Export CSV"><i data-lucide="download" size="14"></i> Export</button>
             <button class="lang-btn" onclick="toggleLanguage()" id="lang-toggle">TH</button>
+            <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:#fca5a5;"><i data-lucide="log-out" size="14"></i></button>
         </div>
     </div>
 
-    <!-- 🔔 Alert Banner สำหรับแจ้งเตือนบิลด่วน -->
+    <!-- 🔔 Alert Banner -->
     <div class="alert-banner" id="billAlertBanner">
         <div style="display:flex; align-items:center; gap:8px;">
             <i data-lucide="alert-circle" size="16"></i>
@@ -216,7 +357,7 @@
         <span style="font-weight:600; cursor:pointer;" onclick="scrollToFixedBills()" id="txt-view-bill">ดูรายการ →</span>
     </div>
 
-    <!-- ⚡ ปุ่มบันทึกด่วน (Quick Log Presets) -->
+    <!-- ⚡ Quick Presets -->
     <div class="quick-presets-bar">
         <div class="preset-chip" onclick="quickLog('กาแฟ / เครื่องดื่ม', 50, 'food')"><i data-lucide="coffee" size="13"></i> กาแฟ 50฿</div>
         <div class="preset-chip" onclick="quickLog('ข้าว / อาหารกลางวัน', 60, 'food')"><i data-lucide="utensils" size="13"></i> ข้าว 60฿</div>
@@ -290,15 +431,13 @@
         <span id="ui-spent-status">Status: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
-    <!-- 🎯 กระปุกออมเงิน & เป้าหมายการเงิน (Savings Goals) -->
+    <!-- 🎯 Savings Goals -->
     <div class="panel">
         <div class="panel-header">
             <h3 id="txt-goal-title"><i data-lucide="target" size="16"></i> กระปุกเป้าหมายการเงิน (Savings Goal)</h3>
             <button class="action-btn" onclick="openGoalModal()" title="เพิ่มเป้าหมาย"><i data-lucide="plus" size="16"></i></button>
         </div>
-        <div id="goalsContainer" style="display:flex; flex-direction:column; gap:10px;">
-            <!-- Render from JS -->
-        </div>
+        <div id="goalsContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
     </div>
 
     <!-- กราฟแนวโน้ม -->
@@ -375,11 +514,11 @@
     </div>
 </div>
 
-<div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน">
+<div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน" style="display:none;">
     <i data-lucide="plus" size="22"></i>
 </div>
 
-<!-- Modal 1: ตั้งค่าเงินเดือน / งบต่อวัน -->
+<!-- Modals -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -397,7 +536,6 @@
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายจ่ายประจำ -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -410,7 +548,6 @@
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง" required>
             </div>
 
-            <!-- Custom Select: หมวดหมู่ -->
             <div class="form-group">
                 <label id="txt-lbl-cat">หมวดหมู่</label>
                 <div class="custom-select-wrapper">
@@ -441,7 +578,6 @@
                 </div>
             </div>
 
-            <!-- Custom Select: วันครบกำหนด -->
             <div class="form-group">
                 <label id="txt-lbl-due">วันที่ครบกำหนดตัดรอบ</label>
                 <div class="custom-select-wrapper" style="margin-bottom: 6px;">
@@ -464,7 +600,6 @@
                 <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
             </div>
 
-            <!-- Custom Select: ช่องทางชำระเงิน -->
             <div class="form-group">
                 <label id="txt-lbl-method">ช่องทางชำระเงิน</label>
                 <div class="custom-select-wrapper">
@@ -483,7 +618,6 @@
                 <input type="hidden" id="newBillMethod" value="แอปธนาคาร / โอนบิล">
             </div>
 
-            <!-- Custom Select: เลือกธนาคาร -->
             <div id="bankAccountFields" style="background: var(--input-bg); padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--border-color);">
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-bank">เลือกธนาคาร</label>
@@ -508,7 +642,7 @@
                     <input type="text" id="newAccName" placeholder="เช่น นายสมชาย ใจดี">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่างเพื่อความปลอดภัย)</label>
+                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่าง)</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
@@ -518,7 +652,6 @@
     </div>
 </div>
 
-<!-- Modal 3: บันทึกรายการรายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -567,7 +700,6 @@
     </div>
 </div>
 
-<!-- Modal 4: เพิ่มเป้าหมายการเงิน (Savings Goal) -->
 <div class="modal-overlay" id="goalModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -592,7 +724,6 @@
     </div>
 </div>
 
-<!-- Modal Edit Bill Price -->
 <div class="modal-overlay" id="editBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -614,7 +745,6 @@
     </div>
 </div>
 
-<!-- Modal Calendar Day Details -->
 <div class="modal-overlay" id="dayDetailModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -626,263 +756,132 @@
 </div>
 
 <script>
-    lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+    let currentUser = null;
+    let isRegisterMode = false;
+    let confirmationResultGlobal = null;
 
-    // Data definition maps
-    const categoryMap = {
-        entertainment: { icon: 'film', th: 'ความบันเทิง & สตรีมมิ่ง', en: 'Entertainment & Streaming' },
-        software: { icon: 'code', th: 'ซอฟต์แวร์ทำงาน', en: 'Work Software' },
-        housing: { icon: 'home', th: 'ที่พักอาศัย', en: 'Housing' },
-        utility: { icon: 'zap', th: 'สาธารณูปโภค / สื่อสาร', en: 'Utilities & Telecom' },
-        loan: { icon: 'credit-card', th: 'สินเชื่อ / ผ่อนชำระ', en: 'Loan / Installment' },
-        work: { icon: 'briefcase', th: 'อุปกรณ์ทำงาน / สื่อ', en: 'Work & Media Equipment' }
-    };
-
-    const dueTypeMap = {
-        custom: { icon: 'calendar', th: 'ระบุวันที่ (1-31)', en: 'Specific Date (1-31)' },
-        last_day: { icon: 'calendar-off', th: 'วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)', en: 'Last day of month' },
-        first_day: { icon: 'calendar-days', th: 'วันแรกของเดือน (วันที่ 1)', en: '1st of month' }
-    };
-
-    const methodMap = {
-        'แอปธนาคาร / โอนบิล': { icon: 'smartphone', th: 'แอปธนาคาร / โอนบิล', en: 'Mobile Banking' },
-        'ตัดบัตรเครดิต / เดบิต': { icon: 'credit-card', th: 'ตัดบัตรเครดิต / เดบิต', en: 'Credit/Debit Card' },
-        'ShopeePay / แอปธนาคาร': { icon: 'shopping-bag', th: 'ShopeePay / แอปธนาคาร', en: 'ShopeePay' },
-        'Google Play / ตัดบัตร': { icon: 'globe', th: 'Google Play / ตัดบัตร', en: 'Google Play' },
-        'เงินสด / โอนจ่าย': { icon: 'banknote', th: 'เงินสด / โอนจ่าย', en: 'Cash' }
-    };
-
-    const bankMap = {
-        'ธ.ไทยพาณิชย์ (SCB)': { icon: 'landmark', text: 'ธ.ไทยพาณิชย์ (SCB)' },
-        'ธ.กสิกรไทย (KBANK)': { icon: 'landmark', text: 'ธ.กสิกรไทย (KBANK)' },
-        'ธ.กรุงไทย (KTB)': { icon: 'landmark', text: 'ธ.กรุงไทย (KTB)' },
-        'ธ.กรุงเทพ (BBL)': { icon: 'landmark', text: 'ธ.กรุงเทพ (BBL)' },
-        'ธ.กรุงศรีอยุธยา (BAY)': { icon: 'landmark', text: 'ธ.กรุงศรีอยุธยา (BAY)' },
-        'พร้อมเพย์ (PromptPay)': { icon: 'credit-card', text: 'พร้อมเพย์ (PromptPay)' }
-    };
-
-    const txCatIcons = {
-        food: { icon: 'utensils', th: 'อาหาร', en: 'Food' },
-        grocery: { icon: 'shopping-cart', th: 'ของใช้', en: 'Grocery' },
-        transport: { icon: 'bus', th: 'เดินทาง', en: 'Transport' },
-        shopping: { icon: 'shopping-bag', th: 'ช้อปปิ้ง', en: 'Shopping' },
-        others: { icon: 'more-horizontal', th: 'อื่นๆ', en: 'Others' },
-        freelance: { icon: 'briefcase', th: 'งานนอก 1', en: 'Freelance 1' },
-        extra: { icon: 'zap', th: 'งานนอก 2', en: 'Extra Job' }
-    };
-
-    // Controller for unified dropdowns
-    function toggleDropdown(dropdownId) {
-        const target = document.getElementById(dropdownId);
-        document.querySelectorAll('.custom-options').forEach(el => {
-            if (el.id !== dropdownId) el.classList.remove('open');
-        });
-        target.classList.toggle('open');
-    }
-
-    function selectCategory(key) {
-        document.getElementById('newBillCat').value = key;
-        const item = categoryMap[key];
-        const label = currentLang === 'th' ? item.th : item.en;
-        document.getElementById('selectedCatText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
-        document.getElementById('catDropdown').classList.remove('open');
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
-        toggleInstallmentFields();
-    }
-
-    function selectDueType(key) {
-        document.getElementById('newBillDueType').value = key;
-        const item = dueTypeMap[key];
-        const label = currentLang === 'th' ? item.th : item.en;
-        document.getElementById('selectedDueTypeText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
-        document.getElementById('dueTypeDropdown').classList.remove('open');
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
-        toggleDueType();
-    }
-
-    function selectMethod(key) {
-        document.getElementById('newBillMethod').value = key;
-        const item = methodMap[key];
-        const label = currentLang === 'th' ? item.th : item.en;
-        document.getElementById('selectedMethodText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
-        document.getElementById('methodDropdown').classList.remove('open');
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
-        toggleBankFields();
-    }
-
-    function selectBank(key) {
-        document.getElementById('newBankName').value = key;
-        const item = bankMap[key];
-        document.getElementById('selectedBankText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${item.text}`;
-        document.getElementById('bankDropdown').classList.remove('open');
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
-    }
-
-    function selectTxType(type) {
-        document.getElementById('inputType').value = type;
-        const isExp = type === 'expense';
-        const label = isExp ? (currentLang === 'th' ? 'รายจ่าย' : 'Expense') : (currentLang === 'th' ? 'รายได้เสริม (งานนอก)' : 'Extra Income');
-        const icon = isExp ? 'arrow-down-circle' : 'arrow-up-circle';
-        document.getElementById('selectedTxTypeText').innerHTML = `<i data-lucide="${icon}" size="15"></i> ${label}`;
-        document.getElementById('txTypeDropdown').classList.remove('open');
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
-        changeCategoryOptions();
-    }
-
-    function selectTxCategory(key) {
-        document.getElementById('inputCategory').value = key;
-        const item = txCatIcons[key] || { icon: 'tag', th: key, en: key };
-        const label = currentLang === 'th' ? item.th : item.en;
-        document.getElementById('selectedTxCatText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
-        document.getElementById('txCatDropdown').classList.remove('open');
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
-    }
-
-    window.addEventListener('click', function(e) {
-        if (!e.target.closest('.custom-select-wrapper')) {
-            document.querySelectorAll('.custom-options').forEach(el => el.classList.remove('open'));
+    // 📱 Tab Switching in Auth View
+    function switchAuthTab(tab) {
+        const isEmail = tab === 'email';
+        document.getElementById('emailAuthContainer').style.display = isEmail ? 'block' : 'none';
+        document.getElementById('phoneAuthContainer').style.display = isEmail ? 'none' : 'block';
+        document.getElementById('tabEmailBtn').classList.toggle('active', isEmail);
+        document.getElementById('tabPhoneBtn').classList.toggle('active', !isEmail);
+        
+        if (!isEmail) {
+            initRecaptcha();
         }
+    }
+
+    // 🔑 Phone Auth (SMS OTP)
+    function initRecaptcha() {
+        if (!window.recaptchaVerifier) {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'normal',
+                'callback': () => {}
+            });
+            window.recaptchaVerifier.render();
+        }
+    }
+
+    function sendPhoneOtp() {
+        const phone = document.getElementById('phoneNumber').value.trim();
+        if (!phone) {
+            alert("กรุณากรอกเบอร์โทรศัพท์ (เช่น +66812345678)");
+            return;
+        }
+        initRecaptcha();
+        auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
+            .then((confirmationResult) => {
+                confirmationResultGlobal = confirmationResult;
+                document.getElementById('phoneStep1').style.display = 'none';
+                document.getElementById('phoneStep2').style.display = 'block';
+                alert("ส่งรหัสยืนยัน OTP ไปยังเบอร์ " + phone + " แล้ว");
+            }).catch((err) => {
+                alert("ส่ง OTP ไม่สำเร็จ: " + err.message);
+                if (window.recaptchaVerifier) {
+                    window.recaptchaVerifier.render().then(widgetId => {
+                        grecaptcha.reset(widgetId);
+                    });
+                }
+            });
+    }
+
+    function verifyPhoneOtp() {
+        const code = document.getElementById('verificationCode').value.trim();
+        if (!code) {
+            alert("กรุณากรอกรหัส OTP 6 หลัก");
+            return;
+        }
+        if (confirmationResultGlobal) {
+            confirmationResultGlobal.confirm(code).catch(err => {
+                alert("รหัส OTP ไม่ถูกต้อง: " + err.message);
+            });
+        }
+    }
+
+    function resetPhoneAuth() {
+        document.getElementById('phoneStep1').style.display = 'block';
+        document.getElementById('phoneStep2').style.display = 'none';
+    }
+
+    // 🔐 Auth State Listener
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            currentUser = user;
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('appMainSection').style.display = 'flex';
+            document.getElementById('btn-add-floating').style.display = 'flex';
+            loadDataForMonth();
+        } else {
+            currentUser = null;
+            document.getElementById('authSection').style.display = 'flex';
+            document.getElementById('appMainSection').style.display = 'none';
+            document.getElementById('btn-add-floating').style.display = 'none';
+        }
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     });
 
-    // 🌙 Dark Mode Toggle Logic
-    let isDarkMode = localStorage.getItem('tp_dark') === 'true';
-    if(isDarkMode) document.body.classList.add('dark-mode');
-
-    function toggleDarkMode() {
-        isDarkMode = !isDarkMode;
-        document.body.classList.toggle('dark-mode', isDarkMode);
-        localStorage.setItem('tp_dark', isDarkMode);
-        const icon = isDarkMode ? 'sun' : 'moon';
-        document.getElementById('btn-dark').innerHTML = `<i data-lucide="${icon}" size="14"></i>`;
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+    function toggleAuthMode() {
+        isRegisterMode = !isRegisterMode;
+        document.getElementById('authSubmitBtn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
+        document.getElementById('authToggleText').innerText = isRegisterMode ? 'มีบัญชีอยู่แล้วใช่หรือไม่?' : 'ยังไม่มีบัญชีใช่หรือไม่?';
+        document.getElementById('authToggleLink').innerText = isRegisterMode ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก';
     }
 
-    // Date & Storage Logic with immediate local cache
-    const dateObj = new Date();
-    let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
-    const actualCurrentMonth = currentViewMonth;
+    function handleEmailAuth(e) {
+        e.preventDefault();
+        const email = document.getElementById('authEmail').value;
+        const pass = document.getElementById('authPassword').value;
 
-    function initMonthSelector() {
-        const selector = document.getElementById('monthSelector');
-        selector.innerHTML = '';
-        for (let i = 0; i < 6; i++) {
-            let d = new Date(dateObj.getFullYear(), dateObj.getMonth() - i, 1);
-            let val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-            let label = d.toLocaleString(currentLang === 'th' ? 'th-TH' : 'en-US', { month: 'short', year: 'numeric' });
-            selector.innerHTML += `<option value="${val}">${label}</option>`;
+        if (isRegisterMode) {
+            auth.createUserWithEmailAndPassword(email, pass).catch(err => alert("สมัครสมาชิกไม่สำเร็จ: " + err.message));
+        } else {
+            auth.signInWithEmailAndPassword(email, pass).catch(err => alert("เข้าสู่ระบบไม่สำเร็จ: " + err.message));
         }
-        selector.value = currentViewMonth;
     }
 
-    function changeMonth() {
-        currentViewMonth = document.getElementById('monthSelector').value;
-        loadDataForMonth();
+    function loginWithGoogle() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider).catch(err => alert("Google Login Error: " + err.message));
     }
 
-    let currentLang = 'th';
-    function toggleLanguage() {
-        currentLang = currentLang === 'th' ? 'en' : 'th';
-        document.getElementById('lang-toggle').innerText = currentLang.toUpperCase();
-        applyTranslations();
-        updateDashboard();
-        renderCalendar([]);
-        processBills();
-        processHistory();
-        renderGoals();
-        selectCategory(document.getElementById('newBillCat').value);
-        selectDueType(document.getElementById('newBillDueType').value);
-        selectMethod(document.getElementById('newBillMethod').value);
-        selectTxType(document.getElementById('inputType').value);
+    function logoutUser() {
+        if (confirm(currentLang === 'th' ? "ต้องการออกจากระบบใช่หรือไม่?" : "Log out now?")) {
+            auth.signOut();
+        }
     }
 
-    function applyTranslations() {
-        const t = translations[currentLang];
-        document.getElementById('txt-subtitle').innerText = t.subtitle;
-        document.getElementById('txt-income-title').innerHTML = `<i data-lucide="wallet" size="16"></i> ${t.incomeTitle}`;
-        document.getElementById('txt-salary-lbl').innerText = t.salaryLbl;
-        document.getElementById('txt-main-inc').innerHTML = `${t.mainInc} <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i>`;
-        document.getElementById('txt-total-inc-lbl').innerText = t.totalIncLbl;
-
-        document.getElementById('txt-runway-title').innerHTML = `<i data-lucide="pie-chart" size="16"></i> ${t.runwayTitle}`;
-        document.getElementById('txt-sum-inc').innerText = t.sumInc;
-        document.getElementById('txt-sum-sav').innerText = t.sumSav;
-        document.getElementById('txt-sum-fix').innerText = t.sumFix;
-        document.getElementById('txt-daily-lbl').innerHTML = `${t.dailyLbl} <i data-lucide="edit-3" size="9" style="margin-left:3px;"></i>`;
-        document.getElementById('txt-runway-lbl').innerText = t.runwayLbl;
-        document.getElementById('txt-days-unit').innerText = t.daysUnit;
-
-        document.getElementById('txt-daily-track').innerText = t.dailyTrack;
-        document.getElementById('txt-spent-today').innerText = t.spentToday;
-        document.getElementById('txt-spent-month').innerText = t.spentMonth;
-        document.getElementById('txt-trend-title').innerHTML = `<i data-lucide="trending-up" size="16"></i> ${t.trendTitle}`;
-
-        document.getElementById('txt-bills-title').innerHTML = `<i data-lucide="calendar-check" size="16"></i> ${t.billsTitle}`;
-        document.getElementById('txt-unpaid-lbl').innerText = t.unpaidLbl;
-        document.getElementById('txt-pie-title').innerHTML = `<i data-lucide="pie-chart" size="16"></i> ${t.pieTitle}`;
-        document.getElementById('txt-history-title').innerHTML = `<i data-lucide="list" size="16"></i> ${t.historyTitle}`;
-
-        document.getElementById('txt-debt-title').innerHTML = `<i data-lucide="trending-down" size="16"></i> ${t.debtTitle}`;
-        document.getElementById('th-device').innerText = t.thDev;
-        document.getElementById('th-amt').innerText = t.thAmt;
-        document.getElementById('th-total').innerText = t.thTot;
-        document.getElementById('th-paid').innerText = t.thPaid;
-        document.getElementById('th-left').innerText = t.thLeft;
-        document.getElementById('th-accum').innerText = t.thAcc;
-        document.getElementById('th-debt').innerText = t.thDebt;
-
-        document.getElementById('txt-cal-title').innerHTML = `<i data-lucide="calendar" size="16"></i> ${t.calTitle}`;
-
-        document.getElementById('txt-modal-add-bill').innerText = t.modalAddBill;
-        document.getElementById('txt-lbl-name').innerText = t.lblName;
-        document.getElementById('txt-lbl-cat').innerText = t.lblCat;
-        document.getElementById('txt-lbl-inst-total').innerText = t.lblInstTot;
-        document.getElementById('txt-lbl-inst-paid').innerText = t.lblInstPaid;
-        document.getElementById('txt-lbl-due').innerText = t.lblDue;
-        document.getElementById('txt-lbl-amount').innerText = t.lblAmt;
-        document.getElementById('txt-lbl-method').innerText = t.lblMethod;
-        document.getElementById('txt-lbl-bank').innerText = t.lblBank;
-        document.getElementById('txt-lbl-accname').innerText = t.lblAccName;
-        document.getElementById('txt-lbl-accno').innerText = t.lblAccNo;
-        document.getElementById('btn-save-new-bill').innerText = t.btnSaveBill;
-
-        document.getElementById('txt-modal-edit-price').innerText = t.modalEditPrice;
-        document.getElementById('txt-lbl-edit-name').innerText = t.lblEditName;
-        document.getElementById('txt-lbl-edit-amt').innerText = t.lblEditAmt;
-        document.getElementById('btn-save-price').innerText = t.btnSavePrice;
-
-        document.getElementById('txt-modal-tx').innerText = t.modalTx;
-        document.getElementById('txt-lbl-tx-type').innerText = t.lblTxType;
-        document.getElementById('txt-lbl-tx-amt').innerText = t.lblTxAmt;
-        document.getElementById('txt-lbl-tx-name').innerText = t.lblTxName;
-        document.getElementById('txt-lbl-tx-cat').innerText = t.lblTxCat;
-        document.getElementById('btn-save-tx').innerText = t.btnSaveTx;
-
-        let calHeaders = '';
-        t.days.forEach(d => { calHeaders += `<div class="cal-day-header">${d}</div>`; });
-        document.getElementById('cal-headers').innerHTML = calHeaders;
-        
-        initMonthSelector();
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+    function getUserDbPath(subPath) {
+        if (!currentUser) return null;
+        return `users/${currentUser.uid}/${subPath}`;
     }
 
-    // Firebase Setup with LocalStorage Cache
-    const firebaseConfig = { 
-        apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
-        authDomain: "todaypaying-7e8b0.firebaseapp.com", 
-        projectId: "todaypaying-7e8b0", 
-        storageBucket: "todaypaying-7e8b0.firebasestorage.app", 
-        messagingSenderId: "584971063665", 
-        appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" 
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/"); 
-
-    let settingsData = JSON.parse(localStorage.getItem('tp_settings')) || { salary: 17625, daily_target: 150 };
-    let globalBillsData = JSON.parse(localStorage.getItem('tp_bills')) || null;
-    let globalTxData = JSON.parse(localStorage.getItem(`tp_tx_${currentViewMonth}`)) || null;
-    let globalGoalsData = JSON.parse(localStorage.getItem('tp_goals')) || {
-        "goal_1": { name: "เงินสำรองฉุกเฉิน", target: 30000, current: 8500 }
-    };
+    // Data State Variables
+    let settingsData = { salary: 17625, daily_target: 150 };
+    let globalBillsData = null;
+    let globalTxData = null;
+    let globalGoalsData = null;
 
     let totalExtraIncome = 0;
     let totalFixedPaid = 0, totalFixedUnpaid = 0, totalVariableExpense = 0;
@@ -893,41 +892,28 @@
     let myChart = null; 
     let trendChart = null;
 
-    db.ref('todaypaying/settings').on('value', (snap) => {
-        if(snap.val()) {
-            settingsData = { ...settingsData, ...snap.val() };
-            localStorage.setItem('tp_settings', JSON.stringify(settingsData));
-        }
-        updateDashboard();
-    });
-
-    db.ref('todaypaying/goals').on('value', (snap) => {
-        if(snap.val()) {
-            globalGoalsData = snap.val();
-            localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
-        }
-        renderGoals();
-    });
-
     function loadDataForMonth() {
-        globalTxData = JSON.parse(localStorage.getItem(`tp_tx_${currentViewMonth}`)) || null;
-        processHistory();
-        
-        db.ref('todaypaying/fixed_expenses').on('value', (snap) => { 
-            if (snap.val()) {
-                globalBillsData = snap.val();
-                localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
-            }
+        if (!currentUser) return;
+
+        db.ref(getUserDbPath('settings')).on('value', (snap) => {
+            settingsData = snap.val() || { salary: 17625, daily_target: 150 };
+            updateDashboard();
+        });
+
+        db.ref(getUserDbPath('goals')).on('value', (snap) => {
+            globalGoalsData = snap.val() || {};
+            renderGoals();
+        });
+
+        db.ref(getUserDbPath('fixed_expenses')).on('value', (snap) => { 
+            globalBillsData = snap.val() || {};
             processBills(); 
         });
 
         if (activeTxListener) { db.ref(activeTxListener).off(); }
-        activeTxListener = `todaypaying/transactions/${currentViewMonth}`;
+        activeTxListener = getUserDbPath(`transactions/${currentViewMonth}`);
         db.ref(activeTxListener).on('value', (snap) => { 
-            if (snap.val()) {
-                globalTxData = snap.val();
-                localStorage.setItem(`tp_tx_${currentViewMonth}`, JSON.stringify(globalTxData));
-            }
+            globalTxData = snap.val() || {};
             processHistory(); 
         });
     }
@@ -937,7 +923,6 @@
         return new Date(year, month, 0).getDate();
     }
 
-    // 🔔 Check and Show Bill Alerts
     function checkBillAlerts(bills) {
         const today = new Date().getDate();
         const urgentBills = [];
@@ -1070,24 +1055,12 @@
         });
     }
 
-    // ⚡ Quick Log Presets Action
     function quickLog(name, amount, category) {
         const dateStr = new Date().toISOString().split('T')[0];
-        const newTx = { type: 'expense', amount, name, category, date: dateStr, timestamp: Date.now() };
-        const txKey = 'tx_' + Date.now();
-
-        if(!globalTxData) globalTxData = {};
-        globalTxData[txKey] = newTx;
-        localStorage.setItem(`tp_tx_${actualCurrentMonth}`, JSON.stringify(globalTxData));
-        processHistory();
-
-        db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({
-            ...newTx,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
+        const newTx = { type: 'expense', amount, name, category, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP };
+        db.ref(getUserDbPath(`transactions/${actualCurrentMonth}`)).push(newTx);
     }
 
-    // 🎯 Savings Goals Render
     function renderGoals() {
         const container = document.getElementById('goalsContainer');
         container.innerHTML = '';
@@ -1120,42 +1093,33 @@
         const name = document.getElementById('goalName').value.trim();
         const target = Number(document.getElementById('goalTarget').value) || 1;
         const current = Number(document.getElementById('goalCurrent').value) || 0;
-        const key = 'goal_' + Date.now();
-
-        if(!globalGoalsData) globalGoalsData = {};
-        globalGoalsData[key] = { name, target, current };
-        localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
-        renderGoals();
-        closeModal('goalModal');
-        db.ref(`todaypaying/goals/${key}`).set({ name, target, current });
+        
+        db.ref(getUserDbPath('goals')).push({ name, target, current }).then(() => {
+            closeModal('goalModal');
+            document.getElementById('goalForm').reset();
+        });
     }
 
     function addFundsToGoal(key) {
         const amt = prompt(currentLang === 'th' ? "ใส่จำนวนเงินที่ต้องการหยอดกระปุก (฿):" : "Enter amount to add (฿):");
         if(amt && Number(amt) > 0) {
-            globalGoalsData[key].current = (globalGoalsData[key].current || 0) + Number(amt);
-            localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
-            renderGoals();
-            db.ref(`todaypaying/goals/${key}/current`).set(globalGoalsData[key].current);
+            const nextVal = (globalGoalsData[key].current || 0) + Number(amt);
+            db.ref(getUserDbPath(`goals/${key}/current`)).set(nextVal);
         }
     }
 
     function deleteGoal(key) {
         if(confirm("ลบเป้าหมายนี้หรือไม่?")) {
-            delete globalGoalsData[key];
-            localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
-            renderGoals();
-            db.ref(`todaypaying/goals/${key}`).remove();
+            db.ref(getUserDbPath(`goals/${key}`)).remove();
         }
     }
 
-    // 📥 Export CSV Logic
     function exportCSV() {
         if(!globalTxData || Object.keys(globalTxData).length === 0) {
             alert(currentLang === 'th' ? "ไม่มีข้อมูลรายจ่ายในเดือนนี้ให้ส่งออก" : "No transactions to export");
             return;
         }
-        let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // UTF-8 BOM for Excel Thai language support
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
         csvContent += "วันที่ (Date),ประเภท (Type),ชื่อรายการ (Name),หมวดหมู่ (Category),จำนวนเงิน (Amount)\n";
         
         Object.keys(globalTxData).forEach(k => {
@@ -1354,11 +1318,8 @@
         e.preventDefault();
         const key = document.getElementById('settingKey').value;
         const val = Number(document.getElementById('settingValue').value);
-        settingsData[key] = val;
-        localStorage.setItem('tp_settings', JSON.stringify(settingsData));
-        updateDashboard();
         closeModal('settingsModal');
-        db.ref(`todaypaying/settings/${key}`).set(val);
+        db.ref(getUserDbPath(`settings/${key}`)).set(val);
     }
 
     function toggleInstallmentFields() {
@@ -1414,24 +1375,13 @@
             billData.installment_paid = Number(document.getElementById('newInstallmentPaid').value) || 0;
         }
 
-        const newKey = 'bill_' + Date.now();
-        if(!globalBillsData) globalBillsData = {};
-        globalBillsData[newKey] = billData;
-        localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
-        processBills();
         closeModal('addBillModal');
-
-        db.ref('todaypaying/fixed_expenses').push(billData);
+        db.ref(getUserDbPath('fixed_expenses')).push(billData);
     }
 
     function deleteFixedBill(key) {
         if(confirm(currentLang==='th'?"ต้องการลบรายจ่ายประจำรายการนี้ใช่หรือไม่?":"Delete this fixed expense?")) {
-            if(globalBillsData && globalBillsData[key]) {
-                delete globalBillsData[key];
-                localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
-                processBills();
-            }
-            db.ref(`todaypaying/fixed_expenses/${key}`).remove();
+            db.ref(getUserDbPath(`fixed_expenses/${key}`)).remove();
         }
     }
 
@@ -1446,39 +1396,23 @@
         e.preventDefault();
         const key = document.getElementById('editBillKey').value;
         const newAmount = Number(document.getElementById('editBillAmount').value);
-        if(globalBillsData && globalBillsData[key]) {
-            globalBillsData[key].amount = newAmount;
-            localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
-            processBills();
-        }
         closeModal('editBillModal');
-        db.ref(`todaypaying/fixed_expenses/${key}`).update({ amount: newAmount });
+        db.ref(getUserDbPath(`fixed_expenses/${key}`)).update({ amount: newAmount });
     }
 
-    // 🔄 Auto Installment Counter (+1 งวดทันทีเมื่อจ่ายบิล)
     function toggleBillStatus(billKey, currentStatus) {
         if(currentViewMonth !== actualCurrentMonth) return;
         const nextStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
         
-        if(globalBillsData && globalBillsData[billKey]) {
-            globalBillsData[billKey].status = nextStatus;
-
-            // ตรวจสอบว่าเป็นบิลผ่อนชำระหรือไม่ ถ้าใช่และกดจ่าย ให้บวกงวดขึ้น 1
-            if(nextStatus === 'paid' && globalBillsData[billKey].installment_total > 0) {
-                const currentPaid = globalBillsData[billKey].installment_paid || 0;
-                if(currentPaid < globalBillsData[billKey].installment_total) {
-                    globalBillsData[billKey].installment_paid = currentPaid + 1;
-                }
+        let updateData = { status: nextStatus };
+        if(globalBillsData && globalBillsData[billKey] && nextStatus === 'paid' && globalBillsData[billKey].installment_total > 0) {
+            const currentPaid = globalBillsData[billKey].installment_paid || 0;
+            if(currentPaid < globalBillsData[billKey].installment_total) {
+                updateData.installment_paid = currentPaid + 1;
             }
-
-            localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
-            processBills();
         }
 
-        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ 
-            status: nextStatus,
-            installment_paid: globalBillsData[billKey].installment_paid || 0
-        });
+        db.ref(getUserDbPath(`fixed_expenses/${billKey}`)).update(updateData);
     }
 
     function openTxModal(defaultType = 'expense') { 
@@ -1510,36 +1444,18 @@
         const cat = document.getElementById('inputCategory').value;
         const dateStr = new Date().toISOString().split('T')[0];
 
-        const newTx = { type, amount: amt, name, category: cat, date: dateStr, timestamp: Date.now() };
-        const txKey = 'tx_' + Date.now();
-
-        if(!globalTxData) globalTxData = {};
-        globalTxData[txKey] = newTx;
-        localStorage.setItem(`tp_tx_${actualCurrentMonth}`, JSON.stringify(globalTxData));
-        
-        processHistory();
+        const newTx = { type, amount: amt, name, category: cat, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP };
         closeModal('txModal');
-
-        db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({
-            ...newTx,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
+        db.ref(getUserDbPath(`transactions/${actualCurrentMonth}`)).push(newTx);
     }
 
     function deleteTx(key) {
-        if(globalTxData && globalTxData[key]) {
-            delete globalTxData[key];
-            localStorage.setItem(`tp_tx_${currentViewMonth}`, JSON.stringify(globalTxData));
-            processHistory();
-        }
-        db.ref(`${activeTxListener}/${key}`).remove();
+        db.ref(getUserDbPath(`transactions/${currentViewMonth}/${key}`)).remove();
     }
 
     // Startup
     initMonthSelector(); 
-    applyTranslations(); 
-    loadDataForMonth();
-    renderGoals();
+    applyTranslations();
 </script>
 </body>
 </html>
