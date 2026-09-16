@@ -87,7 +87,7 @@
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
         .submit-btn:hover { opacity: 0.9; }
 
-        /* Header Dropdown Restored */
+        /* Header */
         .header { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; background: var(--panel-bg); padding: 18px 20px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
         @media (min-width: 900px) { .header { flex-direction: row; justify-content: space-between; align-items: center; } }
         .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; font-weight: 700;}
@@ -124,6 +124,9 @@
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
         .list-container { max-height: 400px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }
+        /* คลาสใหม่สำหรับลิสต์ที่ไม่จำกัดความสูง (ไม่มีแถบเลื่อน) */
+        .list-container-unlimited { max-height: none; overflow-y: visible; padding-right: 0; display: flex; flex-direction: column; gap: 10px; }
+
         .item-card { background: var(--input-bg); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
         .item-info { flex: 1; margin-right: 12px; }
         .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 600; color: var(--text-dark);}
@@ -175,14 +178,12 @@
 </div>
 
 <div class="app-container" id="appMainSection" style="display: none;">
-    <!-- Unified Header -->
     <div class="header">
         <div>
             <h1><i data-lucide="layout-dashboard"></i> To-Day Paying</h1>
             <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
         <div class="header-controls">
-            <!-- เมนูเลือกเดือนแบบ Dropdown (นำกลับมาตามที่รีเควส) -->
             <div class="custom-select-wrapper" style="width: auto; min-width: 130px;">
                 <div class="month-selector-box" onclick="toggleDropdown('monthDropdown', event)">
                     <span id="selectedMonthText">เดือน</span>
@@ -204,7 +205,8 @@
                     <button class="action-btn" onclick="openAddRecurringIncomeModal()" title="เพิ่มรายรับประจำใหม่"><i data-lucide="plus"></i></button>
                 </div>
             </div>
-            <div class="list-container" id="income-list-container" style="max-height: 180px;">
+            <!-- เปลี่ยนคลาสให้ไม่มียืดหดได้ -->
+            <div class="list-container-unlimited" id="income-list-container">
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
@@ -237,7 +239,6 @@
                     <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">บิลรอจ่าย (ประจำที่ยังไม่จ่ายเดือนนี้)</p>
                     <p id="ui-overview-pending" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#fbbf24;">฿0</p>
                     
-                    <!-- โซนคำนวณงบต่อวัน (เพิ่มฟังก์ชันงบที่ใช้ได้จริงต่อวัน) -->
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.12); padding:8px; border-radius:10px;">
                             <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; gap:3px; font-weight:500;">งบที่ตั้งไว้ <i data-lucide="edit-3" size="10"></i></p>
@@ -587,7 +588,6 @@
     // คืนค่าเมนูเลือกเดือนเป็นแบบ Dropdown
     function initMonthSelector() {
         const dropdown = document.getElementById('monthDropdown'); if (!dropdown) return; dropdown.innerHTML = '';
-        // ดูย้อนหลัง 5 เดือน และดูอนาคตได้ 2 เดือน
         for (let i = -2; i < 6; i++) {
             let d = new Date(dateObj.getFullYear(), dateObj.getMonth() - i, 1); 
             let val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
@@ -607,7 +607,6 @@
         loadDataForMonth();
     };
 
-    // ฟังก์ชันคำนวณจำนวนวันที่เหลือในเดือนที่เลือกดูอยู่
     function getRemainingDaysInMonth(viewMonthStr) {
         const [year, month] = viewMonthStr.split('-').map(Number);
         const today = new Date();
@@ -615,15 +614,12 @@
         const currentMonth = today.getMonth() + 1;
         
         if (year < currentYear || (year === currentYear && month < currentMonth)) {
-            // เดือนในอดีต (ไม่เหลือวันให้ใช้แล้ว แต่ส่ง 1 ป้องกัน error ตัวหาร)
             return 1; 
         } else if (year > currentYear || (year === currentYear && month > currentMonth)) {
-            // เดือนในอนาคต (มีเวลาใช้เต็มเดือน)
             return new Date(year, month, 0).getDate();
         } else {
-            // เดือนปัจจุบัน
             const totalDays = new Date(year, month, 0).getDate();
-            const daysLeft = totalDays - today.getDate() + 1; // นับรวมวันนี้ด้วย
+            const daysLeft = totalDays - today.getDate() + 1; 
             return daysLeft > 0 ? daysLeft : 1;
         }
     }
@@ -761,7 +757,6 @@
         const actualSpent = totalVariableExpense + totalFixedPaid;
         const actualBalance = actualIncome - actualSpent;
         
-        // เงินที่ใช้ได้ (หักบิลรอจ่ายล่วงหน้าแล้ว)
         const safeToSpend = actualBalance - totalFixedUnpaid;
 
         document.getElementById('ui-salary-val').innerText = salary.toLocaleString(); 
@@ -775,12 +770,10 @@
         const target = Number(settingsData.daily_target) || 150;
         document.getElementById('ui-overview-target').innerText = target;
         
-        // คำนวณวันอยู่รอดจากงบที่ตั้งไว้
         let runway = 0; 
         if (target > 0) runway = Math.floor(safeToSpend / target); 
         document.getElementById('ui-overview-runway').innerText = runway > 0 ? runway : 0;
         
-        // คำนวณงบที่ใช้ได้จริงต่อวันจนถึงสิ้นเดือน
         const remainDays = getRemainingDaysInMonth(currentViewMonth);
         let realDaily = safeToSpend / remainDays;
         if(realDaily < 0) realDaily = 0;
