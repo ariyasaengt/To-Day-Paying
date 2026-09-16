@@ -45,7 +45,9 @@
         
         * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
-        .lucide { vertical-align: middle; margin-bottom: 2px; }
+        
+        /* แก้ไขการจัดวางไอคอน Lucide ให้ตรงบรรทัดและไม่ล้น */
+        .lucide { display: inline-block; vertical-align: -0.15em; stroke-width: 2.2px; }
 
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; min-height: 100vh; }
         
@@ -217,7 +219,7 @@
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" size="12" style="margin-left:4px;"></i></p>
+                        <p style="display:flex; align-items:center; gap:4px;">รายได้หลัก <i data-lucide="edit-3" size="13"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:15px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -230,7 +232,6 @@
             </div>
         </div>
 
-        <!-- Runway Card ปรับปรุงสีตัวหนังสือให้ชัดเจน อ่านง่าย -->
         <div class="panel" style="background: #1e293b; color: #ffffff; margin-bottom:0; border: none;">
             <div class="panel-header" style="border-bottom-color: rgba(255,255,255,0.15);">
                 <h3 style="color: #ffffff;"><i data-lucide="pie-chart" size="16" style="color: #38bdf8;"></i> สรุปภาพรวม (Runway)</h3>
@@ -249,7 +250,7 @@
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.12); padding:8px 12px; border-radius:10px;">
-                            <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; font-weight:500;">งบต่อวัน <i data-lucide="edit-3" size="12" style="margin-left:3px;"></i></p>
+                            <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; gap:3px; font-weight:500;">งบต่อวัน <i data-lucide="edit-3" size="13"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:#fbbf24;">150</p>
                         </div>
                         <div style="text-align:right;">
@@ -293,7 +294,6 @@
     <i data-lucide="plus" size="24"></i>
 </div>
 
-<!-- Modals -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
