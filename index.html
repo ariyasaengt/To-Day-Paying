@@ -17,7 +17,6 @@
     <style>
         :root { --bg-color: #f1f5f9; --primary: #6366f1; --primary-light: #e0e7ff; --text-dark: #1e293b; --text-light: #64748b; --success: #10b981; --danger: #ef4444; --warning: #f59e0b; }
         
-        /* ป้องกันหน้าจอมือถือล้นขอบ */
         * { box-sizing: border-box; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         .lucide { vertical-align: middle; margin-bottom: 2px; }
@@ -25,20 +24,18 @@
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 10px; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
         .header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: white; padding: 15px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);}
-        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .header h1 { margin: 0; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap:8px; font-weight: 600;}
         .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
         
         .month-selector { background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 10px; border-radius: 10px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; font-family: inherit;}
         .lang-btn { background: #fff; border: 2px solid var(--primary-light); color: var(--primary); font-weight: 600; padding: 6px 10px; border-radius: 10px; font-size: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit;}
         
-        /* เลย์เอาต์มือถือเป็น 1 คอลัมน์เสมอ เพื่อไม่ให้ล้น */
         .top-dashboard-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
         .main-dashboard-grid { display: flex; flex-direction: column; gap: 15px; }
 
         @media (min-width: 900px) {
             .app-container { padding: 25px; }
-            .header { flex-direction: row; }
+            .header { flex-direction: row; justify-content: space-between; align-items: center; }
             .top-dashboard-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
             .main-dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: start; }
         }
@@ -55,7 +52,7 @@
         .item-card { background: #f8fafc; border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f5f9; width: 100%; box-sizing: border-box; }
         .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 500;}
         .item-info p { margin: 0; font-size: 11px; color: var(--text-light); font-weight: 300;}
-        .meta-tag { background: white; padding: 2px 6px; border-radius: 6px; font-size: 9px; border: 1px solid #e2e8f0; color: var(--text-light); margin-right: 4px; font-weight: 400;}
+        .meta-tag { background: white; padding: 2px 6px; border-radius: 6px; font-size: 9px; border: 1px solid #e2e8f0; color: var(--text-light); margin-right: 4px; font-weight: 400; display: inline-flex; align-items: center; gap: 4px;}
         
         .check-btn { width: 26px; height: 26px; border-radius: 8px; border: 2px solid #cbd5e1; display: flex; justify-content: center; align-items: center; cursor: pointer; background: white; flex-shrink: 0;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
@@ -75,7 +72,6 @@
         .breakdown-table { width: 100%; border-collapse: collapse; font-size: 12px; font-weight: 300;}
         .breakdown-table td { padding: 8px 0; border-bottom: 1px dashed #e2e8f0; }
 
-        /* ตารางหนี้สินเลื่อนซ้ายขวาได้ในมือถือ */
         .debt-table-wrapper { width: 100%; overflow-x: auto; margin-top: 10px; -webkit-overflow-scrolling: touch; }
         .debt-table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; font-weight: 300;}
         .debt-table th { background: #f8fafc; color: var(--text-light); padding: 10px; text-align: left; border-bottom: 2px solid #e2e8f0; font-weight: 500;}
@@ -119,7 +115,7 @@
             <h1><i data-lucide="layout-dashboard" size="18"></i> Todaypaying</h1>
             <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
-        <div class="header-top" style="width: auto; gap: 10px;">
+        <div style="display:flex; gap:10px; align-items:center; margin-top: 5px;">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
             <button class="lang-btn" onclick="toggleLanguage()" id="lang-toggle">TH</button>
         </div>
@@ -286,7 +282,7 @@
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายจ่ายประจำ -->
+<!-- Modal 2: เพิ่มรายจ่ายประจำ (ใช้ Lucide Icon ทุกตัวเลือกธนาคารแบบ UI เว็บโมเดิร์น) -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -347,7 +343,7 @@
                 </select>
             </div>
 
-            <div id="bankAccountFields" style="background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+            <div id="bankAccountFields" style="background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-bank">เลือกธนาคาร</label>
                     <select id="newBankName">
@@ -364,7 +360,7 @@
                     <input type="text" id="newAccName" placeholder="เช่น นายสมชาย ใจดี">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่าง)</label>
+                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่างเพื่อความปลอดภัย)</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
@@ -469,7 +465,7 @@
             incomeTitle: "ส่วนบันทึกรายรับ",
             salaryLbl: "เงินเดือนประจำ (Salary)", mainInc: "รายได้หลัก", totalIncLbl: "รวมรายรับ",
             runwayTitle: "สรุปภาพรวม (Runway)", sumInc: "รวมรายรับ", sumSav: "เงินคงเหลือสุทธิ", sumFix: "รายจ่ายประจำ", dailyLbl: "งบต่อวัน", runwayLbl: "วันคงเหลือ", daysUnit: "วัน",
-            dailyTrack: "บันทึกค่ากินอยู่", spentToday: "ใช้วันนี้:", spentMonth: "รวมเดือนนี้:",
+            dailyTrack: "บันทึกค่ากินอยู่รายวัน", spentToday: "ใช้วันนี้:", spentMonth: "รวมเดือนนี้:",
             trendTitle: "กราฟแนวโน้มการใช้จ่ายรายวัน",
             billsTitle: "รายการค่าใช้จ่ายประจำ", unpaidLbl: "รอชำระ:",
             pieTitle: "สัดส่วนค่าใช้จ่าย", historyTitle: "ประวัติรายการรายวัน",
