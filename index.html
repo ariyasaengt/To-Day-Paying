@@ -114,7 +114,6 @@
         .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); font-weight: 700; line-height: 1.2;}
         .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 400;}
         
-        /* Pill Header Controls matching Reference */
         .header-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .control-pill {
             background: var(--input-bg);
@@ -154,7 +153,6 @@
         
         .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         
-        /* Unified Action Buttons for Cards */
         .card-actions { display: flex; align-items: center; gap: 8px; }
         .edit-btn { background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border-color); width: 30px; height: 30px; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .edit-btn:hover { border-color: var(--primary); color: var(--primary); }
@@ -183,7 +181,6 @@
         .close-btn { background: var(--input-bg); border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display:flex; justify-content:center; align-items:center; color: var(--text-dark);}
         .close-btn:hover { background: #e2e8f0; }
 
-        /* Loan UI Styling */
         .loan-progress-box { margin-top:8px; padding:8px 12px; background:var(--primary-light); border-radius:10px; font-size:11px; color:var(--text-dark); border: 1px solid rgba(14,165,233,0.15);}
         body.dark-mode .loan-progress-box { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
     </style>
@@ -222,7 +219,6 @@
 </div>
 
 <div class="app-container" id="appMainSection" style="display: none;">
-    <!-- Modern Header Matching Reference -->
     <div class="header">
         <div class="header-left">
             <div class="header-logo">
@@ -234,7 +230,6 @@
             </div>
         </div>
         <div class="header-controls">
-            <!-- เมนูเลือกเดือนแบบแคปซูลตามเรฟ -->
             <div class="custom-select-wrapper" style="width: auto;">
                 <div class="control-pill" onclick="toggleDropdown('monthDropdown', event)">
                     <span id="selectedMonthText">เดือน</span>
@@ -548,7 +543,16 @@
 </div>
 
 <script>
-    lucide.createIcons();
+    // === โหลดค่า Theme ก่อนแสดงผล เพื่อป้องกันการกระพริบ และจำค่าเวลารีเฟรช ===
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+    const isDarkTheme = document.body.classList.contains('dark-mode');
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnDark = document.getElementById('btn-dark');
+        if(btnDark) btnDark.innerHTML = isDarkTheme ? '<i data-lucide="sun" size="16"></i>' : '<i data-lucide="moon" size="16"></i>';
+        lucide.createIcons();
+    });
 
     const firebaseConfig = { 
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
@@ -812,7 +816,6 @@
         const actualSpent = totalVariableExpense + totalFixedPaid;
         const actualBalance = actualIncome - actualSpent;
         
-        // เงินที่ใช้ได้ (หักบิลรอจ่ายล่วงหน้าแล้ว)
         const safeToSpend = actualBalance - totalFixedUnpaid;
 
         document.getElementById('ui-salary-val').innerText = salary.toLocaleString(); 
@@ -955,7 +958,15 @@
     window.toggleBillDateInput = function() { const type = document.getElementById('newBillDateType').value; const container = document.getElementById('billDateInputContainer'); const input = document.getElementById('newBillDateVal'); const label = document.getElementById('billDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น วันที่ 25 ของทุกเดือน'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
     window.toggleIncDateInput = function() { const type = document.getElementById('newIncDateType').value; const container = document.getElementById('incDateInputContainer'); const input = document.getElementById('newIncDateVal'); const label = document.getElementById('incDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น สัญญาเข้าวันที่ 28'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
     window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
-    window.toggleDarkMode = function() { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun" size="16"></i>' : '<i data-lucide="moon" size="16"></i>'; lucide.createIcons(); };
+    
+    // === บันทึกและดึงสถานะ Theme ===
+    window.toggleDarkMode = function() { 
+        document.body.classList.toggle('dark-mode'); 
+        const isDark = document.body.classList.contains('dark-mode'); 
+        localStorage.setItem('theme', isDark ? 'dark' : 'light'); // จำค่าลงเครื่อง
+        document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun" size="16"></i>' : '<i data-lucide="moon" size="16"></i>'; 
+        lucide.createIcons(); 
+    };
 </script>
 </body>
 </html>
