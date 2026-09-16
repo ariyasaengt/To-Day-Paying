@@ -252,14 +252,14 @@
     <i data-lucide="plus" size="24"></i>
 </div>
 
-<!-- Modal 1 -->
+<!-- Modal 1: ตั้งค่าเงินเดือน -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 id="settingsModalTitle">ตั้งค่า</h2>
             <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x" size="20"></i></button>
         </div>
-        <form id="settingsForm" onsubmit="saveSettings(event)">
+        <form id="settingsForm" onsubmit="saveSettings(event); return false;">
             <input type="hidden" id="settingKey">
             <div class="form-group">
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
@@ -277,7 +277,7 @@
             <h2>เพิ่มรายจ่ายประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x" size="20"></i></button>
         </div>
-        <form id="addBillForm" onsubmit="saveNewBill(event)">
+        <form id="addBillForm" onsubmit="saveNewBill(event); return false;">
             <div class="form-group">
                 <label>ชื่อรายการ / บริการ</label>
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, Netflix" required>
@@ -317,7 +317,7 @@
             <h2>แก้ไขราคารายจ่ายประจำ</h2>
             <button class="close-btn" onclick="closeModal('editBillModal')"><i data-lucide="x" size="20"></i></button>
         </div>
-        <form id="editBillForm" onsubmit="saveBillPrice(event)">
+        <form id="editBillForm" onsubmit="saveBillPrice(event); return false;">
             <input type="hidden" id="editBillKey">
             <div class="form-group">
                 <label>ชื่อรายการ</label>
@@ -339,7 +339,7 @@
             <h2>บันทึกรายการรายวัน</h2>
             <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x" size="20"></i></button>
         </div>
-        <form id="txForm" onsubmit="submitTransaction(event)">
+        <form id="txForm" onsubmit="submitTransaction(event); return false;">
             <div class="form-group">
                 <label>ประเภท</label>
                 <select id="inputType" onchange="changeCategoryOptions()">
@@ -394,7 +394,6 @@
 
     function changeMonth() {
         currentViewMonth = document.getElementById('monthSelector').value;
-        document.getElementById('btn-add-floating').style.display = (currentViewMonth !== actualCurrentMonth) ? 'none' : 'flex';
         loadDataForMonth();
     }
 
