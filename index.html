@@ -121,7 +121,7 @@
         .form-group input { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
         .form-group input:focus { border-color: var(--primary); }
 
-        /* Custom Dropdown UI 100% พรีเมียม ไม่ใช้ select ของระบบมือถือ */
+        /* Custom Dropdown UI ดีไซน์ตรงกับแอป 100% */
         .custom-select-wrapper { position: relative; width: 100%; }
         .custom-select-box {
             width: 100%;
@@ -244,17 +244,17 @@
 
         <div class="divider"><span>หรือใช้อีเมล</span></div>
 
-        <!-- เอา required ออก และเรียก JS โดยตรง -->
-        <form id="emailAuthForm" onsubmit="event.preventDefault(); handleEmailAuth();">
+        <!-- ฟอร์มเข้าสู่ระบบ (เอา Required ออก ป้องกันบั๊กมือถือ) -->
+        <form id="emailAuthForm">
             <div class="form-group" style="text-align:left;">
                 <label>อีเมล</label>
                 <input type="email" id="authEmail" placeholder="you@example.com" autocomplete="email">
             </div>
             <div class="form-group" style="text-align:left;">
                 <label>รหัสผ่าน</label>
-                <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" autocomplete="current-password">
+                <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" autocomplete="current-password" onkeydown="if(event.key === 'Enter') handleEmailAuth()">
             </div>
-            <button type="submit" class="submit-btn" id="emailAuthSubmitBtn">เข้าสู่ระบบ</button>
+            <button type="button" class="submit-btn" onclick="handleEmailAuth()">เข้าสู่ระบบ</button>
         </form>
         
         <p style="margin-top:16px; font-size:12px;">
@@ -381,7 +381,7 @@
             <h2 style="font-size:18px;">เพิ่มรายรับประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addRecurringIncomeModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="addRecurringIncomeForm" onsubmit="event.preventDefault(); saveNewRecurringIncome();">
+        <form id="addRecurringIncomeForm">
             <div class="form-group">
                 <label>ชื่อรายการรายรับ</label>
                 <input type="text" id="newIncName" placeholder="เช่น ค่าเช่าห้อง, งานเสริมประจำ">
@@ -434,7 +434,8 @@
                     <input type="text" id="newIncAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
-            <button type="submit" class="submit-btn">เพิ่มรายรับประจำ</button>
+            <!-- ปุ่มเปลี่ยนเป็น type="button" ป้องกันการพังจากเบราว์เซอร์ -->
+            <button type="button" class="submit-btn" onclick="saveNewRecurringIncome()">เพิ่มรายรับประจำ</button>
         </form>
     </div>
 </div>
@@ -446,7 +447,7 @@
             <h2 style="font-size:18px;">เพิ่มรายจ่ายประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="addBillForm" onsubmit="event.preventDefault(); saveNewBill();">
+        <form id="addBillForm">
             <div class="form-group">
                 <label>ชื่อรายการ / บริการ</label>
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง">
@@ -518,7 +519,7 @@
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
-            <button type="submit" class="submit-btn">เพิ่มรายจ่ายประจำ</button>
+            <button type="button" class="submit-btn" onclick="saveNewBill()">เพิ่มรายจ่ายประจำ</button>
         </form>
     </div>
 </div>
@@ -530,7 +531,7 @@
             <h2 style="font-size:18px;">บันทึกรายการรายวัน</h2>
             <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="txForm" onsubmit="event.preventDefault(); submitTransaction();">
+        <form id="txForm">
             <div class="form-group">
                 <label>ประเภท</label>
                 <div class="custom-select-wrapper">
@@ -570,7 +571,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="submit-btn">บันทึก</button>
+            <button type="button" class="submit-btn" onclick="submitTransaction()">บันทึก</button>
         </form>
     </div>
 </div>
@@ -582,13 +583,13 @@
             <h2 id="settingsModalTitle" style="font-size:18px;">ตั้งค่า</h2>
             <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();">
+        <form id="settingsForm">
             <input type="hidden" id="settingKey">
             <div class="form-group">
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
                 <input type="number" id="settingValue" min="0" step="0.01">
             </div>
-            <button type="submit" class="submit-btn">บันทึกข้อมูล</button>
+            <button type="button" class="submit-btn" onclick="saveSettings()">บันทึกข้อมูล</button>
         </form>
     </div>
 </div>
@@ -618,28 +619,25 @@
        ส่วนที่ 1: ระบบ UI Custom Dropdown ป้องกัน Mobile Popup 100%
        ============================================================== */
     window.toggleDropdown = function(dropdownId, event) {
-        if(event) event.stopPropagation(); // ป้องกันคลิกทะลุ
-        
+        if(event) event.stopPropagation();
         const target = document.getElementById(dropdownId);
         const isActive = target.classList.contains('active');
         
-        // ซ่อนตัวอื่นๆ ทั้งหมดก่อน
         document.querySelectorAll('.custom-dropdown-list').forEach(el => {
             el.classList.remove('active');
         });
         
-        // ถ้าเป้าหมายไม่ได้เปิดอยู่ ให้เปิดขึ้นมา
         if (!isActive) {
             target.classList.add('active');
         }
     };
 
-    // คลิกพื้นที่ว่าง ให้ซ่อนเมนูกล่องเลือกทั้งหมด
-    window.addEventListener('click', function() {
-        document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-select-wrapper') && !e.target.closest('.month-selector-box')) {
+            document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
+        }
     });
 
-    // ฟังก์ชันเลือก Option
     window.chooseOption = function(group, val, text, event) {
         if(event) event.stopPropagation();
 
@@ -670,9 +668,7 @@
             document.getElementById('selectedTxCatText').innerText = text;
         }
 
-        // ซ่อน dropdown หลังเลือกเสร็จ
         document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
-        lucide.createIcons();
     };
 
     window.chooseMonth = function(val, text, event) {
@@ -683,9 +679,8 @@
         loadDataForMonth();
     };
 
-
     /* ==============================================================
-       ส่วนที่ 2: ระบบ Auth และ Firebase Database
+       ส่วนที่ 2: ระบบ Auth เข้าสู่ระบบ
        ============================================================== */
     function showAuthError(msg) {
         const el = document.getElementById('authErrorMsg');
@@ -719,7 +714,7 @@
     window.toggleAuthMode = function() {
         clearAuthError();
         isRegisterMode = !isRegisterMode;
-        document.querySelector('#emailAuthSubmitBtn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
+        document.querySelector('#emailAuthForm .submit-btn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
         document.getElementById('authToggleText').innerText = isRegisterMode ? 'มีบัญชีอยู่แล้วใช่หรือไม่?' : 'ยังไม่มีบัญชีใช่หรือไม่?';
         document.getElementById('authToggleLink').innerText = isRegisterMode ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก';
     };
@@ -784,7 +779,7 @@
     }
 
     /* ==============================================================
-       ส่วนที่ 3: ดึงข้อมูลและคำนวณหน้า Dashboard
+       ส่วนที่ 3: ระบบแดชบอร์ด และดึงข้อมูล Firebase
        ============================================================== */
     let settingsData = { salary: 17625, daily_target: 150 };
     let globalBillsData = null;
@@ -954,17 +949,39 @@
         document.getElementById('ui-overview-runway').innerText = runway;
     }
 
-
     /* ==============================================================
-       ส่วนที่ 4: ระบบรับข้อมูลฟอร์ม และบันทึกลง Firebase (ปลอดภัย 100%)
+       ส่วนที่ 4: ระบบรับข้อมูลฟอร์ม และบันทึกลง Firebase
        ============================================================== */
     
+    // รีเซ็ตข้อความใน Custom Dropdown กลับเป็นค่าเริ่มต้น
+    function resetCustomDropdowns(modalType) {
+        if(modalType === 'inc') {
+            document.getElementById('selectedIncDateText').innerText = 'วันแรกของเดือน (วันที่ 1)';
+            document.getElementById('newIncDateType').value = 'day1';
+            document.getElementById('selectedIncMethodText').innerText = 'แอปธนาคาร / โอนเข้าบัญชี';
+            document.getElementById('newIncMethod').value = 'แอปธนาคาร / โอนเข้าบัญชี';
+            document.getElementById('incBankAccountFields').style.display = 'block';
+            document.getElementById('incDateInputContainer').style.display = 'none';
+        } else if(modalType === 'bill') {
+            document.getElementById('selectedBillCatText').innerText = 'ความบันเทิง & สตรีมมิ่ง';
+            document.getElementById('newBillCat').value = 'entertainment';
+            document.getElementById('selectedBillDateText').innerText = 'วันแรกของเดือน (วันที่ 1)';
+            document.getElementById('newBillDateType').value = 'day1';
+            document.getElementById('selectedBillMethodText').innerText = 'แอปธนาคาร / โอนบิล';
+            document.getElementById('newBillMethod').value = 'แอปธนาคาร / โอนบิล';
+            document.getElementById('bankAccountFields').style.display = 'block';
+            document.getElementById('billDateInputContainer').style.display = 'none';
+        } else if(modalType === 'tx') {
+            document.getElementById('selectedTxTypeText').innerText = 'รายจ่าย';
+            document.getElementById('inputType').value = 'expense';
+            document.getElementById('selectedTxCatText').innerText = 'อาหาร';
+            document.getElementById('inputCategory').value = 'food';
+        }
+    }
+
     window.openAddRecurringIncomeModal = function() {
         document.getElementById('addRecurringIncomeForm').reset();
-        chooseOption('incDate', 'day1', 'วันแรกของเดือน (วันที่ 1)', null);
-        chooseOption('incMethod', 'แอปธนาคาร / โอนเข้าบัญชี', 'แอปธนาคาร / โอนเข้าบัญชี', null);
-        document.getElementById('incBankAccountFields').style.display = 'block';
-        document.getElementById('incDateInputContainer').style.display = 'none';
+        resetCustomDropdowns('inc');
         document.getElementById('addRecurringIncomeModal').classList.add('active');
     };
 
@@ -978,11 +995,10 @@
         const bank_name = document.getElementById('newIncBankName').value.trim();
         const acc_no = document.getElementById('newIncAccNo').value.trim();
 
-        // ตรวจสอบความถูกต้องด้วย JS โดยตรง
         if (!name) { alert("กรุณากรอกชื่อรายการ"); return; }
-        if (amount <= 0) { alert("กรุณาระบุจำนวนเงินให้ถูกต้อง"); return; }
+        if (amount <= 0) { alert("กรุณาระบุจำนวนเงินที่รับให้ถูกต้อง"); return; }
         if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) {
-            alert("กรุณาระบุวันที่หรือข้อความให้ครบถ้วน"); return;
+            alert("กรุณาระบุวันที่หรือข้อความกำหนดเองให้ครบถ้วน"); return;
         }
 
         db.ref(getUserDbPath('recurring_incomes')).push({
@@ -1005,11 +1021,7 @@
 
     window.openAddBillModal = function() {
         document.getElementById('addBillForm').reset();
-        chooseOption('billCat', 'entertainment', 'ความบันเทิง & สตรีมมิ่ง', null);
-        chooseOption('billDate', 'day1', 'วันแรกของเดือน (วันที่ 1)', null);
-        chooseOption('billMethod', 'แอปธนาคาร / โอนบิล', 'แอปธนาคาร / โอนบิล', null);
-        document.getElementById('bankAccountFields').style.display = 'block';
-        document.getElementById('billDateInputContainer').style.display = 'none';
+        resetCustomDropdowns('bill');
         document.getElementById('addBillModal').classList.add('active');
     };
 
@@ -1024,10 +1036,10 @@
         const bank_name = document.getElementById('newBankName').value.trim();
         const acc_no = document.getElementById('newAccNo').value.trim();
 
-        if (!name) { alert("กรุณากรอกชื่อรายการบิล"); return; }
+        if (!name) { alert("กรุณากรอกชื่อรายการ/บริการ"); return; }
         if (amount <= 0) { alert("กรุณาระบุยอดเงินให้ถูกต้อง"); return; }
         if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) {
-            alert("กรุณาระบุวันที่หรือข้อความให้ครบถ้วน"); return;
+            alert("กรุณาระบุวันที่หรือข้อความกำหนดเองให้ครบถ้วน"); return;
         }
 
         db.ref(getUserDbPath('fixed_expenses')).push({
@@ -1050,8 +1062,9 @@
 
     window.openTxModal = function(type = 'expense') {
         document.getElementById('txForm').reset();
-        chooseOption('txType', type, type === 'expense' ? 'รายจ่าย' : 'รายได้เสริม (ครั้งคราว)', null);
-        chooseOption('txCat', 'food', 'อาหาร', null);
+        resetCustomDropdowns('tx');
+        // เปลี่ยนค่าตั้งต้นตามปุ่มที่กด (รายจ่าย / รายได้เสริม)
+        if (type === 'income') chooseOption('txType', 'income', 'รายได้เสริม (ครั้งคราว)', null);
         document.getElementById('txModal').classList.add('active');
     };
 
