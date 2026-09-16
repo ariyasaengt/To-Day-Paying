@@ -23,39 +23,78 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e5e5e5;
+            background-color: var(--bg-color);
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
         }
 
-        /* คอนเทนเนอร์หลัก (Responsive) */
+        /* คอนเทนเนอร์หลัก */
         .app-container {
             width: 100%;
-            max-width: 450px;
             background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg-color) 30%);
             min-height: 100vh;
             position: relative;
             box-sizing: border-box;
             padding: 40px 24px 100px 24px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            overflow-y: auto;
         }
 
-        @media (min-width: 480px) {
+        /* ----------------------------------------------------
+           ปรับ Layout สำหรับจอคอมพิวเตอร์ (Desktop Layout) 
+           ---------------------------------------------------- */
+        @media (min-width: 768px) {
+            body {
+                background-color: #e5e5e5;
+                align-items: center;
+            }
             .app-container {
-                min-height: 85vh;
-                height: 850px;
-                max-height: 90vh;
+                max-width: 1000px; /* ขยายความกว้างสำหรับจอคอม */
+                min-height: 80vh;
                 border-radius: 40px;
                 border: 8px solid #fff;
-                overflow-x: hidden;
+                box-shadow: 0 0 50px rgba(0,0,0,0.1);
+                padding: 40px;
+                background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-color) 40%);
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* แบ่งเป็น 2 คอลัมน์ ซ้าย-ขวา */
+                gap: 40px;
+                align-items: start;
+                overflow: hidden;
             }
+            
+            /* สร้างพื้นที่จัดกลุ่มคอนเทนต์ฝั่งซ้ายและขวา */
+            .left-panel { display: flex; flex-direction: column; gap: 20px;}
+            .right-panel { 
+                display: flex; 
+                flex-direction: column; 
+                height: 100%;
+                background: white;
+                border-radius: 30px;
+                padding: 30px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            }
+            
+            /* ซ่อนเมนูด้านล่างบนจอคอม */
+            .bottom-nav { display: none !important; }
+            
+            /* ปรับแต่ง Header สำหรับจอคอม */
+            .header { grid-column: 1 / -1; margin-bottom: 10px; }
+            
+            /* ปรับรายการ Scroll ได้เฉพาะฝั่งขวา */
+            .transaction-list { 
+                max-height: 400px; 
+                overflow-y: auto; 
+                padding-right: 10px;
+            }
+            /* แต่ง Scrollbar */
+            .transaction-list::-webkit-scrollbar { width: 6px; }
+            .transaction-list::-webkit-scrollbar-thumb { background: #dcdcdc; border-radius: 10px; }
         }
 
-        /* ส่วนหัว */
+        /* ----------------------------------------------------
+           สไตล์เดิม (Mobile Layout)
+           ---------------------------------------------------- */
         .header { 
             display: flex;
             justify-content: space-between;
@@ -76,17 +115,16 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* สรุป 3 กล่อง */
         .summary-row {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
+            gap: 15px;
             margin-bottom: 30px;
         }
         .summary-card {
             background: var(--card-bg);
             border-radius: 20px;
-            padding: 18px 10px;
+            padding: 20px 10px;
             flex: 1;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.03);
@@ -94,11 +132,10 @@
             flex-direction: column;
             align-items: center;
         }
-        .summary-card i { color: var(--primary); margin-bottom: 8px; }
+        .summary-card i { color: var(--primary); margin-bottom: 12px; }
         .summary-card h3 { margin: 0; font-size: 13px; color: var(--text-light); font-weight: 500; }
-        .summary-card p { margin: 8px 0 0; font-size: 15px; color: var(--text-dark); font-weight: 700; word-break: break-word;}
+        .summary-card p { margin: 8px 0 0; font-size: 16px; color: var(--text-dark); font-weight: 700; word-break: break-word;}
 
-        /* แถบสถานะ (Progress Card) */
         .progress-card {
             background: var(--primary);
             border-radius: 24px;
@@ -127,32 +164,34 @@
             background: white;
             height: 100%;
             border-radius: 10px;
-            width: 0%; /* จะอัปเดตผ่าน JS */
+            width: 0%; 
             transition: width 0.5s ease-in-out;
         }
         .progress-text { font-size: 13px; opacity: 0.9; }
 
-        /* รายการใช้จ่าย */
         .section-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .section-title h3 { margin: 0; font-size: 18px; color: var(--text-dark); }
         .add-btn {
             background: var(--text-dark);
             color: white;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
         }
+        .add-btn:hover { transform: scale(1.1); }
+        
         .transaction-list { display: flex; flex-direction: column; gap: 15px; }
         .transaction-item {
             background: var(--card-bg);
@@ -161,10 +200,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.02);
+            border: 1px solid #f0f2f8;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.01);
             transition: transform 0.2s;
         }
-        .transaction-item:hover { transform: translateY(-2px); }
+        .transaction-item:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.04); }
+        
         .item-left { display: flex; align-items: center; gap: 15px; }
         .item-icon {
             width: 48px;
@@ -186,9 +227,8 @@
         .item-amount.income { color: var(--income); }
         .loading-text { text-align: center; color: var(--text-light); font-size: 14px; margin-top: 20px; }
 
-        /* แถบเมนูด้านล่าง */
         .bottom-nav {
-            position: absolute;
+            position: fixed;
             bottom: 24px;
             left: 24px;
             right: 24px;
@@ -199,6 +239,7 @@
             justify-content: space-around;
             align-items: center;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            z-index: 100;
         }
         .nav-item { 
             color: var(--text-light); 
@@ -227,50 +268,53 @@
         </div>
     </div>
 
-    <!-- ส่วนสรุปข้อมูล -->
-    <div class="summary-row">
-        <div class="summary-card">
-            <i data-lucide="arrow-down-circle"></i>
-            <h3>รายรับ</h3>
-            <p id="total-income">฿0</p>
+    <!-- ฝั่งซ้ายสำหรับ Desktop (ส่วนสรุป) -->
+    <div class="left-panel">
+        <div class="summary-row">
+            <div class="summary-card">
+                <i data-lucide="arrow-down-circle"></i>
+                <h3>รายรับ</h3>
+                <p id="total-income">฿0</p>
+            </div>
+            <div class="summary-card">
+                <i data-lucide="arrow-up-circle"></i>
+                <h3>รายจ่าย</h3>
+                <p id="total-expense">฿0</p>
+            </div>
+            <div class="summary-card">
+                <i data-lucide="wallet"></i>
+                <h3>คงเหลือ</h3>
+                <p id="total-balance">฿0</p>
+            </div>
         </div>
-        <div class="summary-card">
-            <i data-lucide="arrow-up-circle"></i>
-            <h3>รายจ่าย</h3>
-            <p id="total-expense">฿0</p>
-        </div>
-        <div class="summary-card">
-            <i data-lucide="wallet"></i>
-            <h3>คงเหลือ</h3>
-            <p id="total-balance">฿0</p>
+
+        <div class="progress-card">
+            <div class="progress-card-header">
+                <h2>งบประมาณของคุณ</h2>
+                <i data-lucide="target"></i>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="budget-progress"></div>
+            </div>
+            <div class="progress-text" id="progress-text">กำลังโหลดข้อมูล...</div>
         </div>
     </div>
 
-    <!-- ส่วน Progress -->
-    <div class="progress-card">
-        <div class="progress-card-header">
-            <h2>งบประมาณของคุณ</h2>
-            <i data-lucide="target"></i>
+    <!-- ฝั่งขวาสำหรับ Desktop (ส่วนรายการ) -->
+    <div class="right-panel">
+        <div class="section-title">
+            <h3>รายการ (Transactions)</h3>
+            <button class="add-btn">
+                <i data-lucide="plus" size="20"></i>
+            </button>
         </div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="budget-progress"></div>
+
+        <div class="transaction-list" id="transaction-container">
+            <div class="loading-text">กำลังดึงข้อมูลจาก Sheet...</div>
         </div>
-        <div class="progress-text" id="progress-text">กำลังโหลดข้อมูล...</div>
     </div>
 
-    <!-- ส่วนรายการใช้จ่ายล่าสุด -->
-    <div class="section-title">
-        <h3>รายการ (Transactions)</h3>
-        <button class="add-btn">
-            <i data-lucide="plus" size="20"></i>
-        </button>
-    </div>
-
-    <div class="transaction-list" id="transaction-container">
-        <div class="loading-text">กำลังดึงข้อมูลจาก Sheet...</div>
-    </div>
-
-    <!-- เมนูด้านล่าง -->
+    <!-- เมนูด้านล่าง (จะแสดงเฉพาะบนมือถือ) -->
     <div class="bottom-nav">
         <div class="nav-item active">
             <i data-lucide="home"></i>
@@ -292,15 +336,14 @@
     lucide.createIcons();
 
     // ==============================================================
-    // 🔴 1. ตั้งค่า API และชื่อคอลัมน์ (กรุณาแก้ให้ตรงกับ Sheet ของคุณ)
+    // 🔴 ตั้งค่า API และชื่อคอลัมน์ 
     // ==============================================================
     const apiUrl = 'https://script.google.com/macros/s/AKfycbzbKOKDn6c3vvg_dvNLtOH07Mh6bluJ0if5jzIEZIJzuyRmE1kbvXkosNQy8IDdNYeCfA/exec';
     
-    // พิมพ์ชื่อหัวตารางให้เป๊ะๆ (คำนึงถึงเว้นวรรคด้วย)
-    const COL_NAME = 'รายการ';       // คอลัมน์ที่เก็บชื่อรายการ
-    const COL_CATEGORY = 'หมวดหมู่';  // คอลัมน์ที่เก็บหมวดหมู่
-    const COL_AMOUNT = 'จำนวนเงิน';   // คอลัมน์ที่เก็บตัวเลข
-    const COL_TYPE = 'ประเภท';      // คอลัมน์ที่บอกว่าเป็น 'รายรับ' หรือ 'รายจ่าย'
+    const COL_NAME = 'รายการ';       
+    const COL_CATEGORY = 'หมวดหมู่';  
+    const COL_AMOUNT = 'จำนวนเงิน';   
+    const COL_TYPE = 'ประเภท';      
     // ==============================================================
 
     fetch(apiUrl)
@@ -309,23 +352,19 @@
             let totalIncome = 0;
             let totalExpense = 0;
             const container = document.getElementById('transaction-container');
-            container.innerHTML = ''; // ล้างข้อความ Loading
+            container.innerHTML = ''; 
 
-            // ถ้าไม่มีข้อมูลเลย
             if(data.length === 0) {
                 container.innerHTML = '<div class="loading-text">ยังไม่มีข้อมูลในระบบ</div>';
                 return;
             }
 
-            // วนลูปสร้างรายการจาก Sheet (แสดงจากล่างขึ้นบน จะได้เห็นของใหม่ล่าสุดก่อน)
             data.reverse().forEach(row => {
                 
-                // ข้ามถ้าบรรทัดนั้นไม่มีชื่อรายการหรือจำนวนเงิน
                 if (!row[COL_NAME] || !row[COL_AMOUNT]) return;
 
                 const amount = parseFloat(row[COL_AMOUNT].toString().replace(/,/g, '')) || 0;
                 
-                // เช็คเงื่อนไขรายรับ (รองรับคำว่า 'รายรับ' หรือ 'Income')
                 const typeStr = row[COL_TYPE] ? row[COL_TYPE].trim() : '';
                 const isIncome = typeStr === 'รายรับ' || typeStr === 'Income'; 
 
@@ -335,7 +374,6 @@
                     totalExpense += amount;
                 }
 
-                // กำหนดไอคอนตามประเภทและหมวดหมู่
                 let iconName = 'shopping-bag';
                 let iconClass = 'icon-expense';
                 let amountClass = 'item-amount';
@@ -356,7 +394,6 @@
                     iconName = 'home';
                 }
 
-                // สร้าง HTML
                 const itemHTML = `
                 <div class="transaction-item">
                     <div class="item-left">
@@ -374,14 +411,12 @@
                 container.innerHTML += itemHTML;
             });
 
-            // อัปเดตตัวเลขรวม
             const balance = totalIncome - totalExpense;
             document.getElementById('total-income').innerText = `฿${totalIncome.toLocaleString()}`;
             document.getElementById('total-expense').innerText = `฿${totalExpense.toLocaleString()}`;
             document.getElementById('total-balance').innerText = `฿${balance.toLocaleString()}`;
 
-            // อัปเดต Progress Bar (เทียบบัญชีรายจ่ายกับรายรับ)
-            const budgetTarget = totalIncome > 0 ? totalIncome : 1; // กันหารด้วย 0
+            const budgetTarget = totalIncome > 0 ? totalIncome : 1; 
             let percent = (totalExpense / budgetTarget) * 100;
             const displayPercent = percent > 100 ? 100 : percent;
             
@@ -393,7 +428,6 @@
                 document.getElementById('progress-text').innerText = `ยังไม่มีรายรับเข้ามา`;
             }
             
-            // วาดไอคอนใหม่สำหรับรายการที่เพิ่งสร้าง
             lucide.createIcons();
         })
         .catch(error => {
