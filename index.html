@@ -79,38 +79,6 @@
             word-break: break-word;
         }
 
-        .auth-tab-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            background: var(--input-bg);
-            padding: 4px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-        }
-        .auth-tab-btn {
-            background: none;
-            border: none;
-            padding: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-light);
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .auth-tab-btn.active {
-            background: var(--panel-bg);
-            color: var(--primary);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-weight: 600;
-        }
-
         .google-btn {
             width: 100%;
             background: white;
@@ -184,6 +152,7 @@
 </head>
 <body>
 
+<!-- 🔒 Auth Section (Google & Email only) -->
 <div id="authSection">
     <div class="auth-card">
         <h2><i data-lucide="layout-dashboard"></i> To-Day Paying</h2>
@@ -196,72 +165,28 @@
             เข้าสู่ระบบด้วย Google
         </button>
 
-        <div class="divider"><span>หรือเลือกวิธีอื่น</span></div>
+        <div class="divider"><span>หรือใช้อีเมล</span></div>
 
-        <div class="auth-tab-buttons">
-            <button class="auth-tab-btn active" id="tabEmailBtn" type="button" onclick="switchAuthTab('email')">
-                <i data-lucide="mail" size="14"></i> อีเมล
-            </button>
-            <button class="auth-tab-btn" id="tabPhoneBtn" type="button" onclick="switchAuthTab('phone')">
-                <i data-lucide="phone" size="14"></i> เบอร์โทรศัพท์
-            </button>
-        </div>
-
-        <div id="emailAuthContainer">
-            <form id="emailAuthForm" onsubmit="handleEmailAuth(event)">
-                <div class="form-group" style="text-align:left;">
-                    <label>อีเมล</label>
-                    <input type="email" id="authEmail" placeholder="you@example.com" required autocomplete="email">
-                </div>
-                <div class="form-group" style="text-align:left;">
-                    <label>รหัสผ่าน</label>
-                    <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6" autocomplete="current-password">
-                </div>
-                <button type="submit" class="submit-btn" id="authSubmitBtn">เข้าสู่ระบบ</button>
-            </form>
-            
-            <p style="margin-top:14px; font-size:12px;">
-                <span id="authToggleText">ยังไม่มีบัญชีใช่หรือไม่?</span> 
-                <a href="javascript:void(0)" onclick="toggleAuthMode()" id="authToggleLink" style="color:var(--primary); font-weight:600; text-decoration:none;">สมัครสมาชิก</a>
-            </p>
-        </div>
-
-        <div id="phoneAuthContainer" style="display: none;">
-            <div id="phoneStep1">
-                <div class="form-group" style="text-align:left;">
-                    <label>เบอร์โทรศัพท์มือถือ</label>
-                    <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
-                        <select id="countryCodeSelect" style="width: 130px !important; flex-shrink: 0; padding: 10px 8px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; color: var(--text-dark);">
-                            <option value="+66">🇹🇭 +66 (ไทย)</option>
-                            <option value="+1">🇺🇸 +1 (US)</option>
-                            <option value="+44">🇬🇧 +44 (UK)</option>
-                            <option value="+81">🇯🇵 +81 (ญี่ปุ่น)</option>
-                            <option value="+82">🇰🇷 +82 (เกาหลี)</option>
-                            <option value="+65">🇸🇬 +65 (สิงคโปร์)</option>
-                            <option value="+60">🇲🇾 +60 (มาเลเซีย)</option>
-                            <option value="+856">🇱🇦 +856 (ลาว)</option>
-                            <option value="+95">🇲🇲 +95 (พม่า)</option>
-                            <option value="+855">🇰🇭 +855 (กัมพูชา)</option>
-                        </select>
-                        <input type="tel" id="phoneNumber" placeholder="812345678" style="flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; color: var(--text-dark);">
-                    </div>
-                </div>
-                <div id="recaptcha-container" style="display: flex; justify-content: center; margin-bottom: 10px;"></div>
-                <button type="button" class="submit-btn" onclick="sendPhoneOtp()">ส่งรหัส OTP</button>
+        <form id="emailAuthForm" onsubmit="handleEmailAuth(event)">
+            <div class="form-group" style="text-align:left;">
+                <label>อีเมล</label>
+                <input type="email" id="authEmail" placeholder="you@example.com" required autocomplete="email">
             </div>
-
-            <div id="phoneStep2" style="display: none;">
-                <div class="form-group" style="text-align:left;">
-                    <label>รหัสยืนยัน OTP 6 หลัก</label>
-                    <input type="number" id="verificationCode" placeholder="123456">
-                </div>
-                <button type="button" class="submit-btn" onclick="verifyPhoneOtp()">ยืนยันรหัส OTP</button>
-                <p style="margin-top:10px;"><a href="javascript:void(0)" onclick="resetPhoneAuth()" style="font-size:12px; color:var(--text-light);">← เปลี่ยนเบอร์โทรศัพท์</a></p>
+            <div class="form-group" style="text-align:left;">
+                <label>รหัสผ่าน</label>
+                <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6" autocomplete="current-password">
             </div>
-        </div>
+            <button type="submit" class="submit-btn" id="authSubmitBtn">เข้าสู่ระบบ</button>
+        </form>
+        
+        <p style="margin-top:14px; font-size:12px;">
+            <span id="authToggleText">ยังไม่มีบัญชีใช่หรือไม่?</span> 
+            <a href="javascript:void(0)" onclick="toggleAuthMode()" id="authToggleLink" style="color:var(--primary); font-weight:600; text-decoration:none;">สมัครสมาชิก</a>
+        </p>
     </div>
 </div>
 
+<!-- 📱 Main Workspace -->
 <div class="app-container" id="appMainSection" style="display: none;">
     <div class="header">
         <div>
@@ -481,7 +406,6 @@
 
     let currentUser = null;
     let isRegisterMode = false;
-    let confirmationResultGlobal = null;
 
     function showAuthError(msg) {
         const el = document.getElementById('authErrorMsg');
@@ -493,87 +417,6 @@
         const el = document.getElementById('authErrorMsg');
         el.style.display = 'none';
         el.innerText = '';
-    }
-
-    function switchAuthTab(tab) {
-        clearAuthError();
-        const isEmail = tab === 'email';
-        document.getElementById('emailAuthContainer').style.display = isEmail ? 'block' : 'none';
-        document.getElementById('phoneAuthContainer').style.display = isEmail ? 'none' : 'block';
-        document.getElementById('tabEmailBtn').classList.toggle('active', isEmail);
-        document.getElementById('tabPhoneBtn').classList.toggle('active', !isEmail);
-        
-        if (!isEmail) {
-            initRecaptcha();
-        }
-    }
-
-    function initRecaptcha() {
-        if (!window.recaptchaVerifier) {
-            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                'size': 'invisible',
-                'callback': () => {}
-            });
-        }
-    }
-
-    function formatE164(countryCode, rawPhone) {
-        let clean = rawPhone.replace(/[\s\-\(\)]/g, '');
-        if (clean.startsWith('0')) {
-            clean = clean.substring(1);
-        }
-        if (clean.startsWith('+')) {
-            return clean;
-        }
-        return countryCode + clean;
-    }
-
-    function sendPhoneOtp() {
-        clearAuthError();
-        const countryCode = document.getElementById('countryCodeSelect').value;
-        const rawPhone = document.getElementById('phoneNumber').value.trim();
-
-        if (!rawPhone) {
-            showAuthError("กรุณากรอกเบอร์โทรศัพท์มือถือ");
-            return;
-        }
-
-        const fullPhone = formatE164(countryCode, rawPhone);
-        initRecaptcha();
-
-        auth.signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
-            .then((confirmationResult) => {
-                confirmationResultGlobal = confirmationResult;
-                document.getElementById('phoneStep1').style.display = 'none';
-                document.getElementById('phoneStep2').style.display = 'block';
-                alert(`ส่งรหัสยืนยัน OTP ไปยังเบอร์ ${fullPhone} เรียบร้อยแล้ว`);
-            }).catch((err) => {
-                showAuthError(`${err.code}: ${err.message}`);
-                if (window.recaptchaVerifier) {
-                    window.recaptchaVerifier.clear();
-                    window.recaptchaVerifier = null;
-                }
-            });
-    }
-
-    function verifyPhoneOtp() {
-        clearAuthError();
-        const code = document.getElementById('verificationCode').value.trim();
-        if (!code) {
-            showAuthError("กรุณากรอกรหัส OTP 6 หลัก");
-            return;
-        }
-        if (confirmationResultGlobal) {
-            confirmationResultGlobal.confirm(code).catch(err => {
-                showAuthError(`รหัส OTP ไม่ถูกต้อง: ${err.message}`);
-            });
-        }
-    }
-
-    function resetPhoneAuth() {
-        clearAuthError();
-        document.getElementById('phoneStep1').style.display = 'block';
-        document.getElementById('phoneStep2').style.display = 'none';
     }
 
     auth.onAuthStateChanged((user) => {
