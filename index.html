@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todaypaying - Ultimate Workspace</title>
     
-    <!-- นำเข้าฟอนต์ Prompt จาก Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -17,11 +16,7 @@
 
     <style>
         :root { --bg-color: #f1f5f9; --primary: #6366f1; --primary-light: #e0e7ff; --text-dark: #1e293b; --text-light: #64748b; --success: #10b981; --danger: #ef4444; --warning: #f59e0b; }
-        
-        /* เปลี่ยนฟอนต์หลักเป็น Prompt */
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px;}
-        
-        /* จัดตำแหน่ง Icon ทั่วไปให้พอดีกับข้อความ */
         .lucide { vertical-align: middle; margin-bottom: 2px; }
 
         .app-container { width: 100%; max-width: 1300px; margin: 0 auto; box-sizing: border-box; padding: 15px; display: flex; flex-direction: column; min-height: 100vh; }
@@ -33,7 +28,6 @@
         .lang-btn { background: #fff; border: 2px solid var(--primary-light); color: var(--primary); font-weight: 600; padding: 8px 12px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit;}
         .lang-btn:hover { background: var(--primary-light); }
         
-        /* Layout Grid */
         .top-dashboard-grid { display: grid; gap: 20px; margin-bottom: 20px; }
         .main-dashboard-grid { display: grid; gap: 20px; }
         @media (min-width: 900px) {
@@ -43,18 +37,15 @@
             .full-width { grid-column: 1 / -1; }
         }
 
-        /* Panels */
         .panel { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;}
         .panel-header h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; font-weight: 500;}
         
-        /* Buttons */
         .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
         .action-btn:hover { background: var(--primary); color: white; }
         .del-btn { background: #fee2e2; color: var(--danger); border: none; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         
-        /* Lists */
-        .list-container { max-height: 450px; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 10px; }
+        .list-container { max-height: 480px; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 10px; }
         .item-card { background: #f8fafc; border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f5f9; transition: 0.2s;}
         .item-card:hover { border-color: #e2e8f0; }
         .item-info h4 { margin: 0 0 4px; font-size: 14px; font-weight: 500;}
@@ -64,21 +55,17 @@
         .check-btn { width: 28px; height: 28px; border-radius: 8px; border: 2px solid #cbd5e1; display: flex; justify-content: center; align-items: center; cursor: pointer; background: white;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
-        /* แถบค่ากินอยู่ */
         .daily-tracker-bar { background: #fffbeb; border: 1px solid #fde68a; border-radius: 15px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; color: #92400e; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
         
-        /* สัดส่วน (Breakdown) */
         .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; }
         .breakdown-table { width: 100%; border-collapse: collapse; font-size: 13px; font-weight: 300;}
         .breakdown-table td { padding: 10px 0; border-bottom: 1px dashed #e2e8f0; }
 
-        /* ตารางหนี้สิน (Debt Tracker) */
         .debt-table-wrapper { overflow-x: auto; margin-top: 20px;}
         .debt-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; font-weight: 300;}
         .debt-table th { background: #f8fafc; color: var(--text-light); padding: 12px; text-align: left; border-bottom: 2px solid #e2e8f0; font-weight: 500;}
         .debt-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
 
-        /* ปฏิทิน */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; margin-top: 15px;}
         .cal-day-header { font-size: 12px; font-weight: 500; color: var(--text-light); padding: 10px 0; }
         .cal-cell { aspect-ratio: 1; background: #f8fafc; border-radius: 10px; display: flex; flex-direction: column; align-items: center; padding: 5px; font-size: 12px; border: 1px solid #f1f5f9; cursor: pointer; font-weight: 400;}
@@ -87,7 +74,6 @@
         .cal-cell.today { background: var(--primary); color: white; }
         .bill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--danger); margin-top: auto; }
 
-        /* Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { background: white; width: 90%; max-width: 450px; border-radius: 20px; padding: 25px; transform: scale(0.95); transition: 0.2s; }
@@ -107,9 +93,9 @@
         .status-warn { background: #fef3c7; color: var(--warning); }
         .status-danger { background: #fee2e2; color: var(--danger); }
         
-        /* ปรับแต่งไอคอนแก้ไขให้เล็กลงและพอดีกับข้อความ */
-        .edit-icon-inline { width: 14px; height: 14px; vertical-align: -2px; margin-left: 4px; color: #94a3b8; cursor: pointer; transition: color 0.2s; }
-        .edit-icon-inline:hover { color: var(--primary); }
+        .edit-icon-inline { width: 14px; height: 14px; vertical-align: -2px; margin-left: 4px; color: #94a3b8; cursor: pointer; }
+        .editable-price { cursor: pointer; border-bottom: 1px dashed var(--primary); transition: color 0.2s; }
+        .editable-price:hover { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -129,8 +115,6 @@
 
     <!-- ส่วนที่ 1: สรุปภาพรวม -->
     <div class="top-dashboard-grid">
-        
-        <!-- 1.1 รายรับ -->
         <div class="panel">
             <div class="panel-header">
                 <h3 id="txt-income-panel"><i data-lucide="wallet"></i> ส่วนบันทึกรายรับ (Monthly Income)</h3>
@@ -138,7 +122,6 @@
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 200px;">
-                <!-- ปรับไอคอนดินสอให้พอดีตัวหนังสือ -->
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 id="txt-salary-title" style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
@@ -155,7 +138,6 @@
             </div>
         </div>
 
-        <!-- 1.2 สรุปภาพรวม -->
         <div class="panel" style="background: var(--text-dark); color: white;">
             <div class="panel-header" style="border-bottom-color: #334155;">
                 <h3 id="txt-runway-panel" style="color: white;"><i data-lucide="pie-chart"></i> สรุปภาพรวม (Runway Calculator)</h3>
@@ -174,7 +156,6 @@
                     <p id="ui-overview-fixed" style="margin:5px 0 15px 0; font-size:20px; font-weight:600; color:#f87171;">฿0</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <!-- ปรับไอคอนดินสอ -->
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:8px 12px; border-radius:10px;">
                             <p id="txt-sum-daily" style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" class="edit-icon-inline" style="color:#cbd5e1;"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:16px; font-weight:600; color:var(--warning);">150</p>
@@ -198,7 +179,7 @@
     </div>
 
     <div class="main-dashboard-grid">
-        <!-- 2.1 รายจ่ายประจำ -->
+        <!-- 2.1 รายจ่ายประจำ (คลิกราคาเพื่อแก้ไขได้ทันที!) -->
         <div class="panel">
             <div class="panel-header">
                 <h3 id="txt-fixed-panel"><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ (Fixed Expenses)</h3>
@@ -210,7 +191,6 @@
             <div class="list-container" id="fixed-expenses-container" style="max-height: 500px;"></div>
         </div>
 
-        <!-- 2.2 ประวัติและกราฟ -->
         <div style="display:flex; flex-direction:column; gap:20px;">
             <div class="panel">
                 <div class="panel-header">
@@ -253,9 +233,7 @@
             <div class="panel-header">
                 <h3 id="txt-cal-panel"><i data-lucide="calendar"></i> ปฏิทินรอบบิล</h3>
             </div>
-            <div class="calendar-grid" id="cal-headers">
-                <!-- from JS -->
-            </div>
+            <div class="calendar-grid" id="cal-headers"></div>
             <div class="calendar-grid" id="calendar-body"></div>
         </div>
     </div>
@@ -265,11 +243,11 @@
     <i data-lucide="plus" size="24"></i>
 </div>
 
-<!-- Modals ต่างๆ โครงสร้างเดิม -->
+<!-- Modal 1: ตั้งค่าเงินเดือน / งบต่อวัน -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2 id="settingsModalTitle">ตั้งค่าเงินเดือนประจำ</h2>
+            <h2 id="settingsModalTitle">ตั้งค่า</h2>
             <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <form onsubmit="saveSettings(event)">
@@ -283,6 +261,29 @@
     </div>
 </div>
 
+<!-- Modal พิเศษ: แก้ไขราคารายจ่ายประจำแต่ละรายการ -->
+<div class="modal-overlay" id="editBillModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>แก้ไขราคารายจ่ายประจำ</h2>
+            <button class="close-btn" onclick="closeModal('editBillModal')"><i data-lucide="x" size="20"></i></button>
+        </div>
+        <form onsubmit="saveBillPrice(event)">
+            <input type="hidden" id="editBillKey">
+            <div class="form-group">
+                <label id="editBillNameLbl">ชื่อรายการ</label>
+                <input type="text" id="editBillName" disabled style="background:#e2e8f0; color:#64748b;">
+            </div>
+            <div class="form-group">
+                <label>ยอดเงินใหม่ (฿)</label>
+                <input type="number" id="editBillAmount" required min="0" step="0.01">
+            </div>
+            <button type="submit" class="submit-btn">บันทึกราคาใหม่</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal 2 & 3 -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -325,17 +326,8 @@
 </div>
 
 <script>
-    // สั่งวาดไอคอนใหม่โดยกำหนดให้ขนาดพอดีกับตัวหนังสือ
-    lucide.createIcons({
-      attrs: {
-        width: '1em',
-        height: '1em'
-      }
-    });
+    lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
 
-    // ==========================================
-    // 🌐 ตั้งค่าเดือน & ระบบแปลภาษา
-    // ==========================================
     const dateObj = new Date();
     let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
     const actualCurrentMonth = currentViewMonth;
@@ -360,7 +352,6 @@
         loadDataForMonth();
     }
 
-    // --- ระบบแปลภาษา ---
     let currentLang = 'th';
     const translations = {
         th: {
@@ -434,9 +425,6 @@
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
-    // ==========================================
-    // 🗄️ Firebase Database Logic
-    // ==========================================
     const firebaseConfig = { apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", authDomain: "todaypaying-7e8b0.firebaseapp.com", projectId: "todaypaying-7e8b0", storageBucket: "todaypaying-7e8b0.firebasestorage.app", messagingSenderId: "584971063665", appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/"); 
@@ -475,9 +463,6 @@
         }
     });
 
-    // ==========================================
-    // ⚙️ ประมวลผลและ Render UI
-    // ==========================================
     function processBills() {
         const container = document.getElementById('fixed-expenses-container'); container.innerHTML = '';
         const debtBody = document.getElementById('debt-table-body'); debtBody.innerHTML = '';
@@ -509,12 +494,13 @@
                 const catName = t.fixedCats[b.category] || b.category || 'General';
                 const checkClass = isPaid ? 'check-btn checked' : 'check-btn';
 
+                // คลิกที่ราคาเพื่อแก้ไขราคาบิลใบนั้นๆ ได้ทันที!
                 container.innerHTML += `
                 <div class="item-card">
                     <div style="flex:1;">
                         <div class="item-info">
-                            <h4>${b.name} <span style="font-weight:600; font-size:13px; color:var(--primary); margin-left:5px;">฿${amt.toLocaleString()}</span></h4>
-                            <div class="meta-tag" style="display:inline-block; margin-top:5px;">${catName}</div>
+                            <h4>${b.name} <span class="editable-price" onclick="openEditBillModal('${key}', '${b.name}', ${amt})" style="font-weight:600; font-size:13px; color:var(--primary); margin-left:5px;" title="คลิกเพื่อแก้ไขราคา">฿${amt.toLocaleString()} ✎</span></h4>
+                            <div class="meta-tag" style="display:inline-block; margin-top:5px;">${catName} • ${b.payment_method || 'โอน'}</div>
                         </div>
                     </div>
                     <div style="text-align:right; margin-right:15px; font-size:12px;">${dueText}</div>
@@ -642,9 +628,11 @@
         else { myChart = new Chart(ctx, { type: 'doughnut', data: { labels: labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '70%' } }); }
 
         const tableBody = document.getElementById('breakdown-table-body'); tableBody.innerHTML = '';
+        let totalVal = values.reduce((a, b) => a + b, 0);
         labels.forEach((label, i) => {
             tableBody.innerHTML += `<tr><td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${colors[i%colors.length]}; margin-right:8px;"></span>${label}</td><td style="text-align:right;">฿${values[i].toLocaleString()}</td></tr>`;
         });
+        if(labels.length === 0) tableBody.innerHTML = '<tr><td style="color:gray;">No expense data</td></tr>';
     }
 
     function renderCalendar(bills) {
@@ -708,6 +696,23 @@
         db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); });
     }
 
+    // ฟังก์ชันเปิด Modal แก้ไขราคารายจ่ายประจำแต่ละรายการ
+    function openEditBillModal(key, name, currentAmount) {
+        document.getElementById('editBillKey').value = key;
+        document.getElementById('editBillName').value = name;
+        document.getElementById('editBillAmount').value = currentAmount;
+        document.getElementById('editBillModal').classList.add('active');
+    }
+
+    function saveBillPrice(e) {
+        e.preventDefault();
+        const key = document.getElementById('editBillKey').value;
+        const newAmount = Number(document.getElementById('editBillAmount').value);
+        db.ref(`todaypaying/fixed_expenses/${key}`).update({ amount: newAmount }).then(() => {
+            closeModal('editBillModal');
+        });
+    }
+
     function toggleBillStatus(billKey, currentStatus) {
         if(currentViewMonth !== actualCurrentMonth) return;
         db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ status: currentStatus === 'paid' ? 'unpaid' : 'paid' });
@@ -738,7 +743,6 @@
     }
 
     initMonthSelector(); applyTranslations(); loadDataForMonth();
-
 </script>
 </body>
 </html>
