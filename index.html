@@ -23,7 +23,7 @@
             --text-light: #64748b; 
             --border-color: #e2e8f0;
             --input-bg: #f1f5f9;
-            --primary: #0ea5e9; /* Sky Blue พรีเมียม */
+            --primary: #0ea5e9; 
             --primary-light: #e0f2fe; 
             --success: #10b981; 
             --danger: #f43f5e; 
@@ -230,30 +230,31 @@
             </div>
         </div>
 
-        <div class="panel" style="background: var(--text-dark); color: #f8fafc; margin-bottom:0; border: none;">
-            <div class="panel-header" style="border-bottom-color: rgba(255,255,255,0.1);">
-                <h3 style="color: #f8fafc;"><i data-lucide="pie-chart" size="16" style="color: var(--primary);"></i> สรุปภาพรวม (Runway)</h3>
+        <!-- Runway Card ปรับปรุงสีตัวหนังสือให้ชัดเจน อ่านง่าย -->
+        <div class="panel" style="background: #1e293b; color: #ffffff; margin-bottom:0; border: none;">
+            <div class="panel-header" style="border-bottom-color: rgba(255,255,255,0.15);">
+                <h3 style="color: #ffffff;"><i data-lucide="pie-chart" size="16" style="color: #38bdf8;"></i> สรุปภาพรวม (Runway)</h3>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                 <div>
-                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">รวมรายรับ</p>
-                    <p id="ui-overview-income" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:var(--success);">฿0</p>
+                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">รวมรายรับ</p>
+                    <p id="ui-overview-income" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#34d399;">฿0</p>
                     
-                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">เงินคงเหลือสุทธิ</p>
-                    <p id="ui-overview-savings" style="margin:4px 0 0 0; font-size:18px; font-weight:600;">฿0</p>
+                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">เงินคงเหลือสุทธิ</p>
+                    <p id="ui-overview-savings" style="margin:4px 0 0 0; font-size:18px; font-weight:600; color:#ffffff;">฿0</p>
                 </div>
                 <div>
-                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">รายจ่ายประจำ</p>
-                    <p id="ui-overview-fixed" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:var(--danger);">฿0</p>
+                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">รายจ่ายประจำ</p>
+                    <p id="ui-overview-fixed" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#fb7185;">฿0</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.08); padding:8px 12px; border-radius:10px;">
-                            <p style="margin:0; font-size:10px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" size="12" style="margin-left:3px;"></i></p>
-                            <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:var(--warning);">150</p>
+                        <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.12); padding:8px 12px; border-radius:10px;">
+                            <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; font-weight:500;">งบต่อวัน <i data-lucide="edit-3" size="12" style="margin-left:3px;"></i></p>
+                            <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:#fbbf24;">150</p>
                         </div>
                         <div style="text-align:right;">
-                            <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">วันคงเหลือ</p>
-                            <p style="margin:2px 0 0 0; font-size:18px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span style="font-size:12px; font-weight:400;">วัน</span></p>
+                            <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">วันคงเหลือ</p>
+                            <p style="margin:2px 0 0 0; font-size:18px; font-weight:600; color:#ffffff;"><span id="ui-overview-runway">0</span> <span style="font-size:12px; font-weight:400;">วัน</span></p>
                         </div>
                     </div>
                 </div>
