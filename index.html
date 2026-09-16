@@ -9,6 +9,7 @@
     <meta name="theme-color" content="#0ea5e9">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +33,7 @@
             --success: #10b981; 
             --danger: #f43f5e; 
             --warning: #f59e0b; 
-            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --card-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.06);
         }
 
         body.dark-mode {
@@ -44,7 +45,7 @@
             --input-bg: #1a263d;
             --primary: #38bdf8;
             --primary-light: #0369a1;
-            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+            --card-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.4);
         }
         
         * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
@@ -55,7 +56,19 @@
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; min-height: 100vh; }
         
         #authSection { display: none; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .auth-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 36px 28px; width: 100%; max-width: 420px; box-shadow: var(--card-shadow); text-align: center; }
+        .auth-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 28px; padding: 40px 30px; width: 100%; max-width: 420px; box-shadow: var(--card-shadow); text-align: center; }
+        
+        /* App Logo Styling */
+        .app-icon-wrapper {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            border-radius: 16px;
+            display: flex; justify-content: center; align-items: center;
+            color: white; margin: 0 auto 16px;
+            box-shadow: 0 8px 16px rgba(14, 165, 233, 0.25);
+        }
+        .app-icon-wrapper i { width: 32px !important; height: 32px !important; }
+        
         .auth-card h2 { margin: 0 0 8px; color: var(--text-dark); font-size: 24px; font-weight: 700; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .auth-card p { margin: 0 0 24px; font-size: 13px; color: var(--text-light); }
 
@@ -76,27 +89,55 @@
         .custom-select-box { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; color: var(--text-dark); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
         .custom-select-box:hover { border-color: var(--primary); }
         
-        .month-selector-box { background: var(--input-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 12px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; user-select: none; }
-        .month-selector-box:hover { border-color: var(--primary); }
-
-        .custom-dropdown-list { display: none; position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 200; max-height: 250px; overflow-y: auto; padding: 6px 0; }
+        .custom-dropdown-list { display: none; position: absolute; top: calc(100% + 6px); left: 0; width: 100%; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 200; max-height: 250px; overflow-y: auto; padding: 8px 0; }
         .custom-dropdown-list.active { display: block; }
-        .custom-option { padding: 10px 14px; font-size: 13px; cursor: pointer; color: var(--text-dark); }
+        .custom-option { padding: 10px 16px; font-size: 13px; cursor: pointer; color: var(--text-dark); }
         .custom-option:hover { background: var(--primary-light); color: var(--primary); }
 
-        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
+        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 14px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25); }
         .submit-btn:hover { opacity: 0.9; }
 
-        /* Header */
-        .header { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; background: var(--panel-bg); padding: 18px 20px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
+        /* Modern Unified Header */
+        .header { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
         @media (min-width: 900px) { .header { flex-direction: row; justify-content: space-between; align-items: center; } }
-        .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; font-weight: 700;}
-        .header h1 i { color: var(--primary); }
-        .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
         
-        .header-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .icon-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-dark); padding: 8px 12px; border-radius: 12px; font-size: 12px; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 500;}
-        .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .header-left { display: flex; align-items: center; gap: 14px; }
+        .header-logo {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            color: white; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.25);
+            flex-shrink: 0;
+        }
+        .header-logo i { width: 24px !important; height: 24px !important; }
+        .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); font-weight: 700; line-height: 1.2;}
+        .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 400;}
+        
+        /* Pill Header Controls matching Reference */
+        .header-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .control-pill {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+        .control-pill:hover { border-color: var(--primary); }
+        .control-pill.icon-only { padding: 8px 12px; border-radius: 20px; }
+        .control-pill.logout { 
+            background: rgba(244, 63, 94, 0.05); 
+            border-color: rgba(244, 63, 94, 0.2); 
+            color: var(--danger); 
+        }
+        .control-pill.logout:hover { background: rgba(244, 63, 94, 0.1); }
 
         .top-dashboard-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
         .main-dashboard-grid { display: flex; flex-direction: column; gap: 16px; }
@@ -107,40 +148,40 @@
             .main-dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: start; }
         }
 
-        .panel { background: var(--panel-bg); border-radius: 20px; padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 16px; width: 100%; border: 1px solid var(--border-color); }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;}
+        .panel { background: var(--panel-bg); border-radius: 24px; padding: 22px; box-shadow: var(--card-shadow); margin-bottom: 16px; width: 100%; border: 1px solid var(--border-color); }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;}
         .panel-header h3 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text-dark);}
         
         .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
         
         /* Unified Action Buttons for Cards */
         .card-actions { display: flex; align-items: center; gap: 8px; }
-        .edit-btn { background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border-color); width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .edit-btn { background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border-color); width: 30px; height: 30px; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .edit-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .del-btn { background: rgba(244, 63, 94, 0.1); color: var(--danger); border: none; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        .del-btn:hover { background: var(--danger); color: white; }
-        .check-btn { width: 28px; height: 28px; border-radius: 8px; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0; color: var(--border-color);}
+        .del-btn { background: rgba(244, 63, 94, 0.05); color: var(--danger); border: 1px solid rgba(244, 63, 94, 0.1); width: 30px; height: 30px; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .del-btn:hover { background: rgba(244, 63, 94, 0.15); }
+        .check-btn { width: 30px; height: 30px; border-radius: 10px; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0; color: var(--border-color);}
         .check-btn:hover { border-color: var(--success); color: var(--success); }
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
         .list-container { max-height: 400px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }
-        /* คลาสใหม่สำหรับลิสต์ที่ไม่จำกัดความสูง (ไม่มีแถบเลื่อน) */
         .list-container-unlimited { max-height: none; overflow-y: visible; padding-right: 0; display: flex; flex-direction: column; gap: 10px; }
 
-        .item-card { background: var(--input-bg); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
+        .item-card { background: var(--input-bg); border-radius: 16px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
         .item-info { flex: 1; margin-right: 12px; }
-        .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 600; color: var(--text-dark);}
+        .item-info h4 { margin: 0 0 4px; font-size: 13px; font-weight: 600; color: var(--text-dark);}
         .item-info p { margin: 0; font-size: 11px; color: var(--text-light); font-weight: 400;}
 
-        .floating-add-btn { position: fixed; bottom: 24px; right: 24px; background: var(--primary); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4); cursor: pointer; z-index: 50; transition: transform 0.2s;}
+        .floating-add-btn { position: fixed; bottom: 24px; right: 24px; background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4); cursor: pointer; z-index: 50; transition: transform 0.2s;}
         .floating-add-btn:hover { transform: scale(1.05); }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--panel-bg); width: 92%; max-width: 420px; border-radius: 24px; padding: 24px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); }
+        .modal-content { background: var(--panel-bg); width: 92%; max-width: 420px; border-radius: 28px; padding: 24px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .close-btn { background: var(--input-bg); border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display:flex; justify-content:center; align-items:center; color: var(--text-dark);}
+        .close-btn:hover { background: #e2e8f0; }
 
         /* Loan UI Styling */
         .loan-progress-box { margin-top:8px; padding:8px 12px; background:var(--primary-light); border-radius:10px; font-size:11px; color:var(--text-dark); border: 1px solid rgba(14,165,233,0.15);}
@@ -151,7 +192,10 @@
 
 <div id="authSection">
     <div class="auth-card">
-        <h2><i data-lucide="wallet-cards"></i> To-Day Paying</h2>
+        <div class="app-icon-wrapper">
+            <i data-lucide="piggy-bank"></i>
+        </div>
+        <h2>To-Day Paying</h2>
         <p>ระบบจัดการงบประมาณและรายจ่ายประจำวัน</p>
         <div class="auth-error-msg" id="authErrorMsg"></div>
         <button class="google-btn" type="button" onclick="loginWithGoogle()">
@@ -178,21 +222,34 @@
 </div>
 
 <div class="app-container" id="appMainSection" style="display: none;">
+    <!-- Modern Header Matching Reference -->
     <div class="header">
-        <div>
-            <h1><i data-lucide="layout-dashboard"></i> To-Day Paying</h1>
-            <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
+        <div class="header-left">
+            <div class="header-logo">
+                <i data-lucide="piggy-bank"></i>
+            </div>
+            <div>
+                <h1>To-Day Paying</h1>
+                <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่าย</p>
+            </div>
         </div>
         <div class="header-controls">
-            <div class="custom-select-wrapper" style="width: auto; min-width: 130px;">
-                <div class="month-selector-box" onclick="toggleDropdown('monthDropdown', event)">
+            <!-- เมนูเลือกเดือนแบบแคปซูลตามเรฟ -->
+            <div class="custom-select-wrapper" style="width: auto;">
+                <div class="control-pill" onclick="toggleDropdown('monthDropdown', event)">
                     <span id="selectedMonthText">เดือน</span>
                     <i data-lucide="chevron-down" size="14"></i>
                 </div>
-                <div class="custom-dropdown-list" id="monthDropdown" style="width: 100%; right: 0; left: auto;"></div>
+                <div class="custom-dropdown-list" id="monthDropdown" style="width: max-content; right: 0; left: auto;"></div>
             </div>
-            <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon"></i></button>
-            <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:rgba(244,63,94,0.3);"><i data-lucide="log-out"></i> ออก</button>
+            
+            <div class="control-pill icon-only" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode">
+                <i data-lucide="moon" size="16"></i>
+            </div>
+            
+            <div class="control-pill logout" onclick="logoutUser()" title="ออกจากระบบ">
+                <i data-lucide="log-out" size="14"></i> ออก
+            </div>
         </div>
     </div>
 
@@ -205,7 +262,6 @@
                     <button class="action-btn" onclick="openAddRecurringIncomeModal()" title="เพิ่มรายรับประจำใหม่"><i data-lucide="plus"></i></button>
                 </div>
             </div>
-            <!-- เปลี่ยนคลาสให้ไม่มียืดหดได้ -->
             <div class="list-container-unlimited" id="income-list-container">
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
@@ -519,7 +575,7 @@
     };
 
     window.addEventListener('click', function(e) {
-        if (!e.target.closest('.custom-select-wrapper') && !e.target.closest('.month-selector-box')) {
+        if (!e.target.closest('.custom-select-wrapper') && !e.target.closest('.month-selector-box') && !e.target.closest('.control-pill')) {
             document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
         }
     });
@@ -585,7 +641,6 @@
 
     const dateObj = new Date(); let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`; const actualCurrentMonth = currentViewMonth;
     
-    // คืนค่าเมนูเลือกเดือนเป็นแบบ Dropdown
     function initMonthSelector() {
         const dropdown = document.getElementById('monthDropdown'); if (!dropdown) return; dropdown.innerHTML = '';
         for (let i = -2; i < 6; i++) {
@@ -757,6 +812,7 @@
         const actualSpent = totalVariableExpense + totalFixedPaid;
         const actualBalance = actualIncome - actualSpent;
         
+        // เงินที่ใช้ได้ (หักบิลรอจ่ายล่วงหน้าแล้ว)
         const safeToSpend = actualBalance - totalFixedUnpaid;
 
         document.getElementById('ui-salary-val').innerText = salary.toLocaleString(); 
@@ -899,7 +955,7 @@
     window.toggleBillDateInput = function() { const type = document.getElementById('newBillDateType').value; const container = document.getElementById('billDateInputContainer'); const input = document.getElementById('newBillDateVal'); const label = document.getElementById('billDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น วันที่ 25 ของทุกเดือน'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
     window.toggleIncDateInput = function() { const type = document.getElementById('newIncDateType').value; const container = document.getElementById('incDateInputContainer'); const input = document.getElementById('newIncDateVal'); const label = document.getElementById('incDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น สัญญาเข้าวันที่ 28'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
     window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
-    window.toggleDarkMode = function() { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>'; lucide.createIcons(); };
+    window.toggleDarkMode = function() { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun" size="16"></i>' : '<i data-lucide="moon" size="16"></i>'; lucide.createIcons(); };
 </script>
 </body>
 </html>
