@@ -17,28 +17,53 @@
     <style>
         :root { 
             --bg-color: #f1f5f9; 
-            --primary: #6366f1; 
-            --primary-light: #e0e7ff; 
+            --panel-bg: #ffffff;
             --text-dark: #1e293b; 
             --text-light: #64748b; 
+            --border-color: #e2e8f0;
+            --input-bg: #f8fafc;
+            --primary: #6366f1; 
+            --primary-light: #e0e7ff; 
             --success: #10b981; 
             --danger: #ef4444; 
             --warning: #f59e0b; 
         }
+
+        /* 🌙 Dark Mode Variables */
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --panel-bg: #1e293b;
+            --text-dark: #f8fafc;
+            --text-light: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+            --primary-light: #312e81;
+        }
         
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; transition: background-color 0.2s, color 0.2s; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         .lucide { vertical-align: middle; margin-bottom: 2px; }
 
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 10px; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
-        .header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: white; padding: 15px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);}
+        .header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: var(--panel-bg); padding: 15px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);}
         .header h1 { margin: 0; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap:8px; font-weight: 600;}
         .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
         
-        .month-selector { background: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 10px; border-radius: 10px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; font-family: inherit;}
-        .lang-btn { background: #fff; border: 2px solid var(--primary-light); color: var(--primary); font-weight: 600; padding: 6px 10px; border-radius: 10px; font-size: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit;}
-        
+        .header-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .month-selector { background: var(--input-bg); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 10px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; font-family: inherit;}
+        .icon-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-dark); padding: 6px 10px; border-radius: 10px; font-size: 12px; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; font-weight: 500;}
+        .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* 🔔 Alert Banner */
+        .alert-banner { display: none; background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; border-radius: 12px; padding: 10px 14px; margin-bottom: 15px; font-size: 12px; align-items: center; justify-content: space-between; gap: 10px; }
+        body.dark-mode .alert-banner { background: #881337; border-color: #9f1239; color: #ffe4e6; }
+
+        /* ⚡ Quick Presets Bar */
+        .quick-presets-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
+        .preset-chip { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: var(--text-dark); }
+        .preset-chip:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
         .top-dashboard-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
         .main-dashboard-grid { display: flex; flex-direction: column; gap: 15px; }
 
@@ -49,27 +74,26 @@
             .main-dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: start; }
         }
 
-        .panel { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 15px; width: 100%; }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;}
+        .panel { background: var(--panel-bg); border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 15px; width: 100%; border: 1px solid var(--border-color); }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
         .panel-header h3 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 6px; font-weight: 500;}
         
         .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 30px; height: 30px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
-        .action-btn:hover { background: var(--primary); color: white; }
         .del-btn { background: #fee2e2; color: var(--danger); border: none; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         
         .list-container { max-height: 400px; overflow-y: auto; padding-right: 3px; display: flex; flex-direction: column; gap: 8px; }
-        .item-card { background: #f8fafc; border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f5f9; width: 100%; box-sizing: border-box; }
+        .item-card { background: var(--input-bg); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
         .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 500;}
         .item-info p { margin: 0; font-size: 11px; color: var(--text-light); font-weight: 300;}
-        .meta-tag { background: white; padding: 2px 6px; border-radius: 6px; font-size: 9px; border: 1px solid #e2e8f0; color: var(--text-light); margin-right: 4px; font-weight: 400; display: inline-flex; align-items: center; gap: 4px;}
+        .meta-tag { background: var(--panel-bg); padding: 2px 6px; border-radius: 6px; font-size: 9px; border: 1px solid var(--border-color); color: var(--text-light); margin-right: 4px; font-weight: 400; display: inline-flex; align-items: center; gap: 4px;}
         
-        .check-btn { width: 26px; height: 26px; border-radius: 8px; border: 2px solid #cbd5e1; display: flex; justify-content: center; align-items: center; cursor: pointer; background: white; flex-shrink: 0;}
+        .check-btn { width: 26px; height: 26px; border-radius: 8px; border: 2px solid #cbd5e1; display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
-        .copy-btn { background: #e0e7ff; color: var(--primary); border: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; cursor: pointer; margin-left: 4px; font-family: inherit; font-weight: 500; }
-        .copy-btn:hover { background: var(--primary); color: white; }
+        .copy-btn { background: var(--primary-light); color: var(--primary); border: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; cursor: pointer; margin-left: 4px; font-family: inherit; font-weight: 500; }
 
         .daily-tracker-bar { background: #fffbeb; border: 1px solid #fde68a; border-radius: 14px; padding: 12px 15px; display: flex; flex-direction: column; font-size: 12px; font-weight: 500; color: #92400e; margin-bottom: 15px; gap: 6px;}
+        body.dark-mode .daily-tracker-bar { background: #451a03; border-color: #78350f; color: #fde68a; }
         @media (min-width: 600px) {
             .daily-tracker-bar { flex-direction: row; justify-content: space-between; align-items: center; font-size: 13px; }
         }
@@ -79,32 +103,37 @@
             .breakdown-grid { grid-template-columns: 1fr 1fr; }
         }
         .breakdown-table { width: 100%; border-collapse: collapse; font-size: 12px; font-weight: 300;}
-        .breakdown-table td { padding: 8px 0; border-bottom: 1px dashed #e2e8f0; }
+        .breakdown-table td { padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
 
         .debt-table-wrapper { width: 100%; overflow-x: auto; margin-top: 10px; -webkit-overflow-scrolling: touch; }
         .debt-table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; font-weight: 300;}
-        .debt-table th { background: #f8fafc; color: var(--text-light); padding: 10px; text-align: left; border-bottom: 2px solid #e2e8f0; font-weight: 500;}
-        .debt-table td { padding: 10px; border-bottom: 1px solid #f1f5f9; }
+        .debt-table th { background: var(--input-bg); color: var(--text-light); padding: 10px; text-align: left; border-bottom: 2px solid var(--border-color); font-weight: 500;}
+        .debt-table td { padding: 10px; border-bottom: 1px solid var(--border-color); }
 
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; margin-top: 10px;}
         .cal-day-header { font-size: 11px; font-weight: 500; color: var(--text-light); padding: 6px 0; }
-        .cal-cell { aspect-ratio: 1; background: #f8fafc; border-radius: 8px; display: flex; flex-direction: column; align-items: center; padding: 4px; font-size: 11px; border: 1px solid #f1f5f9; cursor: pointer; font-weight: 400;}
-        .cal-cell.has-bill { background: #eff6ff; border-color: #bfdbfe; font-weight: 600;}
+        .cal-cell { aspect-ratio: 1; background: var(--input-bg); border-radius: 8px; display: flex; flex-direction: column; align-items: center; padding: 4px; font-size: 11px; border: 1px solid var(--border-color); cursor: pointer; font-weight: 400;}
+        .cal-cell:hover { background: var(--border-color); }
+        .cal-cell.has-bill { background: var(--primary-light); border-color: var(--primary); font-weight: 600;}
         .cal-cell.today { background: var(--primary); color: white; }
         .bill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--danger); margin-top: auto; }
 
+        /* 🎯 Savings Goal Progress */
+        .progress-bar-bg { width: 100%; height: 8px; background: var(--border-color); border-radius: 10px; overflow: hidden; margin-top: 6px; }
+        .progress-bar-fill { height: 100%; background: var(--success); width: 0%; border-radius: 10px; transition: width 0.3s; }
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: white; width: 92%; max-width: 420px; border-radius: 20px; padding: 20px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: var(--panel-bg); width: 92%; max-width: 420px; border-radius: 20px; padding: 20px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .close-btn { background: #f1f5f9; border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display:flex; justify-content:center; align-items:center;}
+        .close-btn { background: var(--input-bg); border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display:flex; justify-content:center; align-items:center; color: var(--text-dark);}
         .form-group { margin-bottom: 12px; position: relative; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight:500;}
-        .form-group input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; font-size: 13px; box-sizing: border-box; font-family: inherit;}
+        .form-group input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark);}
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 5px; cursor: pointer; transition:0.2s; font-family: inherit;}
         
-        .floating-add-btn { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); cursor: pointer; z-index: 50; transition: 0.2s;}
+        .floating-add-btn { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: var(--panel-bg); width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); cursor: pointer; z-index: 50; transition: 0.2s;}
         
         .status-badge { padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: 500;}
         .status-good { background: #e8f5e9; color: var(--success); }
@@ -120,23 +149,21 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            background: #f8fafc; 
-            border: 1px solid #e2e8f0; 
+            background: var(--input-bg); 
+            border: 1px solid var(--border-color); 
             border-radius: 10px; 
             padding: 10px 12px; 
             font-size: 13px; 
             cursor: pointer; 
-            transition: border-color 0.2s;
         }
-        .custom-select:hover { border-color: #cbd5e1; }
         .custom-select-value { display: inline-flex; align-items: center; gap: 8px; color: var(--text-dark); font-weight: 400; }
         .custom-options { 
             position: absolute; 
             top: calc(100% + 4px); 
             left: 0; 
             right: 0; 
-            background: #ffffff; 
-            border: 1px solid #e2e8f0; 
+            background: var(--panel-bg); 
+            border: 1px solid var(--border-color); 
             border-radius: 12px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.12); 
             z-index: 500; 
@@ -154,10 +181,9 @@
             font-size: 13px; 
             cursor: pointer; 
             border-radius: 8px;
-            transition: background 0.15s, color 0.15s; 
             color: var(--text-dark);
         }
-        .custom-option:hover, .custom-option.selected { 
+        .custom-option:hover { 
             background: var(--primary-light); 
             color: var(--primary); 
             font-weight: 500;
@@ -167,15 +193,36 @@
 <body>
 
 <div class="app-container">
+    <!-- Header -->
     <div class="header">
         <div>
             <h1><i data-lucide="layout-dashboard" size="18"></i> Todaypaying</h1>
             <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
-        <div style="display:flex; gap:10px; align-items:center; margin-top: 5px;">
+        <div class="header-controls">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
+            <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon" size="14"></i></button>
+            <button class="icon-btn" onclick="exportCSV()" id="btn-export" title="Export CSV"><i data-lucide="download" size="14"></i> Export</button>
             <button class="lang-btn" onclick="toggleLanguage()" id="lang-toggle">TH</button>
         </div>
+    </div>
+
+    <!-- 🔔 Alert Banner สำหรับแจ้งเตือนบิลด่วน -->
+    <div class="alert-banner" id="billAlertBanner">
+        <div style="display:flex; align-items:center; gap:8px;">
+            <i data-lucide="alert-circle" size="16"></i>
+            <span id="billAlertText">มีรายการบิลครบกำหนดชำระเร็วๆ นี้</span>
+        </div>
+        <span style="font-weight:600; cursor:pointer;" onclick="scrollToFixedBills()" id="txt-view-bill">ดูรายการ →</span>
+    </div>
+
+    <!-- ⚡ ปุ่มบันทึกด่วน (Quick Log Presets) -->
+    <div class="quick-presets-bar">
+        <div class="preset-chip" onclick="quickLog('กาแฟ / เครื่องดื่ม', 50, 'food')"><i data-lucide="coffee" size="13"></i> กาแฟ 50฿</div>
+        <div class="preset-chip" onclick="quickLog('ข้าว / อาหารกลางวัน', 60, 'food')"><i data-lucide="utensils" size="13"></i> ข้าว 60฿</div>
+        <div class="preset-chip" onclick="quickLog('ค่าเดินทาง / วิน / รถเมล์', 40, 'transport')"><i data-lucide="bus" size="13"></i> เดินทาง 40฿</div>
+        <div class="preset-chip" onclick="quickLog('ของกินเล่น / เซเว่น', 79, 'food')"><i data-lucide="shopping-cart" size="13"></i> เซเว่น 79฿</div>
+        <div class="preset-chip" onclick="quickLog('ของใช้ทั่วไป', 100, 'grocery')"><i data-lucide="shopping-bag" size="13"></i> ของใช้ 100฿</div>
     </div>
 
     <!-- ส่วนที่ 1: สรุปภาพรวม -->
@@ -197,7 +244,7 @@
                 <div id="extra-income-container"></div>
             </div>
 
-            <div style="margin-top:12px; border-top:2px dashed #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
+            <div style="margin-top:12px; border-top:1px dashed var(--border-color); padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
                 <span id="txt-total-inc-lbl" style="font-weight:500; color:var(--text-light);">รวมรายรับ</span>
                 <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
             </div>
@@ -243,6 +290,17 @@
         <span id="ui-spent-status">Status: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
+    <!-- 🎯 กระปุกออมเงิน & เป้าหมายการเงิน (Savings Goals) -->
+    <div class="panel">
+        <div class="panel-header">
+            <h3 id="txt-goal-title"><i data-lucide="target" size="16"></i> กระปุกเป้าหมายการเงิน (Savings Goal)</h3>
+            <button class="action-btn" onclick="openGoalModal()" title="เพิ่มเป้าหมาย"><i data-lucide="plus" size="16"></i></button>
+        </div>
+        <div id="goalsContainer" style="display:flex; flex-direction:column; gap:10px;">
+            <!-- Render from JS -->
+        </div>
+    </div>
+
     <!-- กราฟแนวโน้ม -->
     <div class="panel">
         <div class="panel-header">
@@ -255,7 +313,7 @@
 
     <div class="main-dashboard-grid">
         <!-- 2.1 รายจ่ายประจำ -->
-        <div class="panel">
+        <div class="panel" id="fixedBillsSection">
             <div class="panel-header">
                 <h3 id="txt-bills-title"><i data-lucide="calendar-check" size="16"></i> รายการค่าใช้จ่ายประจำ</h3>
                 <div style="display:flex; align-items:center; gap:12px;">
@@ -321,7 +379,7 @@
     <i data-lucide="plus" size="22"></i>
 </div>
 
-<!-- Modal 1: ตั้งค่าเงินเดือน -->
+<!-- Modal 1: ตั้งค่าเงินเดือน / งบต่อวัน -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -372,7 +430,7 @@
                 <input type="hidden" id="newBillCat" value="entertainment">
             </div>
             
-            <div id="installmentFields" style="display: none; background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+            <div id="installmentFields" style="display: none; background: var(--input-bg); padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid var(--border-color);">
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-inst-total">จำนวนงวดทั้งหมด (เดือน)</label>
                     <input type="number" id="newInstallmentTotal" placeholder="เช่น 24" min="1">
@@ -383,7 +441,7 @@
                 </div>
             </div>
 
-            <!-- Custom Select: วันที่ครบกำหนดตัดรอบ -->
+            <!-- Custom Select: วันครบกำหนด -->
             <div class="form-group">
                 <label id="txt-lbl-due">วันที่ครบกำหนดตัดรอบ</label>
                 <div class="custom-select-wrapper" style="margin-bottom: 6px;">
@@ -426,7 +484,7 @@
             </div>
 
             <!-- Custom Select: เลือกธนาคาร -->
-            <div id="bankAccountFields" style="background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+            <div id="bankAccountFields" style="background: var(--input-bg); padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--border-color);">
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-bank">เลือกธนาคาร</label>
                     <div class="custom-select-wrapper">
@@ -450,7 +508,7 @@
                     <input type="text" id="newAccName" placeholder="เช่น นายสมชาย ใจดี">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่าง)</label>
+                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่างเพื่อความปลอดภัย)</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
@@ -460,29 +518,7 @@
     </div>
 </div>
 
-<!-- Modal Edit Bill Price -->
-<div class="modal-overlay" id="editBillModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2 style="font-size:18px;" id="txt-modal-edit-price">แก้ไขราคารายจ่ายประจำ</h2>
-            <button class="close-btn" onclick="closeModal('editBillModal')"><i data-lucide="x" size="16"></i></button>
-        </div>
-        <form id="editBillForm" onsubmit="saveBillPrice(event); return false;">
-            <input type="hidden" id="editBillKey">
-            <div class="form-group">
-                <label id="txt-lbl-edit-name">ชื่อรายการ</label>
-                <input type="text" id="editBillName" disabled style="background:#e2e8f0; color:#64748b;">
-            </div>
-            <div class="form-group">
-                <label id="txt-lbl-edit-amt">ยอดเงินใหม่ (฿)</label>
-                <input type="number" id="editBillAmount" required min="0" step="0.01">
-            </div>
-            <button type="submit" class="submit-btn" id="btn-save-price">บันทึกราคาใหม่</button>
-        </form>
-    </div>
-</div>
-
-<!-- Modal รายวัน -->
+<!-- Modal 3: บันทึกรายการรายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -531,6 +567,54 @@
     </div>
 </div>
 
+<!-- Modal 4: เพิ่มเป้าหมายการเงิน (Savings Goal) -->
+<div class="modal-overlay" id="goalModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 style="font-size:18px;">ตั้งเป้าหมายออมเงิน (Savings Goal)</h2>
+            <button class="close-btn" onclick="closeModal('goalModal')"><i data-lucide="x" size="16"></i></button>
+        </div>
+        <form id="goalForm" onsubmit="saveGoal(event); return false;">
+            <div class="form-group">
+                <label>ชื่อเป้าหมาย</label>
+                <input type="text" id="goalName" placeholder="เช่น ซื้อแท็บเล็ตใหม่, ทริปเที่ยว" required>
+            </div>
+            <div class="form-group">
+                <label>ยอดเป้าหมาย (฿)</label>
+                <input type="number" id="goalTarget" placeholder="10000" min="1" required>
+            </div>
+            <div class="form-group">
+                <label>เงินออมเริ่มต้นที่มีอยู่แล้ว (฿)</label>
+                <input type="number" id="goalCurrent" placeholder="0" min="0" value="0">
+            </div>
+            <button type="submit" class="submit-btn">สร้างเป้าหมาย</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Edit Bill Price -->
+<div class="modal-overlay" id="editBillModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 style="font-size:18px;" id="txt-modal-edit-price">แก้ไขราคารายจ่ายประจำ</h2>
+            <button class="close-btn" onclick="closeModal('editBillModal')"><i data-lucide="x" size="16"></i></button>
+        </div>
+        <form id="editBillForm" onsubmit="saveBillPrice(event); return false;">
+            <input type="hidden" id="editBillKey">
+            <div class="form-group">
+                <label id="txt-lbl-edit-name">ชื่อรายการ</label>
+                <input type="text" id="editBillName" disabled style="background:#e2e8f0; color:#64748b;">
+            </div>
+            <div class="form-group">
+                <label id="txt-lbl-edit-amt">ยอดเงินใหม่ (฿)</label>
+                <input type="number" id="editBillAmount" required min="0" step="0.01">
+            </div>
+            <button type="submit" class="submit-btn" id="btn-save-price">บันทึกราคาใหม่</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Calendar Day Details -->
 <div class="modal-overlay" id="dayDetailModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -542,7 +626,9 @@
 </div>
 
 <script>
-    // Data definition maps for Dropdowns
+    lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+
+    // Data definition maps
     const categoryMap = {
         entertainment: { icon: 'film', th: 'ความบันเทิง & สตรีมมิ่ง', en: 'Entertainment & Streaming' },
         software: { icon: 'code', th: 'ซอฟต์แวร์ทำงาน', en: 'Work Software' },
@@ -658,6 +744,19 @@
         }
     });
 
+    // 🌙 Dark Mode Toggle Logic
+    let isDarkMode = localStorage.getItem('tp_dark') === 'true';
+    if(isDarkMode) document.body.classList.add('dark-mode');
+
+    function toggleDarkMode() {
+        isDarkMode = !isDarkMode;
+        document.body.classList.toggle('dark-mode', isDarkMode);
+        localStorage.setItem('tp_dark', isDarkMode);
+        const icon = isDarkMode ? 'sun' : 'moon';
+        document.getElementById('btn-dark').innerHTML = `<i data-lucide="${icon}" size="14"></i>`;
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+    }
+
     // Date & Storage Logic with immediate local cache
     const dateObj = new Date();
     let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
@@ -681,43 +780,6 @@
     }
 
     let currentLang = 'th';
-    const translations = {
-        th: {
-            subtitle: "ระบบจัดการงบประมาณและรายจ่ายประจำเดือน",
-            incomeTitle: "ส่วนบันทึกรายรับ",
-            salaryLbl: "เงินเดือนประจำ (Salary)", mainInc: "รายได้หลัก", totalIncLbl: "รวมรายรับ",
-            runwayTitle: "สรุปภาพรวม (Runway)", sumInc: "รวมรายรับ", sumSav: "เงินคงเหลือสุทธิ", sumFix: "รายจ่ายประจำ", dailyLbl: "งบต่อวัน", runwayLbl: "วันคงเหลือ", daysUnit: "วัน",
-            dailyTrack: "บันทึกค่ากินอยู่รายวัน", spentToday: "ใช้วันนี้:", spentMonth: "รวมเดือนนี้:",
-            trendTitle: "กราฟแนวโน้มการใช้จ่ายรายวัน",
-            billsTitle: "รายการค่าใช้จ่ายประจำ", unpaidLbl: "รอชำระ:",
-            pieTitle: "สัดส่วนค่าใช้จ่าย", historyTitle: "ประวัติรายการรายวัน",
-            debtTitle: "ติดตามค่างวดผ่อนชำระ", calTitle: "ปฏิทินรอบบิล",
-            thDev: "อุปกรณ์/สัญญา", thAmt: "ยอด/เดือน", thTot: "งวดรวม", thPaid: "จ่ายแล้ว", thLeft: "งวดเหลือ", thAcc: "ผ่อนสะสม", thDebt: "ภาระหนี้เหลือ",
-            statusGood: "สภาพคล่องดี", statusWarn: "ปานกลาง", statusDanger: "ควรประหยัดเพิ่ม", statusNoSpend: "ยังไม่มีการใช้จ่าย", statusOver: "เกินงบรายวัน!", statusInBudget: "อยู่ในงบ", statusClosed: "ปิดรอบแล้ว",
-            modalAddBill: "เพิ่มรายจ่ายประจำใหม่", lblName: "ชื่อรายการ / บริการ", lblCat: "หมวดหมู่", lblInstTot: "จำนวนงวดทั้งหมด (เดือน)", lblInstPaid: "งวดที่จ่ายไปแล้ว", lblDue: "วันที่ครบกำหนดตัดรอบ", lblAmt: "ยอดเงินที่ต้องจ่ายรายเดือน (฿)", lblMethod: "ช่องทางชำระเงิน", lblBank: "เลือกธนาคาร", lblAccName: "ชื่อบัญชี / ผู้รับเงิน", lblAccNo: "เลขที่บัญชี (ตัวอย่าง)", btnSaveBill: "เพิ่มรายจ่ายประจำ",
-            modalEditPrice: "แก้ไขราคารายจ่ายประจำ", lblEditName: "ชื่อรายการ", lblEditAmt: "ยอดเงินใหม่ (฿)", btnSavePrice: "บันทึกราคาใหม่",
-            modalTx: "บันทึกรายการรายวัน", lblTxType: "ประเภท", lblTxAmt: "จำนวนเงิน (฿)", lblTxName: "ชื่อรายการ", lblTxCat: "หมวดหมู่", btnSaveTx: "บันทึก",
-            days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.']
-        },
-        en: {
-            subtitle: "Monthly Budget & Expense Tracker",
-            incomeTitle: "Monthly Income",
-            salaryLbl: "Salary", mainInc: "Main Income", totalIncLbl: "Total Income",
-            runwayTitle: "Runway Calculator", sumInc: "Total Income", sumSav: "Net Savings", sumFix: "Fixed Expenses", dailyLbl: "Daily Target", runwayLbl: "Runway", daysUnit: "Days",
-            dailyTrack: "Daily Expenses Tracker", spentToday: "Today:", spentMonth: "This Month:",
-            trendTitle: "Monthly Spending Trend",
-            billsTitle: "Subscriptions & Fixed Expenses", unpaidLbl: "Unpaid:",
-            pieTitle: "Expense Breakdown", historyTitle: "Daily Transactions",
-            debtTitle: "Installment Tracker", calTitle: "Billing Calendar",
-            thDev: "Contract/Device", thAmt: "Amount/Mo", thTot: "Total", thPaid: "Paid", thLeft: "Left", thAcc: "Accumulated", thDebt: "Debt Left",
-            statusGood: "Good", statusWarn: "Fair", statusDanger: "Save More", statusNoSpend: "No spending", statusOver: "Over budget!", statusInBudget: "In budget", statusClosed: "Month Closed",
-            modalAddBill: "Add New Fixed Expense", lblName: "Item Name / Service", lblCat: "Category", lblInstTot: "Total Installments (Months)", lblInstPaid: "Paid Installments", lblDue: "Due Date", lblAmt: "Monthly Amount (฿)", lblMethod: "Payment Method", lblBank: "Select Bank", lblAccName: "Account Name", lblAccNo: "Account No. (Example)", btnSaveBill: "Add Fixed Expense",
-            modalEditPrice: "Edit Fixed Expense Price", lblEditName: "Item Name", lblEditAmt: "New Amount (฿)", btnSavePrice: "Save New Price",
-            modalTx: "Add Daily Transaction", lblTxType: "Type", lblTxAmt: "Amount (฿)", lblTxName: "Title", lblTxCat: "Category", btnSaveTx: "Save",
-            days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-        }
-    };
-
     function toggleLanguage() {
         currentLang = currentLang === 'th' ? 'en' : 'th';
         document.getElementById('lang-toggle').innerText = currentLang.toUpperCase();
@@ -726,6 +788,7 @@
         renderCalendar([]);
         processBills();
         processHistory();
+        renderGoals();
         selectCategory(document.getElementById('newBillCat').value);
         selectDueType(document.getElementById('newBillDueType').value);
         selectMethod(document.getElementById('newBillMethod').value);
@@ -817,6 +880,9 @@
     let settingsData = JSON.parse(localStorage.getItem('tp_settings')) || { salary: 17625, daily_target: 150 };
     let globalBillsData = JSON.parse(localStorage.getItem('tp_bills')) || null;
     let globalTxData = JSON.parse(localStorage.getItem(`tp_tx_${currentViewMonth}`)) || null;
+    let globalGoalsData = JSON.parse(localStorage.getItem('tp_goals')) || {
+        "goal_1": { name: "เงินสำรองฉุกเฉิน", target: 30000, current: 8500 }
+    };
 
     let totalExtraIncome = 0;
     let totalFixedPaid = 0, totalFixedUnpaid = 0, totalVariableExpense = 0;
@@ -827,13 +893,20 @@
     let myChart = null; 
     let trendChart = null;
 
-    // Realtime listeners
     db.ref('todaypaying/settings').on('value', (snap) => {
         if(snap.val()) {
             settingsData = { ...settingsData, ...snap.val() };
             localStorage.setItem('tp_settings', JSON.stringify(settingsData));
         }
         updateDashboard();
+    });
+
+    db.ref('todaypaying/goals').on('value', (snap) => {
+        if(snap.val()) {
+            globalGoalsData = snap.val();
+            localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
+        }
+        renderGoals();
     });
 
     function loadDataForMonth() {
@@ -864,6 +937,38 @@
         return new Date(year, month, 0).getDate();
     }
 
+    // 🔔 Check and Show Bill Alerts
+    function checkBillAlerts(bills) {
+        const today = new Date().getDate();
+        const urgentBills = [];
+        Object.keys(bills).forEach(k => {
+            const b = bills[k];
+            if(b.status !== 'paid') {
+                let due = b.dueDate;
+                if(due === 'last_day') due = getLastDayOfMonth(currentViewMonth);
+                else due = Number(due) || 30;
+
+                if(due < today) {
+                    urgentBills.push(`<b>${b.name}</b> (เกินกำหนด!)`);
+                } else if(due - today <= 3) {
+                    urgentBills.push(`<b>${b.name}</b> (อีก ${due - today} วัน)`);
+                }
+            }
+        });
+
+        const banner = document.getElementById('billAlertBanner');
+        if(urgentBills.length > 0 && currentViewMonth === actualCurrentMonth) {
+            banner.style.display = 'flex';
+            document.getElementById('billAlertText').innerHTML = `บิลใกล้ครบกำหนด: ${urgentBills.slice(0, 2).join(', ')}${urgentBills.length > 2 ? ' ...' : ''}`;
+        } else {
+            banner.style.display = 'none';
+        }
+    }
+
+    function scrollToFixedBills() {
+        document.getElementById('fixedBillsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
     function processBills() {
         const container = document.getElementById('fixed-expenses-container'); 
         container.innerHTML = '';
@@ -876,6 +981,8 @@
         const maxDaysInCurrentMonth = getLastDayOfMonth(currentViewMonth);
 
         if (globalBillsData && Object.keys(globalBillsData).length > 0) {
+            checkBillAlerts(globalBillsData);
+
             Object.keys(globalBillsData).forEach(key => {
                 const b = globalBillsData[key];
                 const amt = b.amount || 0;
@@ -946,6 +1053,7 @@
             });
             lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         } else {
+            document.getElementById('billAlertBanner').style.display = 'none';
             container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">${currentLang==='th'?'ไม่มีบิลประจำ':'No bills'}</p>`;
             debtBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:gray;">${currentLang==='th'?'ไม่มีข้อมูลหนี้สิน':'No debt data'}</td></tr>`;
         }
@@ -960,6 +1068,108 @@
         }).catch(err => {
             alert("Error: " + err);
         });
+    }
+
+    // ⚡ Quick Log Presets Action
+    function quickLog(name, amount, category) {
+        const dateStr = new Date().toISOString().split('T')[0];
+        const newTx = { type: 'expense', amount, name, category, date: dateStr, timestamp: Date.now() };
+        const txKey = 'tx_' + Date.now();
+
+        if(!globalTxData) globalTxData = {};
+        globalTxData[txKey] = newTx;
+        localStorage.setItem(`tp_tx_${actualCurrentMonth}`, JSON.stringify(globalTxData));
+        processHistory();
+
+        db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({
+            ...newTx,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+    }
+
+    // 🎯 Savings Goals Render
+    function renderGoals() {
+        const container = document.getElementById('goalsContainer');
+        container.innerHTML = '';
+        if(globalGoalsData && Object.keys(globalGoalsData).length > 0) {
+            Object.keys(globalGoalsData).forEach(k => {
+                const g = globalGoalsData[k];
+                const pct = Math.min(100, Math.round((g.current / g.target) * 100));
+                container.innerHTML += `
+                <div class="item-card" style="flex-direction:column; align-items:stretch;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h4 style="margin:0;">🎯 ${g.name}</h4>
+                        <div style="font-size:12px; font-weight:600; color:var(--primary);">฿${(g.current || 0).toLocaleString()} / ฿${(g.target || 0).toLocaleString()} (${pct}%)</div>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%;"></div></div>
+                    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+                        <button class="copy-btn" onclick="addFundsToGoal('${k}')">+ หยอดกระปุก</button>
+                        <button class="del-btn" onclick="deleteGoal('${k}')"><i data-lucide="trash-2" size="12"></i></button>
+                    </div>
+                </div>`;
+            });
+            lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+        } else {
+            container.innerHTML = `<p style="text-align:center; font-size:12px; color:gray;">ยังไม่มีเป้าหมายออมเงิน</p>`;
+        }
+    }
+
+    function openGoalModal() { document.getElementById('goalModal').classList.add('active'); }
+    function saveGoal(e) {
+        e.preventDefault();
+        const name = document.getElementById('goalName').value.trim();
+        const target = Number(document.getElementById('goalTarget').value) || 1;
+        const current = Number(document.getElementById('goalCurrent').value) || 0;
+        const key = 'goal_' + Date.now();
+
+        if(!globalGoalsData) globalGoalsData = {};
+        globalGoalsData[key] = { name, target, current };
+        localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
+        renderGoals();
+        closeModal('goalModal');
+        db.ref(`todaypaying/goals/${key}`).set({ name, target, current });
+    }
+
+    function addFundsToGoal(key) {
+        const amt = prompt(currentLang === 'th' ? "ใส่จำนวนเงินที่ต้องการหยอดกระปุก (฿):" : "Enter amount to add (฿):");
+        if(amt && Number(amt) > 0) {
+            globalGoalsData[key].current = (globalGoalsData[key].current || 0) + Number(amt);
+            localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
+            renderGoals();
+            db.ref(`todaypaying/goals/${key}/current`).set(globalGoalsData[key].current);
+        }
+    }
+
+    function deleteGoal(key) {
+        if(confirm("ลบเป้าหมายนี้หรือไม่?")) {
+            delete globalGoalsData[key];
+            localStorage.setItem('tp_goals', JSON.stringify(globalGoalsData));
+            renderGoals();
+            db.ref(`todaypaying/goals/${key}`).remove();
+        }
+    }
+
+    // 📥 Export CSV Logic
+    function exportCSV() {
+        if(!globalTxData || Object.keys(globalTxData).length === 0) {
+            alert(currentLang === 'th' ? "ไม่มีข้อมูลรายจ่ายในเดือนนี้ให้ส่งออก" : "No transactions to export");
+            return;
+        }
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // UTF-8 BOM for Excel Thai language support
+        csvContent += "วันที่ (Date),ประเภท (Type),ชื่อรายการ (Name),หมวดหมู่ (Category),จำนวนเงิน (Amount)\n";
+        
+        Object.keys(globalTxData).forEach(k => {
+            const tx = globalTxData[k];
+            csvContent += `"${tx.date}","${tx.type}","${tx.name}","${tx.category}","${tx.amount}"\n`;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `Todaypaying_${currentViewMonth}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     function processHistory() {
@@ -1160,11 +1370,7 @@
     function toggleDueType() {
         const type = document.getElementById('newBillDueType').value;
         const dayInput = document.getElementById('newBillDueDay');
-        if(type === 'last_day' || type === 'first_day') {
-            dayInput.style.display = 'none';
-        } else {
-            dayInput.style.display = 'block';
-        }
+        dayInput.style.display = (type === 'last_day' || type === 'first_day') ? 'none' : 'block';
     }
 
     function toggleBankFields() {
@@ -1208,7 +1414,6 @@
             billData.installment_paid = Number(document.getElementById('newInstallmentPaid').value) || 0;
         }
 
-        // Generate key and update locally immediately
         const newKey = 'bill_' + Date.now();
         if(!globalBillsData) globalBillsData = {};
         globalBillsData[newKey] = billData;
@@ -1216,7 +1421,6 @@
         processBills();
         closeModal('addBillModal');
 
-        // Sync to Firebase
         db.ref('todaypaying/fixed_expenses').push(billData);
     }
 
@@ -1251,15 +1455,30 @@
         db.ref(`todaypaying/fixed_expenses/${key}`).update({ amount: newAmount });
     }
 
+    // 🔄 Auto Installment Counter (+1 งวดทันทีเมื่อจ่ายบิล)
     function toggleBillStatus(billKey, currentStatus) {
         if(currentViewMonth !== actualCurrentMonth) return;
         const nextStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
+        
         if(globalBillsData && globalBillsData[billKey]) {
             globalBillsData[billKey].status = nextStatus;
+
+            // ตรวจสอบว่าเป็นบิลผ่อนชำระหรือไม่ ถ้าใช่และกดจ่าย ให้บวกงวดขึ้น 1
+            if(nextStatus === 'paid' && globalBillsData[billKey].installment_total > 0) {
+                const currentPaid = globalBillsData[billKey].installment_paid || 0;
+                if(currentPaid < globalBillsData[billKey].installment_total) {
+                    globalBillsData[billKey].installment_paid = currentPaid + 1;
+                }
+            }
+
             localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
             processBills();
         }
-        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ status: nextStatus });
+
+        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ 
+            status: nextStatus,
+            installment_paid: globalBillsData[billKey].installment_paid || 0
+        });
     }
 
     function openTxModal(defaultType = 'expense') { 
@@ -1301,7 +1520,6 @@
         processHistory();
         closeModal('txModal');
 
-        // Sync to Firebase
         db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({
             ...newTx,
             timestamp: firebase.database.ServerValue.TIMESTAMP
@@ -1321,6 +1539,7 @@
     initMonthSelector(); 
     applyTranslations(); 
     loadDataForMonth();
+    renderGoals();
 </script>
 </body>
 </html>
