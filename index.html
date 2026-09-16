@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Day Paying - Ultimate Workspace</title>
+    <title>To-Day Paying - Financial Dashboard</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,37 +17,40 @@
 
     <style>
         :root { 
-            --bg-color: #f1f5f9; 
+            --bg-color: #f8fafc; 
             --panel-bg: #ffffff;
-            --text-dark: #1e293b; 
+            --text-dark: #0f172a; 
             --text-light: #64748b; 
             --border-color: #e2e8f0;
-            --input-bg: #f8fafc;
-            --primary: #6366f1; 
-            --primary-light: #e0e7ff; 
+            --input-bg: #f1f5f9;
+            --primary: #0ea5e9; /* Sky Blue พรีเมียม */
+            --primary-light: #e0f2fe; 
             --success: #10b981; 
-            --danger: #ef4444; 
+            --danger: #f43f5e; 
             --warning: #f59e0b; 
+            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
         }
 
         body.dark-mode {
-            --bg-color: #0f172a;
-            --panel-bg: #1e293b;
-            --text-dark: #f8fafc;
+            --bg-color: #0b0f19;
+            --panel-bg: #131c2e;
+            --text-dark: #f1f5f9;
             --text-light: #94a3b8;
-            --border-color: #334155;
-            --input-bg: #0f172a;
-            --primary-light: #312e81;
+            --border-color: #1e293b;
+            --input-bg: #1a263d;
+            --primary: #38bdf8;
+            --primary-light: #0369a1;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
         }
         
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         .lucide { vertical-align: middle; margin-bottom: 2px; }
 
-        .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 10px; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; min-height: 100vh; }
         
         #authSection {
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -56,36 +59,36 @@
         .auth-card {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 30px 22px;
+            border-radius: 24px;
+            padding: 36px 28px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: var(--card-shadow);
             text-align: center;
         }
-        .auth-card h2 { margin: 0 0 6px; color: var(--primary); font-size: 22px; display: flex; justify-content: center; align-items: center; gap: 8px;}
-        .auth-card p { margin: 0 0 18px; font-size: 13px; color: var(--text-light); }
+        .auth-card h2 { margin: 0 0 8px; color: var(--text-dark); font-size: 24px; font-weight: 700; display: flex; justify-content: center; align-items: center; gap: 10px;}
+        .auth-card p { margin: 0 0 24px; font-size: 13px; color: var(--text-light); }
 
         .auth-error-msg {
             display: none;
-            background: #fee2e2;
-            border: 1px solid #fca5a5;
-            color: #b91c1c;
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            color: var(--danger);
             padding: 10px 12px;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 12px;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
             text-align: left;
             word-break: break-word;
         }
 
         .google-btn {
             width: 100%;
-            background: white;
-            color: #334155;
-            border: 1px solid #cbd5e1;
-            padding: 11px;
-            border-radius: 12px;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 14px;
             font-size: 13px;
             font-weight: 500;
             display: flex;
@@ -94,68 +97,73 @@
             gap: 10px;
             cursor: pointer;
             font-family: inherit;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .google-btn:hover { background: #f8fafc; }
-        .divider { display: flex; align-items: center; text-align: center; margin: 14px 0; color: var(--text-light); font-size: 11px; }
+        .google-btn:hover { background: var(--input-bg); }
+        .divider { display: flex; align-items: center; text-align: center; margin: 16px 0; color: var(--text-light); font-size: 11px; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
         .divider span { padding: 0 10px; }
 
-        .form-group { margin-bottom: 12px; position: relative; }
+        .form-group { margin-bottom: 14px; position: relative; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight: 500;}
-        .form-group input, .form-group select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark);}
-        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 5px; cursor: pointer; font-family: inherit;}
+        .form-group input, .form-group select { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
+        .submit-btn:hover { opacity: 0.9; }
 
-        .header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: var(--panel-bg); padding: 15px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid var(--border-color);}
-        .header h1 { margin: 0; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap:8px; font-weight: 600;}
+        .header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; background: var(--panel-bg); padding: 18px 20px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
+        .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); display: flex; align-items: center; gap: 10px; font-weight: 700;}
+        .header h1 i { color: var(--primary); }
         .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
         
         .header-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .month-selector { background: var(--input-bg); border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 10px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; font-family: inherit;}
-        .icon-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-dark); padding: 6px 10px; border-radius: 10px; font-size: 12px; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; font-weight: 500;}
+        .month-selector { background: var(--input-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 12px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; font-family: inherit;}
+        .icon-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-dark); padding: 8px 12px; border-radius: 12px; font-size: 12px; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; font-weight: 500;}
         .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
 
-        .top-dashboard-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
-        .main-dashboard-grid { display: flex; flex-direction: column; gap: 15px; }
+        .top-dashboard-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
+        .main-dashboard-grid { display: flex; flex-direction: column; gap: 16px; }
 
         @media (min-width: 900px) {
-            .app-container { padding: 25px; }
+            .app-container { padding: 30px; }
             .header { flex-direction: row; justify-content: space-between; align-items: center; }
             .top-dashboard-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
             .main-dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: start; }
         }
 
-        .panel { background: var(--panel-bg); border-radius: 16px; padding: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 15px; width: 100%; border: 1px solid var(--border-color); }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
-        .panel-header h3 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 6px; font-weight: 500;}
+        .panel { background: var(--panel-bg); border-radius: 20px; padding: 20px; box-shadow: var(--card-shadow); margin-bottom: 16px; width: 100%; border: 1px solid var(--border-color); }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;}
+        .panel-header h3 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text-dark);}
         
-        .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 30px; height: 30px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
-        .del-btn { background: #fee2e2; color: var(--danger); border: none; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .del-btn { background: rgba(244, 63, 94, 0.1); color: var(--danger); border: none; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         
-        .list-container { max-height: 400px; overflow-y: auto; padding-right: 3px; display: flex; flex-direction: column; gap: 8px; }
-        .item-card { background: var(--input-bg); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
-        .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 500;}
-        .item-info p { margin: 0; font-size: 11px; color: var(--text-light); font-weight: 300;}
+        .list-container { max-height: 400px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }
+        .item-card { background: var(--input-bg); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
+        .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 600; color: var(--text-dark);}
+        .item-info p { margin: 0; font-size: 11px; color: var(--text-light); font-weight: 400;}
         
-        .check-btn { width: 26px; height: 26px; border-radius: 8px; border: 2px solid #cbd5e1; display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0;}
+        .check-btn { width: 28px; height: 28px; border-radius: 8px; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
-        .floating-add-btn { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: var(--panel-bg); width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); cursor: pointer; z-index: 50;}
+        .floating-add-btn { position: fixed; bottom: 24px; right: 24px; background: var(--primary); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4); cursor: pointer; z-index: 50; transition: transform 0.2s;}
+        .floating-add-btn:hover { transform: scale(1.05); }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: var(--panel-bg); width: 92%; max-width: 420px; border-radius: 20px; padding: 20px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); }
+        .modal-content { background: var(--panel-bg); width: 92%; max-width: 420px; border-radius: 24px; padding: 24px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .close-btn { background: var(--input-bg); border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display:flex; justify-content:center; align-items:center; color: var(--text-dark);}
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .close-btn { background: var(--input-bg); border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display:flex; justify-content:center; align-items:center; color: var(--text-dark);}
     </style>
 </head>
 <body>
 
 <div id="authSection">
     <div class="auth-card">
-        <h2><i data-lucide="layout-dashboard" size="20"></i> To-Day Paying</h2>
-        <p>เข้าสู่ระบบเพื่อจัดการข้อมูลส่วนบุคคลของคุณ</p>
+        <h2><i data-lucide="wallet-cards" size="24" style="color:var(--primary);"></i> To-Day Paying</h2>
+        <p>ระบบจัดการงบประมาณและบันทึกรายจ่ายประจำวัน</p>
 
         <div class="auth-error-msg" id="authErrorMsg"></div>
 
@@ -178,7 +186,7 @@
             <button type="submit" class="submit-btn" id="authSubmitBtn">เข้าสู่ระบบ</button>
         </form>
         
-        <p style="margin-top:14px; font-size:12px;">
+        <p style="margin-top:16px; font-size:12px;">
             <span id="authToggleText">ยังไม่มีบัญชีใช่หรือไม่?</span> 
             <a href="javascript:void(0)" onclick="toggleAuthMode()" id="authToggleLink" style="color:var(--primary); font-weight:600; text-decoration:none;">สมัครสมาชิก</a>
         </p>
@@ -188,20 +196,20 @@
 <div class="app-container" id="appMainSection" style="display: none;">
     <div class="header">
         <div>
-            <h1><i data-lucide="layout-dashboard" size="18"></i> To-Day Paying</h1>
+            <h1><i data-lucide="layout-dashboard" size="20"></i> To-Day Paying</h1>
             <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
         <div class="header-controls">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
-            <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon" size="14"></i></button>
-            <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:#fca5a5;"><i data-lucide="log-out" size="14"></i> ออกจากระบบ</button>
+            <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon" size="14"></i> โหมดมืด</button>
+            <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:rgba(244,63,94,0.3);"><i data-lucide="log-out" size="14"></i> ออก</button>
         </div>
     </div>
 
     <div class="top-dashboard-grid">
         <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
-                <h3><i data-lucide="wallet" size="16"></i> ส่วนบันทึกรายรับ</h3>
+                <h3><i data-lucide="wallet" size="16" style="color:var(--primary);"></i> ส่วนบันทึกรายรับ</h3>
                 <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus" size="16"></i></button>
             </div>
             
@@ -216,30 +224,30 @@
                 <div id="extra-income-container"></div>
             </div>
 
-            <div style="margin-top:12px; border-top:1px dashed var(--border-color); padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
+            <div style="margin-top:14px; border-top:1px dashed var(--border-color); padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
                 <span style="font-weight:500; color:var(--text-light);">รวมรายรับ</span>
                 <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
             </div>
         </div>
 
-        <div class="panel" style="background: var(--text-dark); color: white; margin-bottom:0;">
-            <div class="panel-header" style="border-bottom-color: #334155;">
-                <h3 style="color: white;"><i data-lucide="pie-chart" size="16"></i> สรุปภาพรวม (Runway)</h3>
+        <div class="panel" style="background: var(--text-dark); color: #f8fafc; margin-bottom:0; border: none;">
+            <div class="panel-header" style="border-bottom-color: rgba(255,255,255,0.1);">
+                <h3 style="color: #f8fafc;"><i data-lucide="pie-chart" size="16" style="color: var(--primary);"></i> สรุปภาพรวม (Runway)</h3>
             </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                 <div>
                     <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">รวมรายรับ</p>
-                    <p id="ui-overview-income" style="margin:4px 0 10px 0; font-size:18px; font-weight:600; color:var(--success);">฿0</p>
+                    <p id="ui-overview-income" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:var(--success);">฿0</p>
                     
                     <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">เงินคงเหลือสุทธิ</p>
                     <p id="ui-overview-savings" style="margin:4px 0 0 0; font-size:18px; font-weight:600;">฿0</p>
                 </div>
                 <div>
                     <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">รายจ่ายประจำ</p>
-                    <p id="ui-overview-fixed" style="margin:4px 0 10px 0; font-size:18px; font-weight:600; color:#f87171;">฿0</p>
+                    <p id="ui-overview-fixed" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:var(--danger);">฿0</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:6px 10px; border-radius:8px;">
+                        <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.08); padding:8px 12px; border-radius:10px;">
                             <p style="margin:0; font-size:10px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" size="12" style="margin-left:3px;"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:var(--warning);">150</p>
                         </div>
@@ -253,16 +261,16 @@
         </div>
     </div>
 
-    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:14px; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; font-size:13px; margin-bottom:15px; color:#92400e; margin-top:15px;">
-        <span><i data-lucide="shopping-bag" size="16" style="margin-right:6px;"></i> บันทึกค่ากินอยู่รายวัน</span>
-        <span>ใช้วันนี้: <span id="ui-spent-today" style="font-weight:600;">0.00 บ.</span></span>
-        <span>รวมเดือนนี้: <span id="ui-spent-month" style="font-weight:600;">0.00 บ.</span></span>
+    <div style="background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 16px; box-shadow: var(--card-shadow);">
+        <span style="display:flex; align-items:center; gap:8px; font-weight:500;"><i data-lucide="shopping-bag" size="16" style="color:var(--primary);"></i> บันทึกค่ากินอยู่รายวัน</span>
+        <span>ใช้วันนี้: <span id="ui-spent-today" style="font-weight:600; color:var(--text-dark);">0.00 บ.</span></span>
+        <span>รวมเดือนนี้: <span id="ui-spent-month" style="font-weight:600; color:var(--text-dark);">0.00 บ.</span></span>
     </div>
 
     <div class="main-dashboard-grid">
         <div class="panel">
             <div class="panel-header">
-                <h3><i data-lucide="calendar-check" size="16"></i> รายการค่าใช้จ่ายประจำ</h3>
+                <h3><i data-lucide="calendar-check" size="16" style="color:var(--primary);"></i> รายการค่าใช้จ่ายประจำ</h3>
                 <div style="display:flex; align-items:center; gap:12px;">
                     <span id="ui-bill-tracker" style="font-size:11px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
                     <button class="action-btn" onclick="openAddBillModal()" title="เพิ่มรายจ่ายประจำ"><i data-lucide="plus" size="16"></i></button>
@@ -273,17 +281,18 @@
 
         <div class="panel">
             <div class="panel-header">
-                <h3><i data-lucide="list" size="16"></i> ประวัติรายการรายวัน</h3>
+                <h3><i data-lucide="list" size="16" style="color:var(--primary);"></i> ประวัติรายการรายวัน</h3>
             </div>
             <div class="list-container" id="history-container" style="max-height: 400px;"></div>
         </div>
     </div>
 </div>
 
-<div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน" style="display:none;">
-    <i data-lucide="plus" size="20"></i>
+<div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน">
+    <i data-lucide="plus" size="24"></i>
 </div>
 
+<!-- Modals -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -318,12 +327,12 @@
                     <option value="เงินสด / โอนจ่าย">เงินสด / โอนจ่าย</option>
                 </select>
             </div>
-            <div id="bankAccountFields" style="background:var(--input-bg); padding:10px; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color);">
+            <div id="bankAccountFields" style="background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-color);">
                 <div class="form-group">
                     <label>ธนาคาร</label>
                     <input type="text" id="newBankName" placeholder="เช่น SCB, KBANK">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom:0;">
                     <label>เลขที่บัญชี</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
@@ -553,7 +562,7 @@
                 </div>`;
             });
         } else {
-            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีบิลประจำ</p>`;
+            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: var(--text-light);">ไม่มีบิลประจำ</p>`;
         }
         document.getElementById('ui-bill-tracker').innerText = `ชำระแล้ว ${paid}/${total}`;
         lucide.createIcons();
@@ -585,7 +594,7 @@
                 }
             });
         } else {
-            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีประวัติการใช้จ่าย</p>`;
+            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: var(--text-light);">ไม่มีประวัติการใช้จ่าย</p>`;
         }
         document.getElementById('ui-spent-today').innerText = `${spentToday.toLocaleString()} บ.`;
         document.getElementById('ui-spent-month').innerText = `${totalVariableExpense.toLocaleString()} บ.`;
@@ -689,6 +698,9 @@
 
     function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun" size="14"></i> โหมดสว่าง' : '<i data-lucide="moon" size="14"></i> โหมดมืด';
+        lucide.createIcons();
     }
 
     initMonthSelector();
