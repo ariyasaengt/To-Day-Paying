@@ -79,17 +79,6 @@
             word-break: break-word;
         }
 
-        .current-host-tag {
-            font-size: 11px;
-            color: var(--text-light);
-            background: var(--input-bg);
-            border: 1px dashed var(--border-color);
-            padding: 4px 8px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
         .auth-tab-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -144,26 +133,10 @@
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
         .divider span { padding: 0 10px; }
 
-        /* Phone Input with Country Code */
-        .phone-input-group {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-        }
-        .country-code-select {
-            width: 110px;
-            padding: 10px 8px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background: var(--input-bg);
-            font-size: 13px;
-            font-family: inherit;
-            color: var(--text-dark);
-            cursor: pointer;
-        }
-        .phone-number-field {
-            flex: 1;
-        }
+        .form-group { margin-bottom: 12px; position: relative; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight: 500;}
+        .form-group input, .form-group select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark);}
+        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 5px; cursor: pointer; font-family: inherit;}
 
         .header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; background: var(--panel-bg); padding: 15px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid var(--border-color);}
         .header h1 { margin: 0; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap:8px; font-weight: 600;}
@@ -199,73 +172,23 @@
         .check-btn { width: 26px; height: 26px; border-radius: 8px; border: 2px solid #cbd5e1; display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
-        .form-group { margin-bottom: 12px; position: relative; }
-        .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight:500;}
-        .form-group input, .form-group select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark);}
-        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 5px; cursor: pointer; font-family: inherit;}
-        
         .floating-add-btn { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: var(--panel-bg); width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); cursor: pointer; z-index: 50;}
 
-        .status-badge { padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: 500;}
-        .status-good { background: #e8f5e9; color: var(--success); }
-        .status-warn { background: #fef3c7; color: var(--warning); }
-        .status-danger { background: #fee2e2; color: var(--danger); }
-
-        .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
-        .custom-select { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: var(--input-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 10px; 
-            padding: 10px 12px; 
-            font-size: 13px; 
-            cursor: pointer; 
-        }
-        .custom-select-value { display: inline-flex; align-items: center; gap: 8px; color: var(--text-dark); font-weight: 400; }
-        .custom-options { 
-            position: absolute; 
-            top: calc(100% + 4px); 
-            left: 0; 
-            right: 0; 
-            background: var(--panel-bg); 
-            border: 1px solid var(--border-color); 
-            border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12); 
-            z-index: 500; 
-            display: none; 
-            max-height: 220px; 
-            overflow-y: auto; 
-            padding: 4px;
-        }
-        .custom-options.open { display: block; }
-        .custom-option { 
-            padding: 10px 12px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            font-size: 13px; 
-            cursor: pointer; 
-            border-radius: 8px;
-            color: var(--text-dark);
-        }
-        .custom-option:hover { 
-            background: var(--primary-light); 
-            color: var(--primary); 
-            font-weight: 500;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: var(--panel-bg); width: 92%; max-width: 420px; border-radius: 20px; padding: 20px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .close-btn { background: var(--input-bg); border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display:flex; justify-content:center; align-items:center; color: var(--text-dark);}
     </style>
 </head>
 <body>
 
-<!-- 🔒 Auth Section -->
 <div id="authSection">
     <div class="auth-card">
         <h2><i data-lucide="layout-dashboard"></i> To-Day Paying</h2>
         <p>เข้าสู่ระบบเพื่อจัดการข้อมูลส่วนบุคคลของคุณ</p>
 
-        <div class="current-host-tag">โดเมนปัจจุบัน: <b id="hostDisplay">กำลังตรวจสอบ...</b></div>
         <div class="auth-error-msg" id="authErrorMsg"></div>
 
         <button class="google-btn" type="button" onclick="loginWithGoogle()">
@@ -284,7 +207,6 @@
             </button>
         </div>
 
-        <!-- 1. Email Auth -->
         <div id="emailAuthContainer">
             <form id="emailAuthForm" onsubmit="handleEmailAuth(event)">
                 <div class="form-group" style="text-align:left;">
@@ -304,13 +226,12 @@
             </p>
         </div>
 
-        <!-- 2. Phone Auth with Country Code Dropdown -->
         <div id="phoneAuthContainer" style="display: none;">
             <div id="phoneStep1">
                 <div class="form-group" style="text-align:left;">
                     <label>เบอร์โทรศัพท์มือถือ</label>
-                    <div class="phone-input-group">
-                        <select id="countryCodeSelect" class="country-code-select">
+                    <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
+                        <select id="countryCodeSelect" style="width: 130px !important; flex-shrink: 0; padding: 10px 8px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; color: var(--text-dark);">
                             <option value="+66">🇹🇭 +66 (ไทย)</option>
                             <option value="+1">🇺🇸 +1 (US)</option>
                             <option value="+44">🇬🇧 +44 (UK)</option>
@@ -322,7 +243,7 @@
                             <option value="+95">🇲🇲 +95 (พม่า)</option>
                             <option value="+855">🇰🇭 +855 (กัมพูชา)</option>
                         </select>
-                        <input type="tel" id="phoneNumber" class="phone-number-field" placeholder="812345678 (ตัด 0 หน้าออกได้เลย)">
+                        <input type="tel" id="phoneNumber" placeholder="812345678" style="flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; color: var(--text-dark);">
                     </div>
                 </div>
                 <div id="recaptcha-container" style="display: flex; justify-content: center; margin-bottom: 10px;"></div>
@@ -341,7 +262,6 @@
     </div>
 </div>
 
-<!-- 📱 Main Workspace -->
 <div class="app-container" id="appMainSection" style="display: none;">
     <div class="header">
         <div>
@@ -351,8 +271,6 @@
         <div class="header-controls">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
             <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon" size="14"></i></button>
-            <button class="icon-btn" onclick="exportCSV()" id="btn-export" title="Export CSV"><i data-lucide="download" size="14"></i> Export</button>
-            <button class="lang-btn" onclick="toggleLanguage()" id="lang-toggle">TH</button>
             <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:#fca5a5;"><i data-lucide="log-out" size="14"></i> ออกจากระบบ</button>
         </div>
     </div>
@@ -360,15 +278,15 @@
     <div class="top-dashboard-grid">
         <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
-                <h3 id="txt-income-title"><i data-lucide="wallet" size="16"></i> ส่วนบันทึกรายรับ</h3>
+                <h3><i data-lucide="wallet" size="16"></i> ส่วนบันทึกรายรับ</h3>
                 <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus" size="16"></i></button>
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 180px;">
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
-                        <h4 style="color:var(--primary);" id="txt-salary-lbl">เงินเดือนประจำ (Salary)</h4>
-                        <p style="display:flex; align-items:center;" id="txt-main-inc">รายได้หลัก <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i></p>
+                        <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
+                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:15px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -376,36 +294,35 @@
             </div>
 
             <div style="margin-top:12px; border-top:1px dashed var(--border-color); padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
-                <span id="txt-total-inc-lbl" style="font-weight:500; color:var(--text-light);">รวมรายรับ</span>
+                <span style="font-weight:500; color:var(--text-light);">รวมรายรับ</span>
                 <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
             </div>
         </div>
 
         <div class="panel" style="background: var(--text-dark); color: white; margin-bottom:0;">
             <div class="panel-header" style="border-bottom-color: #334155;">
-                <h3 style="color: white;" id="txt-runway-title"><i data-lucide="pie-chart" size="16"></i> สรุปภาพรวม (Runway)</h3>
-                <span class="status-badge" id="ui-liquidity-status">กำลังประมวลผล...</span>
+                <h3 style="color: white;"><i data-lucide="pie-chart" size="16"></i> สรุปภาพรวม (Runway)</h3>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div>
-                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;" id="txt-sum-inc">รวมรายรับ</p>
+                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">รวมรายรับ</p>
                     <p id="ui-overview-income" style="margin:4px 0 10px 0; font-size:18px; font-weight:600; color:var(--success);">฿0</p>
                     
-                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;" id="txt-sum-sav">เงินคงเหลือสุทธิ</p>
+                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">เงินคงเหลือสุทธิ</p>
                     <p id="ui-overview-savings" style="margin:4px 0 0 0; font-size:18px; font-weight:600;">฿0</p>
                 </div>
                 <div>
-                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;" id="txt-sum-fix">รายจ่ายประจำ</p>
+                    <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">รายจ่ายประจำ</p>
                     <p id="ui-overview-fixed" style="margin:4px 0 10px 0; font-size:18px; font-weight:600; color:#f87171;">฿0</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:6px 10px; border-radius:8px;">
-                            <p style="margin:0; font-size:10px; color:#cbd5e1; display:flex; align-items:center;" id="txt-daily-lbl">งบต่อวัน <i data-lucide="edit-3" size="9" style="margin-left:3px;"></i></p>
+                            <p style="margin:0; font-size:10px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" size="9" style="margin-left:3px;"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:var(--warning);">150</p>
                         </div>
                         <div style="text-align:right;">
-                            <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;" id="txt-runway-lbl">วันคงเหลือ</p>
-                            <p style="margin:2px 0 0 0; font-size:18px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span id="txt-days-unit" style="font-size:12px; font-weight:400;">วัน</span></p>
+                            <p style="margin:0; font-size:11px; color:#94a3b8; font-weight:300;">วันคงเหลือ</p>
+                            <p style="margin:2px 0 0 0; font-size:18px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span style="font-size:12px; font-weight:400;">วัน</span></p>
                         </div>
                     </div>
                 </div>
@@ -413,8 +330,8 @@
         </div>
     </div>
 
-    <div class="daily-tracker-bar" style="background:#fffbeb; border:1px solid #fde68a; border-radius:14px; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; font-size:13px; margin-bottom:15px; color:#92400e;">
-        <span><i data-lucide="shopping-bag" size="14" style="margin-right:6px;"></i> <span id="txt-daily-track">บันทึกค่ากินอยู่รายวัน</span></span>
+    <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:14px; padding:12px 15px; display:flex; justify-content:space-between; align-items:center; font-size:13px; margin-bottom:15px; color:#92400e; margin-top:15px;">
+        <span><i data-lucide="shopping-bag" size="14" style="margin-right:6px;"></i> บันทึกค่ากินอยู่รายวัน</span>
         <span>ใช้วันนี้: <span id="ui-spent-today" style="font-weight:600;">0.00 บ.</span></span>
         <span>รวมเดือนนี้: <span id="ui-spent-month" style="font-weight:600;">0.00 บ.</span></span>
     </div>
@@ -422,7 +339,7 @@
     <div class="main-dashboard-grid">
         <div class="panel">
             <div class="panel-header">
-                <h3 id="txt-bills-title"><i data-lucide="calendar-check" size="16"></i> รายการค่าใช้จ่ายประจำ</h3>
+                <h3><i data-lucide="calendar-check" size="16"></i> รายการค่าใช้จ่ายประจำ</h3>
                 <div style="display:flex; align-items:center; gap:12px;">
                     <span id="ui-bill-tracker" style="font-size:11px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
                     <button class="action-btn" onclick="openAddBillModal()" title="เพิ่มรายจ่ายประจำ"><i data-lucide="plus" size="16"></i></button>
@@ -433,7 +350,7 @@
 
         <div class="panel">
             <div class="panel-header">
-                <h3 id="txt-history-title"><i data-lucide="list" size="16"></i> ประวัติรายการรายวัน</h3>
+                <h3><i data-lucide="list" size="16"></i> ประวัติรายการรายวัน</h3>
             </div>
             <div class="list-container" id="history-container" style="max-height: 400px;"></div>
         </div>
@@ -444,7 +361,6 @@
     <i data-lucide="plus" size="22"></i>
 </div>
 
-<!-- Modal เพิ่มรายจ่ายประจำ -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -494,7 +410,6 @@
     </div>
 </div>
 
-<!-- Modal รายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -552,9 +467,6 @@
 <script>
     lucide.createIcons();
 
-    const currentHost = window.location.hostname || "localhost";
-    document.getElementById('hostDisplay').innerText = currentHost;
-
     const firebaseConfig = { 
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
         authDomain: "todaypaying-7e8b0.firebaseapp.com", 
@@ -570,11 +482,10 @@
     let currentUser = null;
     let isRegisterMode = false;
     let confirmationResultGlobal = null;
-    let recaptchaWidgetId = null;
 
     function showAuthError(msg) {
         const el = document.getElementById('authErrorMsg');
-        el.innerHTML = `⚠️ <b>ข้อผิดพลาด:</b> ${msg}<br><small>ตรวจสอบว่าได้เพิ่ม <u>${currentHost}</u> ใน Firebase Authorized domains หรือยัง</small>`;
+        el.innerHTML = `⚠️ <b>ข้อผิดพลาด:</b> ${msg}`;
         el.style.display = 'block';
     }
 
@@ -606,7 +517,6 @@
         }
     }
 
-    // ฟังก์ชันตรวจสอบและจัดรูปแบบเบอร์โทรศัพท์
     function formatE164(countryCode, rawPhone) {
         let clean = rawPhone.replace(/[\s\-\(\)]/g, '');
         if (clean.startsWith('0')) {
@@ -666,7 +576,6 @@
         document.getElementById('phoneStep2').style.display = 'none';
     }
 
-    // จัดการ Auth State
     auth.onAuthStateChanged((user) => {
         if (user) {
             currentUser = user;
@@ -729,7 +638,6 @@
         return `users/${currentUser.uid}/${subPath}`;
     }
 
-    // Data Logic
     const dateObj = new Date();
     let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
     const actualCurrentMonth = currentViewMonth;
@@ -940,9 +848,6 @@
     function toggleDarkMode() {
         document.body.classList.toggle('dark-mode');
     }
-
-    function toggleLanguage() {}
-    function exportCSV() {}
 
     initMonthSelector();
 </script>
