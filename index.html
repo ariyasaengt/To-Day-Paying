@@ -179,7 +179,7 @@
     </div>
 
     <div class="main-dashboard-grid">
-        <!-- 2.1 รายจ่ายประจำ (คลิกราคาเพื่อแก้ไขได้ทันที!) -->
+        <!-- 2.1 รายจ่ายประจำ -->
         <div class="panel">
             <div class="panel-header">
                 <h3 id="txt-fixed-panel"><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ (Fixed Expenses)</h3>
@@ -243,7 +243,7 @@
     <i data-lucide="plus" size="24"></i>
 </div>
 
-<!-- Modal 1: ตั้งค่าเงินเดือน / งบต่อวัน -->
+<!-- Modal 1 -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -261,7 +261,7 @@
     </div>
 </div>
 
-<!-- Modal พิเศษ: แก้ไขราคารายจ่ายประจำแต่ละรายการ -->
+<!-- Modal Edit Bill Price -->
 <div class="modal-overlay" id="editBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -271,7 +271,7 @@
         <form onsubmit="saveBillPrice(event)">
             <input type="hidden" id="editBillKey">
             <div class="form-group">
-                <label id="editBillNameLbl">ชื่อรายการ</label>
+                <label>ชื่อรายการ</label>
                 <input type="text" id="editBillName" disabled style="background:#e2e8f0; color:#64748b;">
             </div>
             <div class="form-group">
@@ -283,7 +283,7 @@
     </div>
 </div>
 
-<!-- Modal 2 & 3 -->
+<!-- Modal 2 -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -315,6 +315,7 @@
     </div>
 </div>
 
+<!-- Modal 3 -->
 <div class="modal-overlay" id="dayDetailModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -437,6 +438,36 @@
     let globalBillsData = null, globalTxData = null, billsForCalendar = [];
     let activeTxListener = null; let myChart = null; 
 
+    // 🟢 ระบบ Auto-Seed: ตรวจสอบและเติมข้อมูลตั้งต้นให้ทันทีถ้าฐานข้อมูลว่างเปล่า
+    function checkAndSeedDefaultData() {
+        // 1. ตั้งค่าเงินเดือนเริ่มต้น
+        db.ref('todaypaying/settings').once('value').then((snap) => {
+            if (!snap.exists()) {
+                db.ref('todaypaying/settings').set({ salary: 17625, daily_target: 150 });
+            }
+        });
+
+        // 2. เติมรายการบิลประจำ 11 รายการจากตารางของคุณ
+        db.ref('todaypaying/fixed_expenses').once('value').then((snap) => {
+            if (!snap.exists()) {
+                const defaultBills = {
+                    "sub_01": { name: "YouTube Premium", category: "entertainment", dueDate: 21, amount: 129.00, payment_method: "ตัดบัตร / บัญชี", status: "unpaid", note: "ฟังเพลงไม่มีโฆษณา" },
+                    "sub_02": { name: "Adobe Creative Cloud", category: "software", dueDate: 25, amount: 304.95, payment_method: "ตัดบัตรเครดิต/เดบิต", status: "unpaid", note: "โปรแกรมกราฟิก & ตัดต่อ" },
+                    "sub_03": { name: "Freepik", category: "software", dueDate: 1, amount: 1249.00, payment_method: "ตัดบัตรเครดิต/เดบิต", status: "paid", note: "คลังเวกเตอร์ & รูปภาพ" },
+                    "sub_04": { name: "Umay+ (ยูเมะพลัส)", category: "loan", dueDate: 30, amount: 1000.00, payment_method: "แอปธนาคาร / โอนบิล", status: "paid", note: "ชำระสินเชื่อรายเดือน" },
+                    "sub_05": { name: "Google One", category: "software", dueDate: 29, amount: 750.00, payment_method: "Google Play / ตัดบัตร", status: "unpaid", note: "พื้นที่จัดเก็บ Cloud Storage" },
+                    "sub_06": { name: "Shopee (SPayLater)", category: "loan", dueDate: 30, amount: 790.99, payment_method: "ShopeePay / แอปธนาคาร", status: "paid", note: "ยอดผ่อนช้อปปิ้งประจำเดือน" },
+                    "sub_07": { name: "ค่าผ่อนโทรศัพท์มือถือ", category: "device", dueDate: 30, amount: 2763.00, payment_method: "แอปธนาคาร / บัญชี", status: "paid", note: "หนี้คงเหลือ 52,497.00 บ.", installment_total: 24, installment_paid: 5 },
+                    "sub_08": { name: "ค่าบริการอินเทอร์เน็ต", category: "utility", dueDate: 26, amount: 1709.86, payment_method: "บัญชี กริช-พิมลรัตน์ (SCB)", status: "paid", note: "ชำระ 2 เดือน ค้างชำระ" },
+                    "sub_09": { name: "ค่าหอพัก / ค่าห้อง", category: "housing", dueDate: 30, amount: 4500.00, payment_method: "โอนบัญชีผู้ดูแลหอพัก", status: "paid", note: "ยอดอาจคลาดเคลื่อนตามมิเตอร์น้ำ-ไฟ" },
+                    "sub_10": { name: "ค่าอุปกรณ์ถ่ายทำ", category: "work", dueDate: 30, amount: 1000.00, payment_method: "เงินสด / โอนจ่าย", status: "unpaid", note: "ยอดปรับเปลี่ยนได้" },
+                    "sub_11": { name: "Netflix", category: "entertainment", dueDate: 1, amount: 100.00, payment_method: "ตัดบัตร / บัญชี", status: "unpaid", note: "สตรีมมิงภาพยนตร์ & ซีรีส์" }
+                };
+                db.ref('todaypaying/fixed_expenses').set(defaultBills);
+            }
+        });
+    }
+
     db.ref('todaypaying/settings').on('value', (snap) => {
         if(snap.val()) settingsData = { ...settingsData, ...snap.val() };
         updateDashboard();
@@ -448,20 +479,6 @@
         activeTxListener = `todaypaying/transactions/${currentViewMonth}`;
         db.ref(activeTxListener).on('value', (snap) => { globalTxData = snap.val(); processHistory(); });
     }
-
-    db.ref('todaypaying/last_rollover_month').once('value').then((snap) => {
-        if (snap.val() !== actualCurrentMonth) {
-            db.ref('todaypaying/fixed_expenses').once('value').then((bSnap) => {
-                const bills = bSnap.val();
-                if(bills) {
-                    let updates = {};
-                    Object.keys(bills).forEach(key => { updates[`${key}/status`] = 'unpaid'; });
-                    db.ref('todaypaying/fixed_expenses').update(updates);
-                }
-                db.ref('todaypaying/last_rollover_month').set(actualCurrentMonth);
-            });
-        }
-    });
 
     function processBills() {
         const container = document.getElementById('fixed-expenses-container'); container.innerHTML = '';
@@ -484,17 +501,16 @@
                 if(b.dueDate) billsForCalendar.push({ key: key, date: b.dueDate, name: b.name, amount: amt, isPaid: isPaid });
 
                 let dueText = '';
-                if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;"><i data-lucide="check-circle" size="14"></i> ${t.statusGood}</span>`;
+                if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;"><i data-lucide="check-circle" size="14"></i> ชำระแล้ว</span>`;
                 else {
-                    if (b.dueDate < today) dueText = `<span style="color:var(--danger); font-weight:600;"><i data-lucide="alert-triangle" size="14"></i> Overdue</span>`;
-                    else if (b.dueDate - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;"><i data-lucide="bell" size="14"></i> In ${b.dueDate - today} days</span>`;
-                    else dueText = `<span style="color:var(--text-light); font-weight:400;"><i data-lucide="clock" size="14"></i> Day ${b.dueDate}</span>`;
+                    if (b.dueDate < today) dueText = `<span style="color:var(--danger); font-weight:600;"><i data-lucide="alert-triangle" size="14"></i> เกินกำหนด</span>`;
+                    else if (b.dueDate - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;"><i data-lucide="bell" size="14"></i> อีก ${b.dueDate - today} วัน</span>`;
+                    else dueText = `<span style="color:var(--text-light); font-weight:400;"><i data-lucide="clock" size="14"></i> วันที่ ${b.dueDate}</span>`;
                 }
                 
                 const catName = t.fixedCats[b.category] || b.category || 'General';
                 const checkClass = isPaid ? 'check-btn checked' : 'check-btn';
 
-                // คลิกที่ราคาเพื่อแก้ไขราคาบิลใบนั้นๆ ได้ทันที!
                 container.innerHTML += `
                 <div class="item-card">
                     <div style="flex:1;">
@@ -696,7 +712,6 @@
         db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); });
     }
 
-    // ฟังก์ชันเปิด Modal แก้ไขราคารายจ่ายประจำแต่ละรายการ
     function openEditBillModal(key, name, currentAmount) {
         document.getElementById('editBillKey').value = key;
         document.getElementById('editBillName').value = name;
@@ -742,7 +757,11 @@
         });
     }
 
-    initMonthSelector(); applyTranslations(); loadDataForMonth();
+    // เริ่มต้นระบบทั้งหมด และทำการ Seed ข้อมูลตั้งต้นทันทีถ้ายังไม่มี
+    initMonthSelector(); 
+    applyTranslations(); 
+    checkAndSeedDefaultData();
+    loadDataForMonth();
 </script>
 </body>
 </html>
