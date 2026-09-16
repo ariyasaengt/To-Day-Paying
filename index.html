@@ -15,7 +15,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        :root { --bg-color: #f1f5f9; --primary: #6366f1; --primary-light: #e0e7ff; --text-dark: #1e293b; --text-light: #64748b; --success: #10b981; --danger: #ef4444; --warning: #f59e0b; }
+        :root { 
+            --bg-color: #f1f5f9; 
+            --primary: #6366f1; 
+            --primary-light: #e0e7ff; 
+            --text-dark: #1e293b; 
+            --text-light: #64748b; 
+            --success: #10b981; 
+            --danger: #ef4444; 
+            --warning: #f59e0b; 
+        }
         
         * { box-sizing: border-box; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
@@ -91,9 +100,9 @@
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .close-btn { background: #f1f5f9; border: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display:flex; justify-content:center; align-items:center;}
-        .form-group { margin-bottom: 12px; }
+        .form-group { margin-bottom: 12px; position: relative; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight:500;}
-        .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; font-size: 13px; box-sizing: border-box; font-family: inherit;}
+        .form-group input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; font-size: 13px; box-sizing: border-box; font-family: inherit;}
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; margin-top: 5px; cursor: pointer; transition:0.2s; font-family: inherit;}
         
         .floating-add-btn { position: fixed; bottom: 20px; right: 20px; background: var(--text-dark); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); cursor: pointer; z-index: 50; transition: 0.2s;}
@@ -106,13 +115,54 @@
         .editable-price { cursor: pointer; border-bottom: 1px dashed var(--primary); transition: color 0.2s; }
         .editable-price:hover { color: var(--primary); }
 
-        /* Custom Dropdown Web App UI Style */
+        /* Unified Custom Web App UI Dropdown (Image 2 style) */
         .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
-        .custom-select { position: relative; display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; font-size: 13px; cursor: pointer; }
-        .custom-options { position: absolute; top: 105%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 200; display: none; max-height: 200px; overflow-y: auto; }
+        .custom-select { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 10px; 
+            padding: 10px 12px; 
+            font-size: 13px; 
+            cursor: pointer; 
+            transition: border-color 0.2s;
+        }
+        .custom-select:hover { border-color: #cbd5e1; }
+        .custom-select-value { display: inline-flex; align-items: center; gap: 8px; color: var(--text-dark); font-weight: 400; }
+        .custom-options { 
+            position: absolute; 
+            top: calc(100% + 4px); 
+            left: 0; 
+            right: 0; 
+            background: #ffffff; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+            z-index: 300; 
+            display: none; 
+            max-height: 220px; 
+            overflow-y: auto; 
+            padding: 4px;
+        }
         .custom-options.open { display: block; }
-        .custom-option { padding: 10px 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; transition: 0.15s; }
-        .custom-option:hover { background: var(--primary-light); color: var(--primary); }
+        .custom-option { 
+            padding: 10px 12px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 13px; 
+            cursor: pointer; 
+            border-radius: 8px;
+            transition: background 0.15s, color 0.15s; 
+            color: var(--text-dark);
+        }
+        .custom-option:hover, .custom-option.selected { 
+            background: var(--primary-light); 
+            color: var(--primary); 
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -290,7 +340,7 @@
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายจ่ายประจำ ( Custom Web App UI Dropdown พร้อม Lucide Icon ทุกตัวเลือก ) -->
+<!-- Modal 2: เพิ่มรายจ่ายประจำ (ใช้ Custom Web App UI Dropdown เหมือนภาพที่ 2 ทั้งหมด) -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -302,16 +352,25 @@
                 <label id="txt-lbl-name">ชื่อรายการ / บริการ</label>
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง" required>
             </div>
+
+            <!-- Custom Select 1: หมวดหมู่ (เหมือนภาพที่ 2) -->
             <div class="form-group">
                 <label id="txt-lbl-cat">หมวดหมู่</label>
-                <select id="newBillCat" onchange="toggleInstallmentFields()">
-                    <option value="entertainment">ความบันเทิง & สตรีมมิ่ง</option>
-                    <option value="software">ซอฟต์แวร์ทำงาน</option>
-                    <option value="housing">ที่พักอาศัย</option>
-                    <option value="utility">สาธารณูปโภค / สื่อสาร</option>
-                    <option value="loan">สินเชื่อ / ผ่อนชำระ</option>
-                    <option value="work">อุปกรณ์ทำงาน / สื่อ</option>
-                </select>
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" onclick="toggleDropdown('catDropdown')">
+                        <span class="custom-select-value" id="selectedCatText"><i data-lucide="film" size="15"></i> ความบันเทิง & สตรีมมิ่ง</span>
+                        <i data-lucide="chevron-down" size="14"></i>
+                    </div>
+                    <div class="custom-options" id="catDropdown">
+                        <div class="custom-option" onclick="selectCategory('entertainment', '<i data-lucide=\'film\' size=\'15\'></i> ความบันเทิง & สตรีมมิ่ง')"><i data-lucide="film" size="15"></i> ความบันเทิง & สตรีมมิ่ง</div>
+                        <div class="custom-option" onclick="selectCategory('software', '<i data-lucide=\'code\' size=\'15\'></i> ซอฟต์แวร์ทำงาน')"><i data-lucide="code" size="15"></i> ซอฟต์แวร์ทำงาน</div>
+                        <div class="custom-option" onclick="selectCategory('housing', '<i data-lucide=\'home\' size=\'15\'></i> ที่พักอาศัย')"><i data-lucide="home" size="15"></i> ที่พักอาศัย</div>
+                        <div class="custom-option" onclick="selectCategory('utility', '<i data-lucide=\'zap\' size=\'15\'></i> สาธารณูปโภค / สื่อสาร')"><i data-lucide="zap" size="15"></i> สาธารณูปโภค / สื่อสาร</div>
+                        <div class="custom-option" onclick="selectCategory('loan', '<i data-lucide=\'credit-card\' size=\'15\'></i> สินเชื่อ / ผ่อนชำระ')"><i data-lucide="credit-card" size="15"></i> สินเชื่อ / ผ่อนชำระ</div>
+                        <div class="custom-option" onclick="selectCategory('work', '<i data-lucide=\'briefcase\' size=\'15\'></i> อุปกรณ์ทำงาน / สื่อ')"><i data-lucide="briefcase" size="15"></i> อุปกรณ์ทำงาน / สื่อ</div>
+                    </div>
+                </div>
+                <input type="hidden" id="newBillCat" value="entertainment">
             </div>
             
             <div id="installmentFields" style="display: none; background: #f8fafc; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
@@ -325,13 +384,21 @@
                 </div>
             </div>
 
+            <!-- Custom Select 2: วันที่ครบกำหนดตัดรอบ (เหมือนภาพที่ 2) -->
             <div class="form-group">
                 <label id="txt-lbl-due">วันที่ครบกำหนดตัดรอบ</label>
-                <select id="newBillDueType" onchange="toggleDueType()" style="margin-bottom: 6px;">
-                    <option value="custom">ระบุวันที่ (1-31)</option>
-                    <option value="last_day">วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)</option>
-                    <option value="first_day">วันแรกของเดือน (วันที่ 1)</option>
-                </select>
+                <div class="custom-select-wrapper" style="margin-bottom: 6px;">
+                    <div class="custom-select" onclick="toggleDropdown('dueTypeDropdown')">
+                        <span class="custom-select-value" id="selectedDueTypeText"><i data-lucide="calendar" size="15"></i> ระบุวันที่ (1-31)</span>
+                        <i data-lucide="chevron-down" size="14"></i>
+                    </div>
+                    <div class="custom-options" id="dueTypeDropdown">
+                        <div class="custom-option" onclick="selectDueType('custom', '<i data-lucide=\'calendar\' size=\'15\'></i> ระบุวันที่ (1-31)')"><i data-lucide="calendar" size="15"></i> ระบุวันที่ (1-31)</div>
+                        <div class="custom-option" onclick="selectDueType('last_day', '<i data-lucide=\'calendar-off\' size=\'15\'></i> วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)')"><i data-lucide="calendar-off" size="15"></i> วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)</div>
+                        <div class="custom-option" onclick="selectDueType('first_day', '<i data-lucide=\'calendar-days\' size=\'15\'></i> วันแรกของเดือน (วันที่ 1)')"><i data-lucide="calendar-days" size="15"></i> วันแรกของเดือน (วันที่ 1)</div>
+                    </div>
+                </div>
+                <input type="hidden" id="newBillDueType" value="custom">
                 <input type="number" id="newBillDueDay" placeholder="ใส่วันที่ (1-31)" min="1" max="31" value="30" required>
             </div>
 
@@ -340,41 +407,41 @@
                 <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
             </div>
 
-            <!-- Custom Select สำหรับช่องทางชำระเงิน -->
+            <!-- Custom Select 3: ช่องทางชำระเงิน (เหมือนภาพที่ 2) -->
             <div class="form-group">
                 <label id="txt-lbl-method">ช่องทางชำระเงิน</label>
-                <div class="custom-select-wrapper" id="customMethodWrapper">
+                <div class="custom-select-wrapper">
                     <div class="custom-select" onclick="toggleDropdown('methodDropdown')">
-                        <span id="selectedMethodText"><i data-lucide="smartphone" size="14"></i> แอปธนาคาร / โอนบิล</span>
+                        <span class="custom-select-value" id="selectedMethodText"><i data-lucide="smartphone" size="15"></i> แอปธนาคาร / โอนบิล</span>
                         <i data-lucide="chevron-down" size="14"></i>
                     </div>
                     <div class="custom-options" id="methodDropdown">
-                        <div class="custom-option" onclick="selectMethod('แอปธนาคาร / โอนบิล', '<i data-lucide=\'smartphone\' size=\'14\'></i> แอปธนาคาร / โอนบิล')"><i data-lucide="smartphone" size="14"></i> แอปธนาคาร / โอนบิล</div>
-                        <div class="custom-option" onclick="selectMethod('ตัดบัตรเครดิต / เดบิต', '<i data-lucide=\'credit-card\' size=\'14\'></i> ตัดบัตรเครดิต / เดบิต')"><i data-lucide="credit-card" size="14"></i> ตัดบัตรเครดิต / เดบิต</div>
-                        <div class="custom-option" onclick="selectMethod('ShopeePay / แอปธนาคาร', '<i data-lucide=\'shopping-bag\' size=\'14\'></i> ShopeePay / แอปธนาคาร')"><i data-lucide="shopping-bag" size="14"></i> ShopeePay / แอปธนาคาร</div>
-                        <div class="custom-option" onclick="selectMethod('Google Play / ตัดบัตร', '<i data-lucide=\'globe\' size=\'14\'></i> Google Play / ตัดบัตร')"><i data-lucide="globe" size="14"></i> Google Play / ตัดบัตร</div>
-                        <div class="custom-option" onclick="selectMethod('เงินสด / โอนจ่าย', '<i data-lucide=\'banknote\' size=\'14\'></i> เงินสด / โอนจ่าย')"><i data-lucide="banknote" size="14"></i> เงินสด / โอนจ่าย</div>
+                        <div class="custom-option" onclick="selectMethod('แอปธนาคาร / โอนบิล', '<i data-lucide=\'smartphone\' size=\'15\'></i> แอปธนาคาร / โอนบิล')"><i data-lucide="smartphone" size="15"></i> แอปธนาคาร / โอนบิล</div>
+                        <div class="custom-option" onclick="selectMethod('ตัดบัตรเครดิต / เดบิต', '<i data-lucide=\'credit-card\' size=\'15\'></i> ตัดบัตรเครดิต / เดบิต')"><i data-lucide="credit-card" size="15"></i> ตัดบัตรเครดิต / เดบิต</div>
+                        <div class="custom-option" onclick="selectMethod('ShopeePay / แอปธนาคาร', '<i data-lucide=\'shopping-bag\' size=\'15\'></i> ShopeePay / แอปธนาคาร')"><i data-lucide="shopping-bag" size="15"></i> ShopeePay / แอปธนาคาร</div>
+                        <div class="custom-option" onclick="selectMethod('Google Play / ตัดบัตร', '<i data-lucide=\'globe\' size=\'15\'></i> Google Play / ตัดบัตร')"><i data-lucide="globe" size="15"></i> Google Play / ตัดบัตร</div>
+                        <div class="custom-option" onclick="selectMethod('เงินสด / โอนจ่าย', '<i data-lucide=\'banknote\' size=\'15\'></i> เงินสด / โอนจ่าย')"><i data-lucide="banknote" size="15"></i> เงินสด / โอนจ่าย</div>
                     </div>
                 </div>
                 <input type="hidden" id="newBillMethod" value="แอปธนาคาร / โอนบิล">
             </div>
 
-            <!-- Custom Select สำหรับเลือกธนาคาร -->
+            <!-- Custom Select 4: เลือกธนาคาร (เหมือนภาพที่ 2) -->
             <div id="bankAccountFields" style="background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-bank">เลือกธนาคาร</label>
-                    <div class="custom-select-wrapper" id="customBankWrapper">
+                    <div class="custom-select-wrapper">
                         <div class="custom-select" onclick="toggleDropdown('bankDropdown')">
-                            <span id="selectedBankText"><i data-lucide="landmark" size="14"></i> ธ.ไทยพาณิชย์ (SCB)</span>
+                            <span class="custom-select-value" id="selectedBankText"><i data-lucide="landmark" size="15"></i> ธ.ไทยพาณิชย์ (SCB)</span>
                             <i data-lucide="chevron-down" size="14"></i>
                         </div>
                         <div class="custom-options" id="bankDropdown">
-                            <div class="custom-option" onclick="selectBank('ธ.ไทยพาณิชย์ (SCB)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.ไทยพาณิชย์ (SCB)')"><i data-lucide="landmark" size="14"></i> ธ.ไทยพาณิชย์ (SCB)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กสิกรไทย (KBANK)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กสิกรไทย (KBANK)')"><i data-lucide="landmark" size="14"></i> ธ.กสิกรไทย (KBANK)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กรุงไทย (KTB)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กรุงไทย (KTB)')"><i data-lucide="landmark" size="14"></i> ธ.กรุงไทย (KTB)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กรุงเทพ (BBL)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กรุงเทพ (BBL)')"><i data-lucide="landmark" size="14"></i> ธ.กรุงเทพ (BBL)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กรุงศรีอยุธยา (BAY)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กรุงศรีอยุธยา (BAY)')"><i data-lucide="landmark" size="14"></i> ธ.กรุงศรีอยุธยา (BAY)</div>
-                            <div class="custom-option" onclick="selectBank('พร้อมเพย์ (PromptPay)', '<i data-lucide=\'credit-card\' size=\'14\'></i> พร้อมเพย์ (PromptPay)')"><i data-lucide="credit-card" size="14"></i> พร้อมเพย์ (PromptPay)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.ไทยพาณิชย์ (SCB)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.ไทยพาณิชย์ (SCB)')"><i data-lucide="landmark" size="15"></i> ธ.ไทยพาณิชย์ (SCB)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กสิกรไทย (KBANK)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กสิกรไทย (KBANK)')"><i data-lucide="landmark" size="15"></i> ธ.กสิกรไทย (KBANK)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงไทย (KTB)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กรุงไทย (KTB)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงไทย (KTB)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงเทพ (BBL)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กรุงเทพ (BBL)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงเทพ (BBL)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงศรีอยุธยา (BAY)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กรุงศรีอยุธยา (BAY)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงศรีอยุธยา (BAY)</div>
+                            <div class="custom-option" onclick="selectBank('พร้อมเพย์ (PromptPay)', '<i data-lucide=\'credit-card\' size=\'15\'></i> พร้อมเพย์ (PromptPay)')"><i data-lucide="credit-card" size="15"></i> พร้อมเพย์ (PromptPay)</div>
                         </div>
                     </div>
                     <input type="hidden" id="newBankName" value="ธ.ไทยพาณิชย์ (SCB)">
@@ -416,7 +483,7 @@
     </div>
 </div>
 
-<!-- Modal รายวัน -->
+<!-- Modal รายวัน (ใช้ Custom Dropdown เช่นเดียวกัน) -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -426,11 +493,19 @@
         <form id="txForm" onsubmit="submitTransaction(event); return false;">
             <div class="form-group">
                 <label id="txt-lbl-tx-type">ประเภท</label>
-                <select id="inputType" onchange="changeCategoryOptions()">
-                    <option value="expense" id="opt-tx-exp">รายจ่าย</option>
-                    <option value="income" id="opt-tx-inc">รายได้เสริม (งานนอก)</option>
-                </select>
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" onclick="toggleDropdown('txTypeDropdown')">
+                        <span class="custom-select-value" id="selectedTxTypeText"><i data-lucide="arrow-down-circle" size="15"></i> รายจ่าย</span>
+                        <i data-lucide="chevron-down" size="14"></i>
+                    </div>
+                    <div class="custom-options" id="txTypeDropdown">
+                        <div class="custom-option" onclick="selectTxType('expense', '<i data-lucide=\'arrow-down-circle\' size=\'15\'></i> รายจ่าย')"><i data-lucide="arrow-down-circle" size="15"></i> รายจ่าย</div>
+                        <div class="custom-option" onclick="selectTxType('income', '<i data-lucide=\'arrow-up-circle\' size=\'15\'></i> รายได้เสริม (งานนอก)')"><i data-lucide="arrow-up-circle" size="15"></i> รายได้เสริม (งานนอก)</div>
+                    </div>
+                </div>
+                <input type="hidden" id="inputType" value="expense">
             </div>
+
             <div class="form-group">
                 <label id="txt-lbl-tx-amt">จำนวนเงิน (฿)</label>
                 <input type="number" id="inputAmount" placeholder="0" required min="1" step="0.01">
@@ -439,10 +514,19 @@
                 <label id="txt-lbl-tx-name">ชื่อรายการ</label>
                 <input type="text" id="inputName" placeholder="เช่น ค่าข้าว, รับจ้าง" required>
             </div>
+
             <div class="form-group">
                 <label id="txt-lbl-tx-cat">หมวดหมู่</label>
-                <select id="inputCategory"></select>
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" onclick="toggleDropdown('txCatDropdown')">
+                        <span class="custom-select-value" id="selectedTxCatText"><i data-lucide="utensils" size="15"></i> อาหาร</span>
+                        <i data-lucide="chevron-down" size="14"></i>
+                    </div>
+                    <div class="custom-options" id="txCatDropdown"></div>
+                </div>
+                <input type="hidden" id="inputCategory" value="food">
             </div>
+
             <button type="submit" class="submit-btn" id="btn-save-tx">บันทึก</button>
         </form>
     </div>
@@ -461,14 +545,29 @@
 <script>
     lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
 
-    // ฟังก์ชันจัดการ Custom Dropdown
+    // Custom Web App UI Dropdown Controller
     function toggleDropdown(dropdownId) {
         const dropdown = document.getElementById(dropdownId);
-        // ปิดอันอื่นก่อน
         document.querySelectorAll('.custom-options').forEach(el => {
             if(el.id !== dropdownId) el.classList.remove('open');
         });
         dropdown.classList.toggle('open');
+    }
+
+    function selectCategory(value, htmlText) {
+        document.getElementById('newBillCat').value = value;
+        document.getElementById('selectedCatText').innerHTML = htmlText;
+        document.getElementById('catDropdown').classList.remove('open');
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+        toggleInstallmentFields();
+    }
+
+    function selectDueType(value, htmlText) {
+        document.getElementById('newBillDueType').value = value;
+        document.getElementById('selectedDueTypeText').innerHTML = htmlText;
+        document.getElementById('dueTypeDropdown').classList.remove('open');
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+        toggleDueType();
     }
 
     function selectMethod(value, htmlText) {
@@ -486,7 +585,22 @@
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
-    // ปิด dropdown เมื่อคลิกนอกพื้นที่
+    function selectTxType(value, htmlText) {
+        document.getElementById('inputType').value = value;
+        document.getElementById('selectedTxTypeText').innerHTML = htmlText;
+        document.getElementById('txTypeDropdown').classList.remove('open');
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+        changeCategoryOptions();
+    }
+
+    function selectTxCategory(value, htmlText) {
+        document.getElementById('inputCategory').value = value;
+        document.getElementById('selectedTxCatText').innerHTML = htmlText;
+        document.getElementById('txCatDropdown').classList.remove('open');
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+    }
+
+    // ปิด Custom Dropdown เมื่อคลิกส่วนอื่นของหน้าจอ
     window.addEventListener('click', function(e) {
         if (!e.target.closest('.custom-select-wrapper')) {
             document.querySelectorAll('.custom-options').forEach(el => el.classList.remove('open'));
@@ -622,8 +736,6 @@
 
         document.getElementById('txt-modal-tx').innerText = t.modalTx;
         document.getElementById('txt-lbl-tx-type').innerText = t.lblTxType;
-        document.getElementById('opt-tx-exp').innerText = t.optExp;
-        document.getElementById('opt-tx-inc').innerText = t.optInc;
         document.getElementById('txt-lbl-tx-amt').innerText = t.lblTxAmt;
         document.getElementById('txt-lbl-tx-name').innerText = t.lblTxName;
         document.getElementById('txt-lbl-tx-cat').innerText = t.lblTxCat;
@@ -846,7 +958,7 @@
         if (currentViewMonth !== actualCurrentMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusClosed}</span>`; }
         else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusNoSpend}</span>`; }
         else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">${t.statusOver}</span>`; }
-        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">${t.statusInBudget}</span>`; }
+        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">อยู่ในงบ</span>`; }
 
         document.getElementById('ui-bill-tracker').innerText = `${paidBills}/${totalBills}`;
         document.getElementById('ui-unpaid-amount').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
@@ -970,7 +1082,6 @@
     function openAddBillModal() { 
         document.getElementById('installmentFields').style.display = 'none';
         document.getElementById('bankAccountFields').style.display = 'block';
-        document.getElementById('newBillDueType').value = 'custom';
         document.getElementById('newBillDueDay').style.display = 'block';
         document.getElementById('addBillModal').classList.add('active'); 
     }
@@ -1035,17 +1146,31 @@
     }
 
     function openTxModal(defaultType = 'expense') { 
-        document.getElementById('inputType').value = defaultType;
+        selectTxType(defaultType, defaultType === 'expense' ? '<i data-lucide=\'arrow-down-circle\' size=\'15\'></i> ' + (currentLang==='th'?'รายจ่าย':'Expense') : '<i data-lucide=\'arrow-up-circle\' size=\'15\'></i> ' + (currentLang==='th'?'รายได้เสริม (งานนอก)':'Extra Income'));
         changeCategoryOptions();
         document.getElementById('txModal').classList.add('active'); 
     }
     
     function changeCategoryOptions() {
         const type = document.getElementById('inputType').value;
-        const catSelect = document.getElementById('inputCategory');
-        catSelect.innerHTML = '';
+        const container = document.getElementById('txCatDropdown');
+        container.innerHTML = '';
         const cats = type === 'income' ? translations[currentLang].catsIncome : translations[currentLang].catsExpense;
-        Object.keys(cats).forEach(key => { catSelect.innerHTML += `<option value="${key}">${cats[key]}</option>`; });
+        const catIcons = {
+            "food": "utensils", "grocery": "shopping-cart", "transport": "bus", "shopping": "shopping-bag", "others": "more-horizontal",
+            "freelance": "briefcase", "extra": "zap"
+        };
+        
+        let firstKey = Object.keys(cats)[0];
+        Object.keys(cats).forEach((key, idx) => {
+            let iconName = catIcons[key] || "tag";
+            let labelHtml = `<i data-lucide="${iconName}" size="15"></i> ${cats[key]}`;
+            container.innerHTML += `<div class="custom-option" onclick="selectTxCategory('${key}', '<i data-lucide=\\'${iconName}\\' size=\\'15\\'></i> ${cats[key]}')">${labelHtml}</div>`;
+            if (idx === 0) {
+                selectTxCategory(key, labelHtml);
+            }
+        });
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
     function submitTransaction(e) {
