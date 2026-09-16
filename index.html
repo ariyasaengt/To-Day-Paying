@@ -47,7 +47,7 @@
             --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
         }
         
-        * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease; }
+        * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         
         svg.lucide { width: 1em !important; height: 1em !important; vertical-align: -0.125em; stroke-width: 2.2px; display: inline-block; }
@@ -75,9 +75,6 @@
         .custom-select-wrapper { position: relative; width: 100%; }
         .custom-select-box { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; color: var(--text-dark); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
         .custom-select-box:hover { border-color: var(--primary); }
-        
-        .month-selector-box { background: var(--input-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 12px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; user-select: none; }
-        .month-selector-box:hover { border-color: var(--primary); }
 
         .custom-dropdown-list { display: none; position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 200; max-height: 200px; overflow-y: auto; padding: 6px 0; }
         .custom-dropdown-list.active { display: block; }
@@ -87,21 +84,29 @@
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
         .submit-btn:hover { opacity: 0.9; }
 
-        .header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; background: var(--panel-bg); padding: 18px 20px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
+        /* Unified Header */
+        .header { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; background: var(--panel-bg); padding: 18px 20px; border-radius: 20px; box-shadow: var(--card-shadow); border: 1px solid var(--border-color);}
+        .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
         .header h1 { margin: 0; font-size: 20px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; font-weight: 700;}
         .header h1 i { color: var(--primary); }
         .header p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
         
-        .header-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .header-controls { display: flex; gap: 8px; align-items: center; }
         .icon-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-dark); padding: 8px 12px; border-radius: 12px; font-size: 12px; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; font-weight: 500;}
         .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* Horizontal Scrollable Tabs */
+        .month-tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; -ms-overflow-style: none; }
+        .month-tabs-container::-webkit-scrollbar { display: none; }
+        .month-pill { padding: 8px 16px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 20px; font-size: 13px; font-weight: 500; color: var(--text-light); cursor: pointer; white-space: nowrap; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center;}
+        .month-pill:hover { border-color: var(--primary); color: var(--primary); }
+        .month-pill.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);}
 
         .top-dashboard-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
         .main-dashboard-grid { display: flex; flex-direction: column; gap: 16px; }
 
         @media (min-width: 900px) {
             .app-container { padding: 30px; }
-            .header { flex-direction: row; justify-content: space-between; align-items: center; }
             .top-dashboard-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; }
             .main-dashboard-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; align-items: start; }
         }
@@ -111,16 +116,22 @@
         .panel-header h3 { margin: 0; font-size: 14px; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text-dark);}
         
         .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
-        .del-btn { background: rgba(244, 63, 94, 0.1); color: var(--danger); border: none; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         
+        /* Unified Action Buttons for Cards */
+        .card-actions { display: flex; align-items: center; gap: 8px; }
+        .edit-btn { background: var(--input-bg); color: var(--text-light); border: 1px solid var(--border-color); width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .edit-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .del-btn { background: rgba(244, 63, 94, 0.1); color: var(--danger); border: none; width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .del-btn:hover { background: var(--danger); color: white; }
+        .check-btn { width: 28px; height: 28px; border-radius: 8px; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0; color: var(--border-color);}
+        .check-btn:hover { border-color: var(--success); color: var(--success); }
+        .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
+
         .list-container { max-height: 400px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }
         .item-card { background: var(--input-bg); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
         .item-info { flex: 1; margin-right: 12px; }
         .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 600; color: var(--text-dark);}
         .item-info p { margin: 0; font-size: 11px; color: var(--text-light); font-weight: 400;}
-        
-        .check-btn { width: 28px; height: 28px; border-radius: 8px; border: 2px solid var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; background: var(--panel-bg); flex-shrink: 0;}
-        .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
         .floating-add-btn { position: fixed; bottom: 24px; right: 24px; background: var(--primary); color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4); cursor: pointer; z-index: 50; transition: transform 0.2s;}
         .floating-add-btn:hover { transform: scale(1.05); }
@@ -168,22 +179,20 @@
 </div>
 
 <div class="app-container" id="appMainSection" style="display: none;">
+    <!-- Unified Header -->
     <div class="header">
-        <div>
-            <h1><i data-lucide="layout-dashboard"></i> To-Day Paying</h1>
-            <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
-        </div>
-        <div class="header-controls">
-            <div class="custom-select-wrapper" style="width: auto;">
-                <div class="month-selector-box" onclick="toggleDropdown('monthDropdown', event)">
-                    <span id="selectedMonthText">เดือน</span>
-                    <i data-lucide="chevron-down" size="14"></i>
-                </div>
-                <div class="custom-dropdown-list" id="monthDropdown" style="width: max-content; right: 0; left: auto;"></div>
+        <div class="header-top">
+            <div>
+                <h1><i data-lucide="layout-dashboard"></i> To-Day Paying</h1>
+                <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
             </div>
-            <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon"></i> โหมดมืด</button>
-            <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:rgba(244,63,94,0.3);"><i data-lucide="log-out"></i> ออก</button>
+            <div class="header-controls">
+                <button class="icon-btn" onclick="toggleDarkMode()" id="btn-dark" title="Toggle Dark Mode"><i data-lucide="moon"></i></button>
+                <button class="icon-btn" onclick="logoutUser()" title="ออกจากระบบ" style="color:var(--danger); border-color:rgba(244,63,94,0.3);"><i data-lucide="log-out"></i> ออก</button>
+            </div>
         </div>
+        <!-- Horizontal Scrollable Tabs -->
+        <div class="month-tabs-container" id="monthTabs"></div>
     </div>
 
     <div class="top-dashboard-grid">
@@ -199,7 +208,7 @@
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p style="display:flex; align-items:center; gap:4px;">รายได้หลัก <i data-lucide="edit-3"></i></p>
+                        <p style="display:flex; align-items:center; gap:4px;">รายได้หลัก <i data-lucide="edit-3" size="12"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:15px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -216,25 +225,20 @@
                 <h3 style="color: #ffffff;"><i data-lucide="pie-chart" style="color: #38bdf8;"></i> สรุปภาพรวม (อิงตามความจริง)</h3>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                <!-- ฝั่งซ้าย: รับจริง & จ่ายจริง -->
                 <div>
                     <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">รวมรับจริง (เงินเดือน+รับแล้ว)</p>
                     <p id="ui-overview-income" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#34d399;">฿0</p>
-                    
                     <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">จ่ายจริง (รายวัน+ประจำที่จ่ายแล้ว)</p>
                     <p id="ui-overview-spent" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#fb7185;">฿0</p>
-                    
                     <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">เงินคงเหลือจริง</p>
                     <p id="ui-overview-balance" style="margin:4px 0 0 0; font-size:18px; font-weight:600; color:#ffffff;">฿0</p>
                 </div>
-                <!-- ฝั่งขวา: วางแผนอนาคต -->
                 <div>
                     <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">บิลรอจ่าย (ประจำที่ยังไม่จ่ายเดือนนี้)</p>
                     <p id="ui-overview-pending" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#fbbf24;">฿0</p>
-                    
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 14px;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.12); padding:8px 12px; border-radius:10px;">
-                            <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; gap:3px; font-weight:500;">งบต่อวัน <i data-lucide="edit-3"></i></p>
+                            <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; gap:3px; font-weight:500;">งบต่อวัน <i data-lucide="edit-3" size="12"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:#fbbf24;">150</p>
                         </div>
                         <div style="text-align:right;">
@@ -275,6 +279,25 @@
 </div>
 
 <div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน"><i data-lucide="plus"></i></div>
+
+<!-- Modal: แก้ไขยอดเงิน -->
+<div class="modal-overlay" id="editPriceModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 style="font-size:18px;">แก้ไขยอดเงิน</h2>
+            <button class="close-btn" onclick="closeModal('editPriceModal')"><i data-lucide="x"></i></button>
+        </div>
+        <form id="editPriceForm">
+            <input type="hidden" id="editItemType">
+            <input type="hidden" id="editItemKey">
+            <div class="form-group">
+                <label id="editItemNameLabel">ชื่อรายการ</label>
+                <input type="number" id="editItemAmount" min="0" step="0.01">
+            </div>
+            <button type="button" class="submit-btn" onclick="saveEditPrice()">บันทึกการแก้ไข</button>
+        </form>
+    </div>
+</div>
 
 <!-- Modal 1: เพิ่มรายรับประจำ -->
 <div class="modal-overlay" id="addRecurringIncomeModal">
@@ -372,7 +395,6 @@
                 </div>
             </div>
             
-            <!-- ส่วนของข้อมูลสินเชื่อ -->
             <div id="loanFields" style="display:none; background:var(--primary-light); padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid rgba(14, 165, 233, 0.2);">
                 <div class="form-group">
                     <label style="color:var(--primary);">จำนวนงวดทั้งหมด (เดือน)</label>
@@ -465,7 +487,6 @@
 <script>
     lucide.createIcons();
 
-    // Firebase Config 
     const firebaseConfig = { 
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
         authDomain: "todaypaying-7e8b0.firebaseapp.com", 
@@ -519,11 +540,6 @@
         document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
     };
 
-    window.chooseMonth = function(val, text, event) {
-        if(event) event.stopPropagation(); currentViewMonth = val; document.getElementById('selectedMonthText').innerText = text;
-        document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active')); loadDataForMonth();
-    };
-
     function showAuthError(msg) { const el = document.getElementById('authErrorMsg'); el.innerHTML = `⚠️ <b>ข้อผิดพลาด:</b> ${msg}`; el.style.display = 'block'; }
     function clearAuthError() { const el = document.getElementById('authErrorMsg'); el.style.display = 'none'; el.innerText = ''; }
 
@@ -562,16 +578,33 @@
 
     const dateObj = new Date(); let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`; const actualCurrentMonth = currentViewMonth;
     
+    // ระบบเลือกเดือนแบบ Tab (แนวนอนเลื่อนได้)
     function initMonthSelector() {
-        const dropdown = document.getElementById('monthDropdown'); if (!dropdown) return; dropdown.innerHTML = '';
-        // แสดงเดือนล่วงหน้า 1 เดือน และย้อนหลังไป 5 เดือน
-        for (let i = -1; i < 5; i++) {
+        const container = document.getElementById('monthTabs'); if (!container) return; container.innerHTML = '';
+        let activeBtn = null;
+        for (let i = -2; i < 6; i++) {
             let d = new Date(dateObj.getFullYear(), dateObj.getMonth() - i, 1); let val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
             let label = d.toLocaleString('th-TH', { month: 'short', year: 'numeric' });
-            dropdown.innerHTML += `<div class="custom-option" onclick="chooseMonth('${val}', '${label}', event)">${label}</div>`;
-            if (val === currentViewMonth) document.getElementById('selectedMonthText').innerText = label;
+            
+            const btn = document.createElement('div');
+            btn.className = `month-pill ${val === currentViewMonth ? 'active' : ''}`;
+            btn.innerText = label;
+            btn.onclick = (e) => chooseMonthTab(val, btn, e);
+            container.appendChild(btn);
+            
+            if (val === currentViewMonth) activeBtn = btn;
         }
+        // เลื่อนให้แถบแสดงเดือนปัจจุบันตรงกลาง
+        setTimeout(() => { if(activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }, 100);
     }
+
+    window.chooseMonthTab = function(val, btnElement, event) {
+        if(event) event.stopPropagation();
+        currentViewMonth = val;
+        document.querySelectorAll('.month-pill').forEach(el => el.classList.remove('active'));
+        if(btnElement) btnElement.classList.add('active');
+        loadDataForMonth();
+    };
 
     let settingsData = { salary: 17625, daily_target: 150 }; let globalBillsData = null; let globalRecurringIncomesData = null; let globalTxData = null;
     let totalFixedPaid = 0, totalFixedUnpaid = 0, totalRecurringIncomeReceived = 0, totalRecurringIncomePending = 0, totalVariableExpense = 0, spentToday = 0;
@@ -596,7 +629,6 @@
         if (globalRecurringIncomesData && Object.keys(globalRecurringIncomesData).length > 0) {
             Object.keys(globalRecurringIncomesData).forEach(key => {
                 const inc = globalRecurringIncomesData[key]; const amt = Number(inc.amount) || 0; 
-                // เช็คว่าในเดือนที่เปิดดูอยู่ มีประวัติรับเงินถูกบันทึกไว้หรือไม่
                 const isReceived = inc.received_months && inc.received_months[currentViewMonth] === true; 
                 total++;
                 
@@ -605,9 +637,10 @@
                 container.innerHTML += `
                 <div class="item-card">
                     <div class="item-info"><h4>${inc.name} <span style="color:var(--success);">+฿${amt.toLocaleString()}</span></h4><p>${inc.method} • ${dueText}</p></div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <div class="check-btn ${isReceived ? 'checked' : ''}" onclick="toggleRecurringIncomeStatus('${key}', ${isReceived})"><i data-lucide="check"></i></div>
-                        <button class="del-btn" onclick="deleteRecurringIncome('${key}')"><i data-lucide="trash-2"></i></button>
+                    <div class="card-actions">
+                        <button class="edit-btn" onclick="openEditPriceModal('recurring_incomes', '${key}', ${amt}, '${inc.name}')" title="แก้ไขราคา"><i data-lucide="edit-2" size="14"></i></button>
+                        <div class="check-btn ${isReceived ? 'checked' : ''}" onclick="toggleRecurringIncomeStatus('${key}', ${isReceived})" title="ยืนยันการรับเงิน"><i data-lucide="check" size="16"></i></div>
+                        <button class="del-btn" onclick="deleteRecurringIncome('${key}')" title="ลบรายการ"><i data-lucide="trash-2" size="14"></i></button>
                     </div>
                 </div>`;
             });
@@ -624,25 +657,20 @@
                 const b = globalBillsData[key];
                 const amt = Number(b.amount) || 0;
                 
-                // เช็คสถานะการจ่ายเงินของเดือนที่เลือกดู
                 const isPaid = b.paid_months && b.paid_months[currentViewMonth] === true;
                 total++;
                 if (isPaid) { totalFixedPaid += amt; paid++; } else { totalFixedUnpaid += amt; }
 
                 const dueText = formatDueDateText(b.dateType, b.dateVal);
                 
-                // คำนวณสินเชื่อตามจริง
                 let loanInfoHTML = '';
                 if (b.category === 'loan' && b.totalInstallments) {
                     const initialInst = Number(b.initialInstallment) || 0;
-                    // นับจำนวนครั้งที่กดจ่ายในฐานข้อมูล
                     const paidCount = b.paid_months ? Object.keys(b.paid_months).length : 0;
                     const currentInst = initialInst + paidCount;
                     const totalInst = Number(b.totalInstallments) || 1;
                     const remainInst = Math.max(0, totalInst - currentInst);
-                    
-                    const totalAmount = totalInst * amt;
-                    const paidAmount = currentInst * amt;
+                    const totalAmount = totalInst * amt; const paidAmount = currentInst * amt;
                     
                     loanInfoHTML = `
                     <div class="loan-progress-box">
@@ -664,11 +692,12 @@
                         <p>${b.category} • ${b.payment_method} • ${dueText}</p>
                         ${loanInfoHTML}
                     </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="card-actions">
+                        <button class="edit-btn" onclick="openEditPriceModal('fixed_expenses', '${key}', ${amt}, '${b.name}')" title="แก้ไขยอดเงิน"><i data-lucide="edit-3" size="14"></i></button>
                         <div class="check-btn ${isPaid ? 'checked' : ''}" onclick="toggleBillStatus('${key}', ${isPaid})" title="คลิกเพื่อยืนยันชำระยอดเดือนนี้">
-                            <i data-lucide="check"></i>
+                            <i data-lucide="check" size="16"></i>
                         </div>
-                        <button class="del-btn" onclick="deleteFixedBill('${key}')"><i data-lucide="trash-2"></i></button>
+                        <button class="del-btn" onclick="deleteFixedBill('${key}')" title="ลบรายการ"><i data-lucide="trash-2" size="14"></i></button>
                     </div>
                 </div>`;
             });
@@ -687,7 +716,15 @@
                 const tx = globalTxData[key]; const amt = Number(tx.amount) || 0;
                 if (tx.type === 'expense') {
                     totalVariableExpense += amt; if (tx.date === todayStr) spentToday += amt;
-                    container.innerHTML += `<div class="item-card"><div class="item-info"><h4>${tx.name}</h4><p>${tx.category} • ${tx.date}</p></div><span style="font-weight:600; color:var(--danger);">-฿${amt.toLocaleString()}</span></div>`;
+                    container.innerHTML += `
+                    <div class="item-card">
+                        <div class="item-info"><h4>${tx.name}</h4><p>${tx.category} • ${tx.date}</p></div>
+                        <div class="card-actions">
+                            <span style="font-weight:600; color:var(--danger); margin-right: 4px;">-฿${amt.toLocaleString()}</span>
+                            <button class="edit-btn" onclick="openEditPriceModal('transactions/${currentViewMonth}', '${key}', ${amt}, '${tx.name}')" title="แก้ไขยอดเงิน"><i data-lucide="edit-3" size="14"></i></button>
+                            <button class="del-btn" onclick="deleteHistoryTx('${key}')" title="ลบรายการ"><i data-lucide="trash-2" size="14"></i></button>
+                        </div>
+                    </div>`;
                 }
             });
         } else container.innerHTML = `<p style="text-align:center; font-size: 13px; color: var(--text-light);">ไม่มีประวัติการใช้จ่าย</p>`;
@@ -695,23 +732,18 @@
     }
 
     function updateDashboard() {
-        // ส่วนรายรับ
         const salary = Number(settingsData.salary) || 0; 
         const expectedTotalIncome = salary + totalRecurringIncomeReceived + totalRecurringIncomePending;
         const actualIncome = salary + totalRecurringIncomeReceived;
         
-        // ส่วนรายจ่าย
         const actualSpent = totalVariableExpense + totalFixedPaid;
         const actualBalance = actualIncome - actualSpent;
         
-        // สำหรับคำนวณวันอยู่รอด (ต้องหักบิลที่รอจ่ายด้วย)
         const safeToSpend = actualBalance - totalFixedUnpaid;
 
-        // อัปเดต UI 
         document.getElementById('ui-salary-val').innerText = salary.toLocaleString(); 
         document.getElementById('ui-total-income-expected').innerText = `฿${expectedTotalIncome.toLocaleString()}`; 
         
-        // สรุปภาพรวม Panel ใหม่
         document.getElementById('ui-overview-income').innerText = `฿${actualIncome.toLocaleString()}`;
         document.getElementById('ui-overview-spent').innerText = `฿${actualSpent.toLocaleString()}`;
         document.getElementById('ui-overview-balance').innerText = `฿${actualBalance.toLocaleString()}`;
@@ -722,6 +754,24 @@
         if (settingsData.daily_target > 0) runway = Math.floor(safeToSpend / settingsData.daily_target); 
         document.getElementById('ui-overview-runway').innerText = runway > 0 ? runway : 0;
     }
+
+    // Modal Editing Logic
+    window.openEditPriceModal = function(type, key, currentAmount, name) {
+        document.getElementById('editItemType').value = type;
+        document.getElementById('editItemKey').value = key;
+        document.getElementById('editItemAmount').value = currentAmount;
+        document.getElementById('editItemNameLabel').innerText = `ชื่อรายการ: ${name}`;
+        document.getElementById('editPriceModal').classList.add('active');
+    };
+
+    window.saveEditPrice = function() {
+        if (!currentUser) return;
+        const type = document.getElementById('editItemType').value;
+        const key = document.getElementById('editItemKey').value;
+        const newAmount = Number(document.getElementById('editItemAmount').value) || 0;
+        if (newAmount < 0) { alert("ยอดเงินไม่ถูกต้อง"); return; }
+        db.ref(getUserDbPath(`${type}/${key}`)).update({ amount: newAmount }).then(() => { closeModal('editPriceModal'); }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
+    };
 
     function resetCustomDropdowns(modalType) {
         if(modalType === 'inc') {
@@ -750,19 +800,13 @@
         if (!name) { alert("กรุณากรอกชื่อรายการ"); return; } if (amount <= 0) { alert("กรุณาระบุจำนวนเงินที่รับให้ถูกต้อง"); return; }
         if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) { alert("กรุณาระบุวันที่หรือข้อความกำหนดเองให้ครบถ้วน"); return; }
         
-        // ลบ status: 'pending' ออก เปลี่ยนไปใช้ระบบ paid_months แทน
         db.ref(getUserDbPath('recurring_incomes')).push({ name, amount, dateType, dateVal, method, bank_name, acc_no }).then(() => { closeModal('addRecurringIncomeModal'); }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
     };
 
-    // อัปเดตสถานะรายรับตามเดือน
     window.toggleRecurringIncomeStatus = function(key, isCurrentlyReceived) {
         if (!currentUser) return;
         const ref = db.ref(getUserDbPath(`recurring_incomes/${key}/received_months/${currentViewMonth}`));
-        if (isCurrentlyReceived) {
-            ref.remove(); // กดยกเลิก
-        } else {
-            ref.set(true); // กดรับเงิน
-        }
+        if (isCurrentlyReceived) ref.remove(); else ref.set(true); 
     };
 
     window.deleteRecurringIncome = function(key) { if (confirm("ลบรายการรายรับประจำนี้หรือไม่?")) db.ref(getUserDbPath(`recurring_incomes/${key}`)).remove(); };
@@ -780,8 +824,7 @@
         const bank_name = document.getElementById('newBankName').value.trim();
         const acc_no = document.getElementById('newAccNo').value.trim();
 
-        let totalInstallments = 0;
-        let initialInstallment = 0;
+        let totalInstallments = 0; let initialInstallment = 0;
         if (category === 'loan') {
             totalInstallments = Number(document.getElementById('newLoanTotalM').value) || 0;
             initialInstallment = Number(document.getElementById('newLoanCurrentM').value) || 0;
@@ -794,23 +837,18 @@
 
         db.ref(getUserDbPath('fixed_expenses')).push({
             name, category, amount, dateType, dateVal, payment_method, bank_name, acc_no,
-            totalInstallments: totalInstallments,
-            initialInstallment: initialInstallment
+            totalInstallments: totalInstallments, initialInstallment: initialInstallment
         }).then(() => { closeModal('addBillModal'); }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
     };
 
-    // อัปเดตสถานะบิลตามเดือน
     window.toggleBillStatus = function(key, isCurrentlyPaid) {
         if (!currentUser) return;
         const ref = db.ref(getUserDbPath(`fixed_expenses/${key}/paid_months/${currentViewMonth}`));
-        if (isCurrentlyPaid) {
-            ref.remove(); // กดยกเลิก
-        } else {
-            ref.set(true); // กดจ่าย
-        }
+        if (isCurrentlyPaid) ref.remove(); else ref.set(true); 
     };
 
     window.deleteFixedBill = function(key) { if (confirm("ลบรายการบิลนี้หรือไม่?")) db.ref(getUserDbPath(`fixed_expenses/${key}`)).remove(); };
+    window.deleteHistoryTx = function(key) { if(confirm("ลบรายการใช้จ่ายนี้หรือไม่?")) db.ref(getUserDbPath(`transactions/${currentViewMonth}/${key}`)).remove(); };
 
     window.openTxModal = function(type = 'expense') { document.getElementById('txForm').reset(); resetCustomDropdowns('tx'); if (type === 'income') chooseOption('txType', 'income', 'รายได้เสริม (ครั้งคราว)', null); document.getElementById('txModal').classList.add('active'); };
     
@@ -835,7 +873,7 @@
     window.toggleBillDateInput = function() { const type = document.getElementById('newBillDateType').value; const container = document.getElementById('billDateInputContainer'); const input = document.getElementById('newBillDateVal'); const label = document.getElementById('billDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น วันที่ 25 ของทุกเดือน'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
     window.toggleIncDateInput = function() { const type = document.getElementById('newIncDateType').value; const container = document.getElementById('incDateInputContainer'); const input = document.getElementById('newIncDateVal'); const label = document.getElementById('incDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น สัญญาเข้าวันที่ 28'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
     window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
-    window.toggleDarkMode = function() { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun"></i> โหมดสว่าง' : '<i data-lucide="moon"></i> โหมดมืด'; lucide.createIcons(); };
+    window.toggleDarkMode = function() { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>'; lucide.createIcons(); };
 </script>
 </body>
 </html>
