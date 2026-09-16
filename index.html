@@ -221,8 +221,11 @@
     <div class="top-dashboard-grid">
         <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
-                <h3><i data-lucide="wallet" style="color:var(--primary);"></i> ส่วนบันทึกรายรับ</h3>
-                <button class="action-btn" onclick="openAddRecurringIncomeModal()" title="เพิ่มรายรับประจำใหม่"><i data-lucide="plus"></i></button>
+                <h3><i data-lucide="wallet" style="color:var(--primary);"></i> ส่วนบันทึกรายรับประจำ</h3>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <span id="ui-income-tracker" style="font-size:11px; font-weight:600; color:var(--success);">ได้รับแล้ว 0/0</span>
+                    <button class="action-btn" onclick="openAddRecurringIncomeModal()" title="เพิ่มรายรับประจำใหม่"><i data-lucide="plus"></i></button>
+                </div>
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 180px;">
@@ -234,7 +237,6 @@
                     <div style="font-weight:600; font-size:15px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
                 <div id="recurring-incomes-container" style="display:flex; flex-direction:column; gap:8px; width:100%;"></div>
-                <div id="extra-income-container"></div>
             </div>
 
             <div style="margin-top:14px; border-top:1px dashed var(--border-color); padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
@@ -323,7 +325,24 @@
             </div>
             <div class="form-group">
                 <label>ช่องทางรับเงิน</label>
-                <input type="text" id="newIncMethod" placeholder="เช่น โอนเข้าบัญชี, เงินสด">
+                <select id="newIncMethod" onchange="toggleIncBankFields()">
+                    <option value="แอปธนาคาร / โอนเข้าบัญชี">แอปธนาคาร / โอนเข้าบัญชี</option>
+                    <option value="เงินสด">เงินสด</option>
+                </select>
+            </div>
+            <div id="incBankAccountFields" style="background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-color);">
+                <div class="form-group">
+                    <label>ธนาคาร</label>
+                    <input type="text" id="newIncBankName" placeholder="เช่น SCB, KBANK">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>เลขที่บัญชี</label>
+                    <input type="text" id="newIncAccNo" placeholder="เช่น 012-3-45678-9">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>วันที่คาดว่าเงินจะเข้า (แต่ละเดือนไม่เหมือนกัน)</label>
+                <input type="text" id="newIncDueDate" placeholder="เช่น วันที่ 25 ของทุกเดือน, หรือระบุวันที่เฉพาะ">
             </div>
             <button type="submit" class="submit-btn">เพิ่มรายรับประจำ</button>
         </form>
@@ -553,7 +572,7 @@
     let globalBillsData = null;
     let globalRecurringIncomesData = null;
     let globalTxData = null;
-    let totalFixedPaid = 0, totalFixedUnpaid = 0, totalRecurringIncomeAmount = 0, totalVariableExpense = 0, spentToday = 0;
+    let totalFixedPaid = 0, totalFixedUnpaid = 0, totalRecurringIncomeReceived = 0, totalRecurringIncomePending = 0, totalVariableExpense = 0, spentToday = 0;
 
     function loadDataForMonth() {
         if (!currentUser) return;
@@ -583,30 +602,41 @@
         const container = document.getElementById('recurring-incomes-container');
         if (!container) return;
         container.innerHTML = '';
-        totalRecurringIncomeAmount = 0;
+        totalRecurringIncomeReceived = 0;
+        totalRecurringIncomePending = 0;
+        let total = 0, received = 0;
 
         if (globalRecurringIncomesData && Object.keys(globalRecurringIncomesData).length > 0) {
             Object.keys(globalRecurringIncomesData).forEach(key => {
                 const inc = globalRecurringIncomesData[key];
                 const amt = Number(inc.amount) || 0;
-                totalRecurringIncomeAmount += amt;
+                const isReceived = inc.status === 'received';
+                total++;
+                if (isReceived) { totalRecurringIncomeReceived += amt; received++; } else { totalRecurringIncomePending += amt; }
 
                 container.innerHTML += `
                 <div class="item-card">
                     <div class="item-info">
-                        <h4 style="color:var(--success);">${inc.name} <span style="font-weight:600;">+฿${amt.toLocaleString()}</span></h4>
-                        <p>${inc.method || 'รายรับประจำ'}</p>
+                        <h4>${inc.name} <span style="color:var(--success);">+฿${amt.toLocaleString()}</span></h4>
+                        <p>${inc.method} ${inc.dueDate ? '• ' + inc.dueDate : ''}</p>
                     </div>
-                    <button class="del-btn" onclick="deleteRecurringIncome('${key}')" title="ลบรายรับประจำ"><i data-lucide="trash-2"></i></button>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <div class="check-btn ${isReceived ? 'checked' : ''}" onclick="toggleRecurringIncomeStatus('${key}', '${inc.status}')" title="คลิกเปลี่ยนสถานะการรับเงิน">
+                            <i data-lucide="check"></i>
+                        </div>
+                        <button class="del-btn" onclick="deleteRecurringIncome('${key}')"><i data-lucide="trash-2"></i></button>
+                    </div>
                 </div>`;
             });
         }
+        document.getElementById('ui-income-tracker').innerText = `ได้รับแล้ว ${received}/${total}`;
         lucide.createIcons();
         updateDashboard();
     }
 
     function openAddRecurringIncomeModal() {
         document.getElementById('addRecurringIncomeForm').reset();
+        document.getElementById('incBankAccountFields').style.display = 'block';
         document.getElementById('addRecurringIncomeModal').classList.add('active');
     }
 
@@ -614,13 +644,21 @@
         e.preventDefault();
         const name = document.getElementById('newIncName').value.trim();
         const amount = Number(document.getElementById('newIncAmount').value) || 0;
-        const method = document.getElementById('newIncMethod').value.trim();
+        const method = document.getElementById('newIncMethod').value;
+        const bank_name = document.getElementById('newIncBankName').value.trim();
+        const acc_no = document.getElementById('newIncAccNo').value.trim();
+        const dueDate = document.getElementById('newIncDueDate').value.trim();
 
         db.ref(getUserDbPath('recurring_incomes')).push({
-            name, amount, method
+            name, amount, method, bank_name, acc_no, dueDate, status: 'pending'
         }).then(() => {
             closeModal('addRecurringIncomeModal');
         });
+    }
+
+    function toggleRecurringIncomeStatus(key, currentStatus) {
+        const nextStatus = currentStatus === 'received' ? 'pending' : 'received';
+        db.ref(getUserDbPath(`recurring_incomes/${key}`)).update({ status: nextStatus });
     }
 
     function deleteRecurringIncome(key) {
@@ -702,7 +740,8 @@
 
     function updateDashboard() {
         const salary = Number(settingsData.salary) || 0;
-        const totalIncome = salary + totalRecurringIncomeAmount;
+        const totalRecurringIncome = totalRecurringIncomeReceived + totalRecurringIncomePending;
+        const totalIncome = salary + totalRecurringIncome;
 
         document.getElementById('ui-salary-val').innerText = salary.toLocaleString();
         document.getElementById('ui-total-income').innerText = `฿${totalIncome.toLocaleString()}`;
@@ -721,6 +760,7 @@
 
     function openAddBillModal() {
         document.getElementById('addBillForm').reset();
+        document.getElementById('bankAccountFields').style.display = 'block';
         document.getElementById('addBillModal').classList.add('active');
     }
 
@@ -791,6 +831,11 @@
     function toggleBankFields() {
         const method = document.getElementById('newBillMethod').value;
         document.getElementById('bankAccountFields').style.display = method.includes('แอปธนาคาร') ? 'block' : 'none';
+    }
+
+    function toggleIncBankFields() {
+        const method = document.getElementById('newIncMethod').value;
+        document.getElementById('incBankAccountFields').style.display = method.includes('แอปธนาคาร') ? 'block' : 'none';
     }
 
     function closeModal(id) {
