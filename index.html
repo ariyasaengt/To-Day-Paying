@@ -50,67 +50,18 @@
         * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         
-        svg.lucide {
-            width: 1em !important;
-            height: 1em !important;
-            vertical-align: -0.125em;
-            stroke-width: 2.2px;
-            display: inline-block;
-        }
+        svg.lucide { width: 1em !important; height: 1em !important; vertical-align: -0.125em; stroke-width: 2.2px; display: inline-block; }
 
         .app-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; min-height: 100vh; }
         
-        #authSection {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .auth-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 36px 28px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-        }
+        #authSection { display: none; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .auth-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 36px 28px; width: 100%; max-width: 420px; box-shadow: var(--card-shadow); text-align: center; }
         .auth-card h2 { margin: 0 0 8px; color: var(--text-dark); font-size: 24px; font-weight: 700; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .auth-card p { margin: 0 0 24px; font-size: 13px; color: var(--text-light); }
 
-        .auth-error-msg {
-            display: none;
-            background: rgba(244, 63, 94, 0.1);
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            color: var(--danger);
-            padding: 10px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin-bottom: 16px;
-            text-align: left;
-            word-break: break-word;
-        }
+        .auth-error-msg { display: none; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.2); color: var(--danger); padding: 10px 12px; border-radius: 12px; font-size: 12px; margin-bottom: 16px; text-align: left; word-break: break-word; }
 
-        .google-btn {
-            width: 100%;
-            background: var(--panel-bg);
-            color: var(--text-dark);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            font-family: inherit;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
+        .google-btn { width: 100%; background: var(--panel-bg); color: var(--text-dark); border: 1px solid var(--border-color); padding: 12px; border-radius: 14px; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; font-family: inherit; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .google-btn:hover { background: var(--input-bg); }
         .divider { display: flex; align-items: center; text-align: center; margin: 16px 0; color: var(--text-light); font-size: 11px; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
@@ -121,62 +72,16 @@
         .form-group input { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
         .form-group input:focus { border-color: var(--primary); }
 
-        /* Custom Dropdown UI ดีไซน์ตรงกับแอป 100% */
         .custom-select-wrapper { position: relative; width: 100%; }
-        .custom-select-box {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: var(--input-bg);
-            font-size: 13px;
-            color: var(--text-dark);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-        }
+        .custom-select-box { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; color: var(--text-dark); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
         .custom-select-box:hover { border-color: var(--primary); }
         
-        .month-selector-box {
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            padding: 8px 12px;
-            border-radius: 12px;
-            font-weight: 500;
-            font-size: 12px;
-            color: var(--text-dark);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            user-select: none;
-        }
+        .month-selector-box { background: var(--input-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 12px; font-weight: 500; font-size: 12px; color: var(--text-dark); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; user-select: none; }
         .month-selector-box:hover { border-color: var(--primary); }
 
-        .custom-dropdown-list {
-            display: none;
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            width: 100%;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            z-index: 200;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 6px 0;
-        }
+        .custom-dropdown-list { display: none; position: absolute; top: calc(100% + 4px); left: 0; width: 100%; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 200; max-height: 200px; overflow-y: auto; padding: 6px 0; }
         .custom-dropdown-list.active { display: block; }
-        .custom-option {
-            padding: 10px 14px;
-            font-size: 13px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
+        .custom-option { padding: 10px 14px; font-size: 13px; cursor: pointer; color: var(--text-dark); }
         .custom-option:hover { background: var(--primary-light); color: var(--primary); }
 
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
@@ -210,6 +115,7 @@
         
         .list-container { max-height: 400px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 10px; }
         .item-card { background: var(--input-bg); border-radius: 14px; padding: 14px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color); width: 100%; box-sizing: border-box; }
+        .item-info { flex: 1; margin-right: 12px; }
         .item-info h4 { margin: 0 0 3px; font-size: 13px; font-weight: 600; color: var(--text-dark);}
         .item-info p { margin: 0; font-size: 11px; color: var(--text-light); font-weight: 400;}
         
@@ -225,26 +131,24 @@
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
         .close-btn { background: var(--input-bg); border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display:flex; justify-content:center; align-items:center; color: var(--text-dark);}
+
+        /* Loan UI Styling */
+        .loan-progress-box { margin-top:8px; padding:8px 12px; background:var(--primary-light); border-radius:10px; font-size:11px; color:var(--text-dark); border: 1px solid rgba(14,165,233,0.15);}
+        body.dark-mode .loan-progress-box { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
     </style>
 </head>
 <body>
 
-<!-- Login Section -->
 <div id="authSection">
     <div class="auth-card">
         <h2><i data-lucide="wallet-cards"></i> To-Day Paying</h2>
         <p>ระบบจัดการงบประมาณและรายจ่ายประจำวัน</p>
-
         <div class="auth-error-msg" id="authErrorMsg"></div>
-
         <button class="google-btn" type="button" onclick="loginWithGoogle()">
             <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
             เข้าสู่ระบบด้วย Google
         </button>
-
         <div class="divider"><span>หรือใช้อีเมล</span></div>
-
-        <!-- ฟอร์มเข้าสู่ระบบ -->
         <form id="emailAuthForm">
             <div class="form-group" style="text-align:left;">
                 <label>อีเมล</label>
@@ -256,7 +160,6 @@
             </div>
             <button type="button" class="submit-btn" onclick="handleEmailAuth()">เข้าสู่ระบบ</button>
         </form>
-        
         <p style="margin-top:16px; font-size:12px;">
             <span id="authToggleText">ยังไม่มีบัญชีใช่หรือไม่?</span> 
             <a href="javascript:void(0)" onclick="toggleAuthMode()" id="authToggleLink" style="color:var(--primary); font-weight:600; text-decoration:none;">สมัครสมาชิก</a>
@@ -264,7 +167,6 @@
     </div>
 </div>
 
-<!-- Main App -->
 <div class="app-container" id="appMainSection" style="display: none;">
     <div class="header">
         <div>
@@ -272,7 +174,6 @@
             <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
         <div class="header-controls">
-            <!-- เมนูเลือกเดือนแบบ Custom -->
             <div class="custom-select-wrapper" style="width: auto;">
                 <div class="month-selector-box" onclick="toggleDropdown('monthDropdown', event)">
                     <span id="selectedMonthText">เดือน</span>
@@ -294,7 +195,6 @@
                     <button class="action-btn" onclick="openAddRecurringIncomeModal()" title="เพิ่มรายรับประจำใหม่"><i data-lucide="plus"></i></button>
                 </div>
             </div>
-            
             <div class="list-container" id="income-list-container" style="max-height: 180px;">
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
@@ -305,36 +205,40 @@
                 </div>
                 <div id="recurring-incomes-container" style="display:flex; flex-direction:column; gap:8px; width:100%;"></div>
             </div>
-
             <div style="margin-top:14px; border-top:1px dashed var(--border-color); padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
-                <span style="font-weight:500; color:var(--text-light);">รวมรายรับทั้งหมด</span>
-                <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
+                <span style="font-weight:500; color:var(--text-light);">รวมรายรับประจำที่ตั้งไว้ทั้งหมด</span>
+                <span id="ui-total-income-expected" style="font-weight:600; color:var(--text-light);">฿0</span>
             </div>
         </div>
 
         <div class="panel" style="background: #1e293b; color: #ffffff; margin-bottom:0; border: none;">
             <div class="panel-header" style="border-bottom-color: rgba(255,255,255,0.15);">
-                <h3 style="color: #ffffff;"><i data-lucide="pie-chart" style="color: #38bdf8;"></i> สรุปภาพรวม (Runway)</h3>
+                <h3 style="color: #ffffff;"><i data-lucide="pie-chart" style="color: #38bdf8;"></i> สรุปภาพรวม (อิงตามความจริง)</h3>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <!-- ฝั่งซ้าย: รับจริง & จ่ายจริง -->
                 <div>
-                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">รวมรายรับ</p>
+                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">รวมรับจริง (เงินเดือน+รับแล้ว)</p>
                     <p id="ui-overview-income" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#34d399;">฿0</p>
                     
-                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">เงินคงเหลือสุทธิ</p>
-                    <p id="ui-overview-savings" style="margin:4px 0 0 0; font-size:18px; font-weight:600; color:#ffffff;">฿0</p>
-                </div>
-                <div>
-                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">รายจ่ายประจำ</p>
-                    <p id="ui-overview-fixed" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#fb7185;">฿0</p>
+                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">จ่ายจริง (รายวัน+ประจำที่จ่ายแล้ว)</p>
+                    <p id="ui-overview-spent" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#fb7185;">฿0</p>
                     
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">เงินคงเหลือจริง</p>
+                    <p id="ui-overview-balance" style="margin:4px 0 0 0; font-size:18px; font-weight:600; color:#ffffff;">฿0</p>
+                </div>
+                <!-- ฝั่งขวา: วางแผนอนาคต -->
+                <div>
+                    <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">บิลรอจ่าย (ประจำที่ยังไม่จ่ายเดือนนี้)</p>
+                    <p id="ui-overview-pending" style="margin:4px 0 12px 0; font-size:18px; font-weight:600; color:#fbbf24;">฿0</p>
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 14px;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:rgba(255,255,255,0.12); padding:8px 12px; border-radius:10px;">
                             <p style="margin:0; font-size:10px; color:#e2e8f0; display:flex; align-items:center; gap:3px; font-weight:500;">งบต่อวัน <i data-lucide="edit-3"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:14px; font-weight:600; color:#fbbf24;">150</p>
                         </div>
                         <div style="text-align:right;">
-                            <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">วันคงเหลือ</p>
+                            <p style="margin:0; font-size:11px; color:#cbd5e1; font-weight:400;">อยู่ได้อีก (หักบิลรอจ่ายแล้ว)</p>
                             <p style="margin:2px 0 0 0; font-size:18px; font-weight:600; color:#ffffff;"><span id="ui-overview-runway">0</span> <span style="font-size:12px; font-weight:400;">วัน</span></p>
                         </div>
                     </div>
@@ -370,9 +274,7 @@
     </div>
 </div>
 
-<div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน">
-    <i data-lucide="plus"></i>
-</div>
+<div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน"><i data-lucide="plus"></i></div>
 
 <!-- Modal 1: เพิ่มรายรับประจำ -->
 <div class="modal-overlay" id="addRecurringIncomeModal">
@@ -449,7 +351,7 @@
         <form id="addBillForm">
             <div class="form-group">
                 <label>ชื่อรายการ / บริการ</label>
-                <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง">
+                <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง, ยูเมะพลัส">
             </div>
             <div class="form-group">
                 <label>หมวดหมู่</label>
@@ -469,8 +371,21 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- ส่วนของข้อมูลสินเชื่อ -->
+            <div id="loanFields" style="display:none; background:var(--primary-light); padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid rgba(14, 165, 233, 0.2);">
+                <div class="form-group">
+                    <label style="color:var(--primary);">จำนวนงวดทั้งหมด (เดือน)</label>
+                    <input type="number" id="newLoanTotalM" placeholder="เช่น 24, 36 งวด" min="1">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="color:var(--primary);">ปัจจุบันจ่ายไปแล้วกี่งวด</label>
+                    <input type="number" id="newLoanCurrentM" placeholder="เช่น 5 (ถ้าเพิ่งเริ่มให้ใส่ 0)" min="0">
+                </div>
+            </div>
+
             <div class="form-group">
-                <label>ยอดเงินที่ต้องจ่าย (฿)</label>
+                <label>ยอดเงินที่ต้องจ่าย / ค่างวด (฿)</label>
                 <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01">
             </div>
             <div class="form-group">
@@ -523,71 +438,25 @@
     </div>
 </div>
 
-<!-- Modal 3: บันทึกรายการรายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h2 style="font-size:18px;">บันทึกรายการรายวัน</h2>
-            <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button>
-        </div>
+        <div class="modal-header"><h2 style="font-size:18px;">บันทึกรายการรายวัน</h2><button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button></div>
         <form id="txForm">
-            <div class="form-group">
-                <label>ประเภท</label>
-                <div class="custom-select-wrapper">
-                    <div class="custom-select-box" onclick="toggleDropdown('txTypeDropdown', event)">
-                        <span id="selectedTxTypeText">รายจ่าย</span>
-                        <i data-lucide="chevron-down" size="16"></i>
-                    </div>
-                    <input type="hidden" id="inputType" value="expense">
-                    <div class="custom-dropdown-list" id="txTypeDropdown">
-                        <div class="custom-option" onclick="chooseOption('txType', 'expense', 'รายจ่าย', event)">รายจ่าย</div>
-                        <div class="custom-option" onclick="chooseOption('txType', 'income', 'รายได้เสริม (ครั้งคราว)', event)">รายได้เสริม (ครั้งคราว)</div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>จำนวนเงิน (฿)</label>
-                <input type="number" id="inputAmount" placeholder="0" min="1" step="0.01">
-            </div>
-            <div class="form-group">
-                <label>ชื่อรายการ</label>
-                <input type="text" id="inputName" placeholder="เช่น ค่าข้าว, รับจ้าง">
-            </div>
-            <div class="form-group">
-                <label>หมวดหมู่</label>
-                <div class="custom-select-wrapper">
-                    <div class="custom-select-box" onclick="toggleDropdown('txCatDropdown', event)">
-                        <span id="selectedTxCatText">อาหาร</span>
-                        <i data-lucide="chevron-down" size="16"></i>
-                    </div>
-                    <input type="hidden" id="inputCategory" value="food">
-                    <div class="custom-dropdown-list" id="txCatDropdown">
-                        <div class="custom-option" onclick="chooseOption('txCat', 'food', 'อาหาร', event)">อาหาร</div>
-                        <div class="custom-option" onclick="chooseOption('txCat', 'grocery', 'ของใช้', event)">ของใช้</div>
-                        <div class="custom-option" onclick="chooseOption('txCat', 'transport', 'เดินทาง', event)">เดินทาง</div>
-                        <div class="custom-option" onclick="chooseOption('txCat', 'shopping', 'ช้อปปิ้ง', event)">ช้อปปิ้ง</div>
-                        <div class="custom-option" onclick="chooseOption('txCat', 'others', 'อื่นๆ', event)">อื่นๆ</div>
-                    </div>
-                </div>
-            </div>
+            <div class="form-group"><label>ประเภท</label><div class="custom-select-wrapper"><div class="custom-select-box" onclick="toggleDropdown('txTypeDropdown', event)"><span id="selectedTxTypeText">รายจ่าย</span><i data-lucide="chevron-down" size="16"></i></div><input type="hidden" id="inputType" value="expense"><div class="custom-dropdown-list" id="txTypeDropdown"><div class="custom-option" onclick="chooseOption('txType', 'expense', 'รายจ่าย', event)">รายจ่าย</div><div class="custom-option" onclick="chooseOption('txType', 'income', 'รายได้เสริม (ครั้งคราว)', event)">รายได้เสริม (ครั้งคราว)</div></div></div></div>
+            <div class="form-group"><label>จำนวนเงิน (฿)</label><input type="number" id="inputAmount" placeholder="0" min="1" step="0.01"></div>
+            <div class="form-group"><label>ชื่อรายการ</label><input type="text" id="inputName" placeholder="เช่น ค่าข้าว, รับจ้าง"></div>
+            <div class="form-group"><label>หมวดหมู่</label><div class="custom-select-wrapper"><div class="custom-select-box" onclick="toggleDropdown('txCatDropdown', event)"><span id="selectedTxCatText">อาหาร</span><i data-lucide="chevron-down" size="16"></i></div><input type="hidden" id="inputCategory" value="food"><div class="custom-dropdown-list" id="txCatDropdown"><div class="custom-option" onclick="chooseOption('txCat', 'food', 'อาหาร', event)">อาหาร</div><div class="custom-option" onclick="chooseOption('txCat', 'grocery', 'ของใช้', event)">ของใช้</div><div class="custom-option" onclick="chooseOption('txCat', 'transport', 'เดินทาง', event)">เดินทาง</div><div class="custom-option" onclick="chooseOption('txCat', 'shopping', 'ช้อปปิ้ง', event)">ช้อปปิ้ง</div><div class="custom-option" onclick="chooseOption('txCat', 'others', 'อื่นๆ', event)">อื่นๆ</div></div></div></div>
             <button type="button" class="submit-btn" onclick="submitTransaction()">บันทึก</button>
         </form>
     </div>
 </div>
 
-<!-- Modal 4: ตั้งค่า -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="settingsModalTitle" style="font-size:18px;">ตั้งค่า</h2>
-            <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button>
-        </div>
+        <div class="modal-header"><h2 id="settingsModalTitle" style="font-size:18px;">ตั้งค่า</h2><button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button></div>
         <form id="settingsForm">
             <input type="hidden" id="settingKey">
-            <div class="form-group">
-                <label id="settingLabel">จำนวนเงิน (฿)</label>
-                <input type="number" id="settingValue" min="0" step="0.01">
-            </div>
+            <div class="form-group"><label id="settingLabel">จำนวนเงิน (฿)</label><input type="number" id="settingValue" min="0" step="0.01"></div>
             <button type="button" class="submit-btn" onclick="saveSettings()">บันทึกข้อมูล</button>
         </form>
     </div>
@@ -596,7 +465,7 @@
 <script>
     lucide.createIcons();
 
-    // Firebase Config
+    // Firebase Config 
     const firebaseConfig = { 
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
         authDomain: "todaypaying-7e8b0.firebaseapp.com", 
@@ -606,30 +475,19 @@
         appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0",
         databaseURL: "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/" 
     };
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.database(); 
 
     let currentUser = null;
     let isRegisterMode = false;
 
-    /* ==============================================================
-       ส่วนที่ 1: ระบบ UI Custom Dropdown ป้องกัน Mobile Popup 100%
-       ============================================================== */
     window.toggleDropdown = function(dropdownId, event) {
         if(event) event.stopPropagation();
         const target = document.getElementById(dropdownId);
         const isActive = target.classList.contains('active');
-        
-        document.querySelectorAll('.custom-dropdown-list').forEach(el => {
-            el.classList.remove('active');
-        });
-        
-        if (!isActive) {
-            target.classList.add('active');
-        }
+        document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
+        if (!isActive) target.classList.add('active');
     };
 
     window.addEventListener('click', function(e) {
@@ -640,247 +498,174 @@
 
     window.chooseOption = function(group, val, text, event) {
         if(event) event.stopPropagation();
-
         if (group === 'incDate') {
-            document.getElementById('newIncDateType').value = val;
-            document.getElementById('selectedIncDateText').innerText = text;
-            toggleIncDateInput();
+            document.getElementById('newIncDateType').value = val; document.getElementById('selectedIncDateText').innerText = text; toggleIncDateInput();
         } else if (group === 'incMethod') {
-            document.getElementById('newIncMethod').value = val;
-            document.getElementById('selectedIncMethodText').innerText = text;
-            toggleIncBankFields();
+            document.getElementById('newIncMethod').value = val; document.getElementById('selectedIncMethodText').innerText = text; toggleIncBankFields();
         } else if (group === 'billCat') {
-            document.getElementById('newBillCat').value = val;
+            document.getElementById('newBillCat').value = val; 
             document.getElementById('selectedBillCatText').innerText = text;
+            if(val === 'loan') document.getElementById('loanFields').style.display = 'block';
+            else document.getElementById('loanFields').style.display = 'none';
         } else if (group === 'billDate') {
-            document.getElementById('newBillDateType').value = val;
-            document.getElementById('selectedBillDateText').innerText = text;
-            toggleBillDateInput();
+            document.getElementById('newBillDateType').value = val; document.getElementById('selectedBillDateText').innerText = text; toggleBillDateInput();
         } else if (group === 'billMethod') {
-            document.getElementById('newBillMethod').value = val;
-            document.getElementById('selectedBillMethodText').innerText = text;
-            toggleBankFields();
+            document.getElementById('newBillMethod').value = val; document.getElementById('selectedBillMethodText').innerText = text; toggleBankFields();
         } else if (group === 'txType') {
-            document.getElementById('inputType').value = val;
-            document.getElementById('selectedTxTypeText').innerText = text;
+            document.getElementById('inputType').value = val; document.getElementById('selectedTxTypeText').innerText = text;
         } else if (group === 'txCat') {
-            document.getElementById('inputCategory').value = val;
-            document.getElementById('selectedTxCatText').innerText = text;
+            document.getElementById('inputCategory').value = val; document.getElementById('selectedTxCatText').innerText = text;
         }
-
         document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
     };
 
     window.chooseMonth = function(val, text, event) {
-        if(event) event.stopPropagation();
-        currentViewMonth = val;
-        document.getElementById('selectedMonthText').innerText = text;
-        document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
-        loadDataForMonth();
+        if(event) event.stopPropagation(); currentViewMonth = val; document.getElementById('selectedMonthText').innerText = text;
+        document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active')); loadDataForMonth();
     };
 
-    /* ==============================================================
-       ส่วนที่ 2: ระบบ Auth เข้าสู่ระบบ
-       ============================================================== */
-    function showAuthError(msg) {
-        const el = document.getElementById('authErrorMsg');
-        el.innerHTML = `⚠️ <b>ข้อผิดพลาด:</b> ${msg}`;
-        el.style.display = 'block';
-    }
-
-    function clearAuthError() {
-        const el = document.getElementById('authErrorMsg');
-        el.style.display = 'none';
-        el.innerText = '';
-    }
+    function showAuthError(msg) { const el = document.getElementById('authErrorMsg'); el.innerHTML = `⚠️ <b>ข้อผิดพลาด:</b> ${msg}`; el.style.display = 'block'; }
+    function clearAuthError() { const el = document.getElementById('authErrorMsg'); el.style.display = 'none'; el.innerText = ''; }
 
     auth.onAuthStateChanged((user) => {
         if (user) {
-            currentUser = user;
-            document.getElementById('authSection').style.display = 'none';
-            document.getElementById('appMainSection').style.display = 'flex';
-            document.getElementById('btn-add-floating').style.display = 'flex';
-            initMonthSelector();
-            loadDataForMonth();
+            currentUser = user; document.getElementById('authSection').style.display = 'none'; document.getElementById('appMainSection').style.display = 'flex'; document.getElementById('btn-add-floating').style.display = 'flex';
+            initMonthSelector(); loadDataForMonth();
         } else {
-            currentUser = null;
-            document.getElementById('authSection').style.display = 'flex';
-            document.getElementById('appMainSection').style.display = 'none';
-            document.getElementById('btn-add-floating').style.display = 'none';
+            currentUser = null; document.getElementById('authSection').style.display = 'flex'; document.getElementById('appMainSection').style.display = 'none'; document.getElementById('btn-add-floating').style.display = 'none';
         }
         lucide.createIcons();
     });
 
     window.toggleAuthMode = function() {
-        clearAuthError();
-        isRegisterMode = !isRegisterMode;
-        document.querySelector('#emailAuthForm .submit-btn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
-        document.getElementById('authToggleText').innerText = isRegisterMode ? 'มีบัญชีอยู่แล้วใช่หรือไม่?' : 'ยังไม่มีบัญชีใช่หรือไม่?';
-        document.getElementById('authToggleLink').innerText = isRegisterMode ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก';
+        clearAuthError(); isRegisterMode = !isRegisterMode; document.querySelector('#emailAuthForm .submit-btn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
+        document.getElementById('authToggleText').innerText = isRegisterMode ? 'มีบัญชีอยู่แล้วใช่หรือไม่?' : 'ยังไม่มีบัญชีใช่หรือไม่?'; document.getElementById('authToggleLink').innerText = isRegisterMode ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก';
     };
 
     window.handleEmailAuth = function() {
-        clearAuthError();
-        const email = document.getElementById('authEmail').value.trim();
-        const pass = document.getElementById('authPassword').value;
-
-        if (!email || !pass) {
-            showAuthError("กรุณากรอกอีเมลและรหัสผ่านให้ครบถ้วน");
-            return;
-        }
-
-        if (isRegisterMode) {
-            auth.createUserWithEmailAndPassword(email, pass).catch(err => showAuthError(`${err.code}: ${err.message}`));
-        } else {
-            auth.signInWithEmailAndPassword(email, pass).catch(err => showAuthError(`${err.code}: ${err.message}`));
-        }
+        clearAuthError(); const email = document.getElementById('authEmail').value.trim(); const pass = document.getElementById('authPassword').value;
+        if (!email || !pass) { showAuthError("กรุณากรอกอีเมลและรหัสผ่านให้ครบถ้วน"); return; }
+        if (isRegisterMode) auth.createUserWithEmailAndPassword(email, pass).catch(err => showAuthError(`${err.code}: ${err.message}`));
+        else auth.signInWithEmailAndPassword(email, pass).catch(err => showAuthError(`${err.code}: ${err.message}`));
     };
 
     window.loginWithGoogle = function() {
-        clearAuthError();
-        const provider = new firebase.auth.GoogleAuthProvider();
+        clearAuthError(); const provider = new firebase.auth.GoogleAuthProvider();
         auth.signInWithPopup(provider).catch(err => {
-            if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user') {
-                auth.signInWithRedirect(provider);
-            } else {
-                showAuthError(`${err.code}: ${err.message}`);
-            }
+            if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user') auth.signInWithRedirect(provider);
+            else showAuthError(`${err.code}: ${err.message}`);
         });
     };
 
-    window.logoutUser = function() {
-        auth.signOut();
-    };
+    window.logoutUser = function() { auth.signOut(); };
+    function getUserDbPath(subPath) { return currentUser ? `users/${currentUser.uid}/${subPath}` : null; }
 
-    function getUserDbPath(subPath) {
-        if (!currentUser) return null;
-        return `users/${currentUser.uid}/${subPath}`;
-    }
-
-    const dateObj = new Date();
-    let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
-    const actualCurrentMonth = currentViewMonth;
-
+    const dateObj = new Date(); let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`; const actualCurrentMonth = currentViewMonth;
+    
     function initMonthSelector() {
-        const dropdown = document.getElementById('monthDropdown');
-        if (!dropdown) return;
-        dropdown.innerHTML = '';
-        for (let i = 0; i < 6; i++) {
-            let d = new Date(dateObj.getFullYear(), dateObj.getMonth() - i, 1);
-            let val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const dropdown = document.getElementById('monthDropdown'); if (!dropdown) return; dropdown.innerHTML = '';
+        // แสดงเดือนล่วงหน้า 1 เดือน และย้อนหลังไป 5 เดือน
+        for (let i = -1; i < 5; i++) {
+            let d = new Date(dateObj.getFullYear(), dateObj.getMonth() - i, 1); let val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
             let label = d.toLocaleString('th-TH', { month: 'short', year: 'numeric' });
-            
             dropdown.innerHTML += `<div class="custom-option" onclick="chooseMonth('${val}', '${label}', event)">${label}</div>`;
-            
-            if (val === currentViewMonth) {
-                document.getElementById('selectedMonthText').innerText = label;
-            }
+            if (val === currentViewMonth) document.getElementById('selectedMonthText').innerText = label;
         }
     }
 
-    /* ==============================================================
-       ส่วนที่ 3: ระบบแดชบอร์ด และดึงข้อมูล Firebase
-       ============================================================== */
-    let settingsData = { salary: 17625, daily_target: 150 };
-    let globalBillsData = null;
-    let globalRecurringIncomesData = null;
-    let globalTxData = null;
+    let settingsData = { salary: 17625, daily_target: 150 }; let globalBillsData = null; let globalRecurringIncomesData = null; let globalTxData = null;
     let totalFixedPaid = 0, totalFixedUnpaid = 0, totalRecurringIncomeReceived = 0, totalRecurringIncomePending = 0, totalVariableExpense = 0, spentToday = 0;
 
     function loadDataForMonth() {
         if (!currentUser) return;
-
-        db.ref(getUserDbPath('settings')).on('value', (snap) => {
-            settingsData = snap.val() || { salary: 17625, daily_target: 150 };
-            updateDashboard();
-        });
-
-        db.ref(getUserDbPath('recurring_incomes')).on('value', (snap) => {
-            globalRecurringIncomesData = snap.val() || {};
-            processRecurringIncomes();
-        });
-
-        db.ref(getUserDbPath('fixed_expenses')).on('value', (snap) => { 
-            globalBillsData = snap.val() || {};
-            processBills(); 
-        });
-
-        db.ref(getUserDbPath(`transactions/${currentViewMonth}`)).on('value', (snap) => { 
-            globalTxData = snap.val() || {};
-            processHistory(); 
-        });
+        db.ref(getUserDbPath('settings')).on('value', (snap) => { settingsData = snap.val() || { salary: 17625, daily_target: 150 }; updateDashboard(); });
+        db.ref(getUserDbPath('recurring_incomes')).on('value', (snap) => { globalRecurringIncomesData = snap.val() || {}; processRecurringIncomes(); });
+        db.ref(getUserDbPath('fixed_expenses')).on('value', (snap) => { globalBillsData = snap.val() || {}; processBills(); });
+        db.ref(getUserDbPath(`transactions/${currentViewMonth}`)).on('value', (snap) => { globalTxData = snap.val() || {}; processHistory(); });
     }
 
     function formatDueDateText(type, val) {
-        if (type === 'day1') return 'วันที่ 1 ของเดือน';
-        if (type === 'dayLast') return 'วันสุดท้ายของเดือน';
-        if (type === 'customDate') return `วันที่ ${val}`;
-        return val || 'กำหนดเอง';
+        if (type === 'day1') return 'วันที่ 1 ของเดือน'; if (type === 'dayLast') return 'วันสุดท้ายของเดือน';
+        if (type === 'customDate') return `วันที่ ${val}`; return val || 'กำหนดเอง';
     }
 
     function processRecurringIncomes() {
-        const container = document.getElementById('recurring-incomes-container');
-        if (!container) return;
-        container.innerHTML = '';
-        totalRecurringIncomeReceived = 0;
-        totalRecurringIncomePending = 0;
-        let total = 0, received = 0;
+        const container = document.getElementById('recurring-incomes-container'); if (!container) return; container.innerHTML = '';
+        totalRecurringIncomeReceived = 0; totalRecurringIncomePending = 0; let total = 0, received = 0;
 
         if (globalRecurringIncomesData && Object.keys(globalRecurringIncomesData).length > 0) {
             Object.keys(globalRecurringIncomesData).forEach(key => {
-                const inc = globalRecurringIncomesData[key];
-                const amt = Number(inc.amount) || 0;
-                const isReceived = inc.status === 'received';
+                const inc = globalRecurringIncomesData[key]; const amt = Number(inc.amount) || 0; 
+                // เช็คว่าในเดือนที่เปิดดูอยู่ มีประวัติรับเงินถูกบันทึกไว้หรือไม่
+                const isReceived = inc.received_months && inc.received_months[currentViewMonth] === true; 
                 total++;
+                
                 if (isReceived) { totalRecurringIncomeReceived += amt; received++; } else { totalRecurringIncomePending += amt; }
-
                 const dueText = formatDueDateText(inc.dateType, inc.dateVal);
-
                 container.innerHTML += `
                 <div class="item-card">
-                    <div class="item-info">
-                        <h4>${inc.name} <span style="color:var(--success);">+฿${amt.toLocaleString()}</span></h4>
-                        <p>${inc.method} • ${dueText}</p>
-                    </div>
+                    <div class="item-info"><h4>${inc.name} <span style="color:var(--success);">+฿${amt.toLocaleString()}</span></h4><p>${inc.method} • ${dueText}</p></div>
                     <div style="display:flex; align-items:center; gap:8px;">
-                        <div class="check-btn ${isReceived ? 'checked' : ''}" onclick="toggleRecurringIncomeStatus('${key}', '${inc.status}')" title="คลิกเปลี่ยนสถานะการรับเงิน">
-                            <i data-lucide="check"></i>
-                        </div>
+                        <div class="check-btn ${isReceived ? 'checked' : ''}" onclick="toggleRecurringIncomeStatus('${key}', ${isReceived})"><i data-lucide="check"></i></div>
                         <button class="del-btn" onclick="deleteRecurringIncome('${key}')"><i data-lucide="trash-2"></i></button>
                     </div>
                 </div>`;
             });
         }
-        document.getElementById('ui-income-tracker').innerText = `ได้รับแล้ว ${received}/${total}`;
-        lucide.createIcons();
-        updateDashboard();
+        document.getElementById('ui-income-tracker').innerText = `ได้รับแล้ว ${received}/${total}`; lucide.createIcons(); updateDashboard();
     }
 
     function processBills() {
-        const container = document.getElementById('fixed-expenses-container'); 
-        if (!container) return;
-        container.innerHTML = '';
-        totalFixedPaid = 0; totalFixedUnpaid = 0;
-        let total = 0, paid = 0;
+        const container = document.getElementById('fixed-expenses-container'); if (!container) return; container.innerHTML = '';
+        totalFixedPaid = 0; totalFixedUnpaid = 0; let total = 0, paid = 0;
 
         if (globalBillsData && Object.keys(globalBillsData).length > 0) {
             Object.keys(globalBillsData).forEach(key => {
                 const b = globalBillsData[key];
                 const amt = Number(b.amount) || 0;
-                const isPaid = b.status === 'paid';
+                
+                // เช็คสถานะการจ่ายเงินของเดือนที่เลือกดู
+                const isPaid = b.paid_months && b.paid_months[currentViewMonth] === true;
                 total++;
                 if (isPaid) { totalFixedPaid += amt; paid++; } else { totalFixedUnpaid += amt; }
 
                 const dueText = formatDueDateText(b.dateType, b.dateVal);
+                
+                // คำนวณสินเชื่อตามจริง
+                let loanInfoHTML = '';
+                if (b.category === 'loan' && b.totalInstallments) {
+                    const initialInst = Number(b.initialInstallment) || 0;
+                    // นับจำนวนครั้งที่กดจ่ายในฐานข้อมูล
+                    const paidCount = b.paid_months ? Object.keys(b.paid_months).length : 0;
+                    const currentInst = initialInst + paidCount;
+                    const totalInst = Number(b.totalInstallments) || 1;
+                    const remainInst = Math.max(0, totalInst - currentInst);
+                    
+                    const totalAmount = totalInst * amt;
+                    const paidAmount = currentInst * amt;
+                    
+                    loanInfoHTML = `
+                    <div class="loan-progress-box">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                            <span style="font-weight:600; color:var(--primary);">ชำระแล้ว ${currentInst}/${totalInst} งวด</span>
+                            <span style="color:var(--text-light);">เหลือ ${remainInst} งวด</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--text-light);">
+                            <span>จ่ายไปแล้ว: ฿${paidAmount.toLocaleString()}</span>
+                            <span>ยอดรวม: ฿${totalAmount.toLocaleString()}</span>
+                        </div>
+                    </div>`;
+                }
 
                 container.innerHTML += `
                 <div class="item-card">
                     <div class="item-info">
                         <h4>${b.name} <span style="color:var(--primary);">฿${amt.toLocaleString()}</span></h4>
                         <p>${b.category} • ${b.payment_method} • ${dueText}</p>
+                        ${loanInfoHTML}
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
-                        <div class="check-btn ${isPaid ? 'checked' : ''}" onclick="toggleBillStatus('${key}', '${b.status}')">
+                        <div class="check-btn ${isPaid ? 'checked' : ''}" onclick="toggleBillStatus('${key}', ${isPaid})" title="คลิกเพื่อยืนยันชำระยอดเดือนนี้">
                             <i data-lucide="check"></i>
                         </div>
                         <button class="del-btn" onclick="deleteFixedBill('${key}')"><i data-lucide="trash-2"></i></button>
@@ -890,140 +675,99 @@
         } else {
             container.innerHTML = `<p style="text-align:center; font-size: 13px; color: var(--text-light);">ไม่มีบิลประจำ</p>`;
         }
-        document.getElementById('ui-bill-tracker').innerText = `ชำระแล้ว ${paid}/${total}`;
-        lucide.createIcons();
-        updateDashboard();
+        document.getElementById('ui-bill-tracker').innerText = `ชำระแล้ว ${paid}/${total}`; lucide.createIcons(); updateDashboard();
     }
 
     function processHistory() {
-        totalVariableExpense = 0; spentToday = 0;
-        const container = document.getElementById('history-container');
-        if (!container) return;
-        container.innerHTML = '';
+        totalVariableExpense = 0; spentToday = 0; const container = document.getElementById('history-container'); if (!container) return; container.innerHTML = '';
         const todayStr = new Date().toISOString().split('T')[0];
 
         if (globalTxData && Object.keys(globalTxData).length > 0) {
             Object.keys(globalTxData).reverse().forEach(key => {
-                const tx = globalTxData[key];
-                const amt = Number(tx.amount) || 0;
+                const tx = globalTxData[key]; const amt = Number(tx.amount) || 0;
                 if (tx.type === 'expense') {
-                    totalVariableExpense += amt;
-                    if (tx.date === todayStr) spentToday += amt;
-
-                    container.innerHTML += `
-                    <div class="item-card">
-                        <div class="item-info">
-                            <h4>${tx.name}</h4>
-                            <p>${tx.category} • ${tx.date}</p>
-                        </div>
-                        <span style="font-weight:600; color:var(--danger);">-฿${amt.toLocaleString()}</span>
-                    </div>`;
+                    totalVariableExpense += amt; if (tx.date === todayStr) spentToday += amt;
+                    container.innerHTML += `<div class="item-card"><div class="item-info"><h4>${tx.name}</h4><p>${tx.category} • ${tx.date}</p></div><span style="font-weight:600; color:var(--danger);">-฿${amt.toLocaleString()}</span></div>`;
                 }
             });
-        } else {
-            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: var(--text-light);">ไม่มีประวัติการใช้จ่าย</p>`;
-        }
-        document.getElementById('ui-spent-today').innerText = `${spentToday.toLocaleString()} บ.`;
-        document.getElementById('ui-spent-month').innerText = `${totalVariableExpense.toLocaleString()} บ.`;
-        updateDashboard();
-        lucide.createIcons();
+        } else container.innerHTML = `<p style="text-align:center; font-size: 13px; color: var(--text-light);">ไม่มีประวัติการใช้จ่าย</p>`;
+        document.getElementById('ui-spent-today').innerText = `${spentToday.toLocaleString()} บ.`; document.getElementById('ui-spent-month').innerText = `${totalVariableExpense.toLocaleString()} บ.`; updateDashboard(); lucide.createIcons();
     }
 
     function updateDashboard() {
-        const salary = Number(settingsData.salary) || 0;
-        const totalRecurringIncome = totalRecurringIncomeReceived + totalRecurringIncomePending;
-        const totalIncome = salary + totalRecurringIncome;
-
-        document.getElementById('ui-salary-val').innerText = salary.toLocaleString();
-        document.getElementById('ui-total-income').innerText = `฿${totalIncome.toLocaleString()}`;
-        document.getElementById('ui-overview-income').innerText = `฿${totalIncome.toLocaleString()}`;
+        // ส่วนรายรับ
+        const salary = Number(settingsData.salary) || 0; 
+        const expectedTotalIncome = salary + totalRecurringIncomeReceived + totalRecurringIncomePending;
+        const actualIncome = salary + totalRecurringIncomeReceived;
         
-        const totalFixed = totalFixedPaid + totalFixedUnpaid;
-        const netSavings = totalIncome - totalFixed;
-        document.getElementById('ui-overview-fixed').innerText = `฿${totalFixed.toLocaleString()}`;
-        document.getElementById('ui-overview-savings').innerText = `฿${netSavings.toLocaleString()}`;
-        document.getElementById('ui-overview-target').innerText = settingsData.daily_target || 150;
+        // ส่วนรายจ่าย
+        const actualSpent = totalVariableExpense + totalFixedPaid;
+        const actualBalance = actualIncome - actualSpent;
+        
+        // สำหรับคำนวณวันอยู่รอด (ต้องหักบิลที่รอจ่ายด้วย)
+        const safeToSpend = actualBalance - totalFixedUnpaid;
 
-        let runway = 0;
-        if (settingsData.daily_target > 0) runway = Math.floor(netSavings / settingsData.daily_target);
-        document.getElementById('ui-overview-runway').innerText = runway;
+        // อัปเดต UI 
+        document.getElementById('ui-salary-val').innerText = salary.toLocaleString(); 
+        document.getElementById('ui-total-income-expected').innerText = `฿${expectedTotalIncome.toLocaleString()}`; 
+        
+        // สรุปภาพรวม Panel ใหม่
+        document.getElementById('ui-overview-income').innerText = `฿${actualIncome.toLocaleString()}`;
+        document.getElementById('ui-overview-spent').innerText = `฿${actualSpent.toLocaleString()}`;
+        document.getElementById('ui-overview-balance').innerText = `฿${actualBalance.toLocaleString()}`;
+        document.getElementById('ui-overview-pending').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
+        
+        document.getElementById('ui-overview-target').innerText = settingsData.daily_target || 150;
+        let runway = 0; 
+        if (settingsData.daily_target > 0) runway = Math.floor(safeToSpend / settingsData.daily_target); 
+        document.getElementById('ui-overview-runway').innerText = runway > 0 ? runway : 0;
     }
 
-    /* ==============================================================
-       ส่วนที่ 4: ระบบรับข้อมูลฟอร์ม และบันทึกลง Firebase
-       ============================================================== */
-    
-    // รีเซ็ตข้อความใน Custom Dropdown กลับเป็นค่าเริ่มต้น
     function resetCustomDropdowns(modalType) {
         if(modalType === 'inc') {
-            document.getElementById('selectedIncDateText').innerText = 'วันแรกของเดือน (วันที่ 1)';
-            document.getElementById('newIncDateType').value = 'day1';
-            document.getElementById('selectedIncMethodText').innerText = 'แอปธนาคาร / โอนเข้าบัญชี';
-            document.getElementById('newIncMethod').value = 'แอปธนาคาร / โอนเข้าบัญชี';
-            document.getElementById('incBankAccountFields').style.display = 'block';
-            document.getElementById('incDateInputContainer').style.display = 'none';
+            document.getElementById('selectedIncDateText').innerText = 'วันแรกของเดือน (วันที่ 1)'; document.getElementById('newIncDateType').value = 'day1';
+            document.getElementById('selectedIncMethodText').innerText = 'แอปธนาคาร / โอนเข้าบัญชี'; document.getElementById('newIncMethod').value = 'แอปธนาคาร / โอนเข้าบัญชี';
+            document.getElementById('incBankAccountFields').style.display = 'block'; document.getElementById('incDateInputContainer').style.display = 'none';
         } else if(modalType === 'bill') {
-            document.getElementById('selectedBillCatText').innerText = 'ความบันเทิง & สตรีมมิ่ง';
-            document.getElementById('newBillCat').value = 'entertainment';
-            document.getElementById('selectedBillDateText').innerText = 'วันแรกของเดือน (วันที่ 1)';
-            document.getElementById('newBillDateType').value = 'day1';
-            document.getElementById('selectedBillMethodText').innerText = 'แอปธนาคาร / โอนบิล';
-            document.getElementById('newBillMethod').value = 'แอปธนาคาร / โอนบิล';
-            document.getElementById('bankAccountFields').style.display = 'block';
-            document.getElementById('billDateInputContainer').style.display = 'none';
+            document.getElementById('selectedBillCatText').innerText = 'ความบันเทิง & สตรีมมิ่ง'; document.getElementById('newBillCat').value = 'entertainment';
+            document.getElementById('loanFields').style.display = 'none';
+            document.getElementById('selectedBillDateText').innerText = 'วันแรกของเดือน (วันที่ 1)'; document.getElementById('newBillDateType').value = 'day1';
+            document.getElementById('selectedBillMethodText').innerText = 'แอปธนาคาร / โอนบิล'; document.getElementById('newBillMethod').value = 'แอปธนาคาร / โอนบิล';
+            document.getElementById('bankAccountFields').style.display = 'block'; document.getElementById('billDateInputContainer').style.display = 'none';
         } else if(modalType === 'tx') {
-            document.getElementById('selectedTxTypeText').innerText = 'รายจ่าย';
-            document.getElementById('inputType').value = 'expense';
-            document.getElementById('selectedTxCatText').innerText = 'อาหาร';
-            document.getElementById('inputCategory').value = 'food';
+            document.getElementById('selectedTxTypeText').innerText = 'รายจ่าย'; document.getElementById('inputType').value = 'expense';
+            document.getElementById('selectedTxCatText').innerText = 'อาหาร'; document.getElementById('inputCategory').value = 'food';
         }
     }
 
-    window.openAddRecurringIncomeModal = function() {
-        document.getElementById('addRecurringIncomeForm').reset();
-        resetCustomDropdowns('inc');
-        document.getElementById('addRecurringIncomeModal').classList.add('active');
-    };
+    window.openAddRecurringIncomeModal = function() { document.getElementById('addRecurringIncomeForm').reset(); resetCustomDropdowns('inc'); document.getElementById('addRecurringIncomeModal').classList.add('active'); };
 
     window.saveNewRecurringIncome = function() {
         if (!currentUser) return;
-        const name = document.getElementById('newIncName').value.trim();
-        const amount = Number(document.getElementById('newIncAmount').value) || 0;
-        const dateType = document.getElementById('newIncDateType').value;
-        const dateVal = document.getElementById('newIncDateVal').value.trim();
-        const method = document.getElementById('newIncMethod').value;
-        const bank_name = document.getElementById('newIncBankName').value.trim();
-        const acc_no = document.getElementById('newIncAccNo').value.trim();
-
-        if (!name) { alert("กรุณากรอกชื่อรายการ"); return; }
-        if (amount <= 0) { alert("กรุณาระบุจำนวนเงินที่รับให้ถูกต้อง"); return; }
-        if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) {
-            alert("กรุณาระบุวันที่หรือข้อความกำหนดเองให้ครบถ้วน"); return;
-        }
-
-        db.ref(getUserDbPath('recurring_incomes')).push({
-            name, amount, dateType, dateVal, method, bank_name, acc_no, status: 'pending'
-        }).then(() => {
-            closeModal('addRecurringIncomeModal');
-        }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
+        const name = document.getElementById('newIncName').value.trim(); const amount = Number(document.getElementById('newIncAmount').value) || 0;
+        const dateType = document.getElementById('newIncDateType').value; const dateVal = document.getElementById('newIncDateVal').value.trim();
+        const method = document.getElementById('newIncMethod').value; const bank_name = document.getElementById('newIncBankName').value.trim(); const acc_no = document.getElementById('newIncAccNo').value.trim();
+        if (!name) { alert("กรุณากรอกชื่อรายการ"); return; } if (amount <= 0) { alert("กรุณาระบุจำนวนเงินที่รับให้ถูกต้อง"); return; }
+        if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) { alert("กรุณาระบุวันที่หรือข้อความกำหนดเองให้ครบถ้วน"); return; }
+        
+        // ลบ status: 'pending' ออก เปลี่ยนไปใช้ระบบ paid_months แทน
+        db.ref(getUserDbPath('recurring_incomes')).push({ name, amount, dateType, dateVal, method, bank_name, acc_no }).then(() => { closeModal('addRecurringIncomeModal'); }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
     };
 
-    window.toggleRecurringIncomeStatus = function(key, currentStatus) {
-        const nextStatus = currentStatus === 'received' ? 'pending' : 'received';
-        db.ref(getUserDbPath(`recurring_incomes/${key}`)).update({ status: nextStatus });
-    };
-
-    window.deleteRecurringIncome = function(key) {
-        if (confirm("ลบรายการรายรับประจำนี้หรือไม่?")) {
-            db.ref(getUserDbPath(`recurring_incomes/${key}`)).remove();
+    // อัปเดตสถานะรายรับตามเดือน
+    window.toggleRecurringIncomeStatus = function(key, isCurrentlyReceived) {
+        if (!currentUser) return;
+        const ref = db.ref(getUserDbPath(`recurring_incomes/${key}/received_months/${currentViewMonth}`));
+        if (isCurrentlyReceived) {
+            ref.remove(); // กดยกเลิก
+        } else {
+            ref.set(true); // กดรับเงิน
         }
     };
 
-    window.openAddBillModal = function() {
-        document.getElementById('addBillForm').reset();
-        resetCustomDropdowns('bill');
-        document.getElementById('addBillModal').classList.add('active');
-    };
+    window.deleteRecurringIncome = function(key) { if (confirm("ลบรายการรายรับประจำนี้หรือไม่?")) db.ref(getUserDbPath(`recurring_incomes/${key}`)).remove(); };
+
+    window.openAddBillModal = function() { document.getElementById('addBillForm').reset(); resetCustomDropdowns('bill'); document.getElementById('addBillModal').classList.add('active'); };
 
     window.saveNewBill = function() {
         if (!currentUser) return;
@@ -1036,141 +780,62 @@
         const bank_name = document.getElementById('newBankName').value.trim();
         const acc_no = document.getElementById('newAccNo').value.trim();
 
+        let totalInstallments = 0;
+        let initialInstallment = 0;
+        if (category === 'loan') {
+            totalInstallments = Number(document.getElementById('newLoanTotalM').value) || 0;
+            initialInstallment = Number(document.getElementById('newLoanCurrentM').value) || 0;
+            if (totalInstallments <= 0) { alert("กรุณาระบุจำนวนงวดทั้งหมดให้ถูกต้อง"); return; }
+        }
+
         if (!name) { alert("กรุณากรอกชื่อรายการ/บริการ"); return; }
         if (amount <= 0) { alert("กรุณาระบุยอดเงินให้ถูกต้อง"); return; }
-        if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) {
-            alert("กรุณาระบุวันที่หรือข้อความกำหนดเองให้ครบถ้วน"); return;
-        }
+        if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) { alert("กรุณาระบุวันที่หรือข้อความกำหนดเองให้ครบถ้วน"); return; }
 
         db.ref(getUserDbPath('fixed_expenses')).push({
-            name, category, amount, dateType, dateVal, payment_method, bank_name, acc_no, status: 'unpaid'
-        }).then(() => {
-            closeModal('addBillModal');
-        }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
+            name, category, amount, dateType, dateVal, payment_method, bank_name, acc_no,
+            totalInstallments: totalInstallments,
+            initialInstallment: initialInstallment
+        }).then(() => { closeModal('addBillModal'); }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
     };
 
-    window.toggleBillStatus = function(key, currentStatus) {
-        const nextStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
-        db.ref(getUserDbPath(`fixed_expenses/${key}`)).update({ status: nextStatus });
-    };
-
-    window.deleteFixedBill = function(key) {
-        if (confirm("ลบรายการบิลนี้หรือไม่?")) {
-            db.ref(getUserDbPath(`fixed_expenses/${key}`)).remove();
+    // อัปเดตสถานะบิลตามเดือน
+    window.toggleBillStatus = function(key, isCurrentlyPaid) {
+        if (!currentUser) return;
+        const ref = db.ref(getUserDbPath(`fixed_expenses/${key}/paid_months/${currentViewMonth}`));
+        if (isCurrentlyPaid) {
+            ref.remove(); // กดยกเลิก
+        } else {
+            ref.set(true); // กดจ่าย
         }
     };
 
-    window.openTxModal = function(type = 'expense') {
-        document.getElementById('txForm').reset();
-        resetCustomDropdowns('tx');
-        // เปลี่ยนค่าตั้งต้นตามปุ่มที่กด (รายจ่าย / รายได้เสริม)
-        if (type === 'income') chooseOption('txType', 'income', 'รายได้เสริม (ครั้งคราว)', null);
-        document.getElementById('txModal').classList.add('active');
-    };
+    window.deleteFixedBill = function(key) { if (confirm("ลบรายการบิลนี้หรือไม่?")) db.ref(getUserDbPath(`fixed_expenses/${key}`)).remove(); };
 
+    window.openTxModal = function(type = 'expense') { document.getElementById('txForm').reset(); resetCustomDropdowns('tx'); if (type === 'income') chooseOption('txType', 'income', 'รายได้เสริม (ครั้งคราว)', null); document.getElementById('txModal').classList.add('active'); };
+    
     window.submitTransaction = function() {
         if (!currentUser) return;
-        const type = document.getElementById('inputType').value;
-        const amount = Number(document.getElementById('inputAmount').value) || 0;
-        const name = document.getElementById('inputName').value.trim();
-        const category = document.getElementById('inputCategory').value;
+        const type = document.getElementById('inputType').value; const amount = Number(document.getElementById('inputAmount').value) || 0;
+        const name = document.getElementById('inputName').value.trim(); const category = document.getElementById('inputCategory').value;
         const dateStr = new Date().toISOString().split('T')[0];
-
-        if (!name) { alert("กรุณากรอกชื่อรายการ"); return; }
-        if (amount <= 0) { alert("กรุณาระบุจำนวนเงินให้ถูกต้อง"); return; }
-
-        db.ref(getUserDbPath(`transactions/${actualCurrentMonth}`)).push({
-            type, amount, name, category, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP
-        }).then(() => {
-            closeModal('txModal');
-        }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
+        if (!name) { alert("กรุณากรอกชื่อรายการ"); return; } if (amount <= 0) { alert("กรุณาระบุจำนวนเงินให้ถูกต้อง"); return; }
+        db.ref(getUserDbPath(`transactions/${actualCurrentMonth}`)).push({ type, amount, name, category, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => { closeModal('txModal'); }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
     };
 
-    window.openSettingsModal = function(type) {
-        document.getElementById('settingKey').value = type;
-        document.getElementById('settingValue').value = settingsData[type] || 0;
-        document.getElementById('settingsModalTitle').innerText = type === 'salary' ? "ตั้งค่าเงินเดือนประจำ" : "ตั้งค่างบต่อวัน";
-        document.getElementById('settingsModal').classList.add('active');
-    };
-
+    window.openSettingsModal = function(type) { document.getElementById('settingKey').value = type; document.getElementById('settingValue').value = settingsData[type] || 0; document.getElementById('settingsModalTitle').innerText = type === 'salary' ? "ตั้งค่าเงินเดือนประจำ" : "ตั้งค่างบต่อวัน"; document.getElementById('settingsModal').classList.add('active'); };
+    
     window.saveSettings = function() {
-        if (!currentUser) return;
-        const key = document.getElementById('settingKey').value;
-        const val = Number(document.getElementById('settingValue').value) || 0;
-        
-        if (val < 0) { alert("ยอดเงินไม่ถูกต้อง"); return; }
-
-        db.ref(getUserDbPath(`settings/${key}`)).set(val).then(() => {
-            closeModal('settingsModal');
-        }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
+        if (!currentUser) return; const key = document.getElementById('settingKey').value; const val = Number(document.getElementById('settingValue').value) || 0;
+        if (val < 0) { alert("ยอดเงินไม่ถูกต้อง"); return; } db.ref(getUserDbPath(`settings/${key}`)).set(val).then(() => { closeModal('settingsModal'); }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
     };
 
-    /* ==============================================================
-       ส่วนย่อย: จัดการซ่อน/แสดงช่องกรอกเพิ่มเติม
-       ============================================================== */
-    window.toggleBankFields = function() {
-        const method = document.getElementById('newBillMethod').value;
-        document.getElementById('bankAccountFields').style.display = method.includes('แอปธนาคาร') ? 'block' : 'none';
-    };
-
-    window.toggleIncBankFields = function() {
-        const method = document.getElementById('newIncMethod').value;
-        document.getElementById('incBankAccountFields').style.display = method.includes('แอปธนาคาร') ? 'block' : 'none';
-    };
-
-    window.toggleBillDateInput = function() {
-        const type = document.getElementById('newBillDateType').value;
-        const container = document.getElementById('billDateInputContainer');
-        const input = document.getElementById('newBillDateVal');
-        const label = document.getElementById('billDateLabel');
-
-        if (type === 'customDate') {
-            container.style.display = 'block';
-            input.type = 'date';
-            label.innerText = 'เลือกวันที่จากปฏิทิน';
-        } else if (type === 'customText') {
-            container.style.display = 'block';
-            input.type = 'text';
-            input.placeholder = 'เช่น วันที่ 25 ของทุกเดือน';
-            label.innerText = 'ระบุข้อความกำหนดเอง';
-        } else {
-            container.style.display = 'none';
-            input.value = '';
-        }
-    };
-
-    window.toggleIncDateInput = function() {
-        const type = document.getElementById('newIncDateType').value;
-        const container = document.getElementById('incDateInputContainer');
-        const input = document.getElementById('newIncDateVal');
-        const label = document.getElementById('incDateLabel');
-
-        if (type === 'customDate') {
-            container.style.display = 'block';
-            input.type = 'date';
-            label.innerText = 'เลือกวันที่จากปฏิทิน';
-        } else if (type === 'customText') {
-            container.style.display = 'block';
-            input.type = 'text';
-            input.placeholder = 'เช่น สัญญาเข้าวันที่ 28';
-            label.innerText = 'ระบุข้อความกำหนดเอง';
-        } else {
-            container.style.display = 'none';
-            input.value = '';
-        }
-    };
-
-    window.closeModal = function(id) {
-        document.getElementById(id).classList.remove('active');
-    };
-
-    window.toggleDarkMode = function() {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun"></i> โหมดสว่าง' : '<i data-lucide="moon"></i> โหมดมืด';
-        lucide.createIcons();
-    };
-
+    window.toggleBankFields = function() { const method = document.getElementById('newBillMethod').value; document.getElementById('bankAccountFields').style.display = method.includes('แอปธนาคาร') ? 'block' : 'none'; };
+    window.toggleIncBankFields = function() { const method = document.getElementById('newIncMethod').value; document.getElementById('incBankAccountFields').style.display = method.includes('แอปธนาคาร') ? 'block' : 'none'; };
+    window.toggleBillDateInput = function() { const type = document.getElementById('newBillDateType').value; const container = document.getElementById('billDateInputContainer'); const input = document.getElementById('newBillDateVal'); const label = document.getElementById('billDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น วันที่ 25 ของทุกเดือน'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
+    window.toggleIncDateInput = function() { const type = document.getElementById('newIncDateType').value; const container = document.getElementById('incDateInputContainer'); const input = document.getElementById('newIncDateVal'); const label = document.getElementById('incDateLabel'); if (type === 'customDate') { container.style.display = 'block'; input.type = 'date'; label.innerText = 'เลือกวันที่จากปฏิทิน'; } else if (type === 'customText') { container.style.display = 'block'; input.type = 'text'; input.placeholder = 'เช่น สัญญาเข้าวันที่ 28'; label.innerText = 'ระบุข้อความกำหนดเอง'; } else { container.style.display = 'none'; input.value = ''; } };
+    window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); };
+    window.toggleDarkMode = function() { document.body.classList.toggle('dark-mode'); const isDark = document.body.classList.contains('dark-mode'); document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun"></i> โหมดสว่าง' : '<i data-lucide="moon"></i> โหมดมืด'; lucide.createIcons(); };
 </script>
 </body>
 </html>
