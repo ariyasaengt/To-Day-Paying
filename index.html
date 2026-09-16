@@ -105,6 +105,14 @@
         
         .editable-price { cursor: pointer; border-bottom: 1px dashed var(--primary); transition: color 0.2s; }
         .editable-price:hover { color: var(--primary); }
+
+        /* Custom Dropdown Web App UI Style */
+        .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
+        .custom-select { position: relative; display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; font-size: 13px; cursor: pointer; }
+        .custom-options { position: absolute; top: 105%; left: 0; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); z-index: 200; display: none; max-height: 200px; overflow-y: auto; }
+        .custom-options.open { display: block; }
+        .custom-option { padding: 10px 12px; display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; transition: 0.15s; }
+        .custom-option:hover { background: var(--primary-light); color: var(--primary); }
     </style>
 </head>
 <body>
@@ -282,7 +290,7 @@
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายจ่ายประจำ (ใช้ Lucide Icon ทุกตัวเลือกธนาคารแบบ UI เว็บโมเดิร์น) -->
+<!-- Modal 2: เพิ่มรายจ่ายประจำ ( Custom Web App UI Dropdown พร้อม Lucide Icon ทุกตัวเลือก ) -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -332,35 +340,51 @@
                 <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
             </div>
 
+            <!-- Custom Select สำหรับช่องทางชำระเงิน -->
             <div class="form-group">
                 <label id="txt-lbl-method">ช่องทางชำระเงิน</label>
-                <select id="newBillMethod" onchange="toggleBankFields()">
-                    <option value="แอปธนาคาร / โอนบิล">📱 แอปธนาคาร / โอนบิล</option>
-                    <option value="ตัดบัตรเครดิต / เดบิต">💳 ตัดบัตรเครดิต / เดบิต</option>
-                    <option value="ShopeePay / แอปธนาคาร">🛍️ ShopeePay / แอปธนาคาร</option>
-                    <option value="Google Play / ตัดบัตร">🌐 Google Play / ตัดบัตร</option>
-                    <option value="เงินสด / โอนจ่าย">💵 เงินสด / โอนจ่าย</option>
-                </select>
+                <div class="custom-select-wrapper" id="customMethodWrapper">
+                    <div class="custom-select" onclick="toggleDropdown('methodDropdown')">
+                        <span id="selectedMethodText"><i data-lucide="smartphone" size="14"></i> แอปธนาคาร / โอนบิล</span>
+                        <i data-lucide="chevron-down" size="14"></i>
+                    </div>
+                    <div class="custom-options" id="methodDropdown">
+                        <div class="custom-option" onclick="selectMethod('แอปธนาคาร / โอนบิล', '<i data-lucide=\'smartphone\' size=\'14\'></i> แอปธนาคาร / โอนบิล')"><i data-lucide="smartphone" size="14"></i> แอปธนาคาร / โอนบิล</div>
+                        <div class="custom-option" onclick="selectMethod('ตัดบัตรเครดิต / เดบิต', '<i data-lucide=\'credit-card\' size=\'14\'></i> ตัดบัตรเครดิต / เดบิต')"><i data-lucide="credit-card" size="14"></i> ตัดบัตรเครดิต / เดบิต</div>
+                        <div class="custom-option" onclick="selectMethod('ShopeePay / แอปธนาคาร', '<i data-lucide=\'shopping-bag\' size=\'14\'></i> ShopeePay / แอปธนาคาร')"><i data-lucide="shopping-bag" size="14"></i> ShopeePay / แอปธนาคาร</div>
+                        <div class="custom-option" onclick="selectMethod('Google Play / ตัดบัตร', '<i data-lucide=\'globe\' size=\'14\'></i> Google Play / ตัดบัตร')"><i data-lucide="globe" size="14"></i> Google Play / ตัดบัตร</div>
+                        <div class="custom-option" onclick="selectMethod('เงินสด / โอนจ่าย', '<i data-lucide=\'banknote\' size=\'14\'></i> เงินสด / โอนจ่าย')"><i data-lucide="banknote" size="14"></i> เงินสด / โอนจ่าย</div>
+                    </div>
+                </div>
+                <input type="hidden" id="newBillMethod" value="แอปธนาคาร / โอนบิล">
             </div>
 
+            <!-- Custom Select สำหรับเลือกธนาคาร -->
             <div id="bankAccountFields" style="background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-bank">เลือกธนาคาร</label>
-                    <select id="newBankName">
-                        <option value="ธ.ไทยพาณิชย์ (SCB)">🏦 ธ.ไทยพาณิชย์ (SCB)</option>
-                        <option value="ธ.กสิกรไทย (KBANK)">🏦 ธ.กสิกรไทย (KBANK)</option>
-                        <option value="ธ.กรุงไทย (KTB)">🏦 ธ.กรุงไทย (KTB)</option>
-                        <option value="ธ.กรุงเทพ (BBL)">🏦 ธ.กรุงเทพ (BBL)</option>
-                        <option value="ธ.กรุงศรีอยุธยา (BAY)">🏦 ธ.กรุงศรีอยุธยา (BAY)</option>
-                        <option value="พร้อมเพย์ (PromptPay)">💳 พร้อมเพย์ (PromptPay)</option>
-                    </select>
+                    <div class="custom-select-wrapper" id="customBankWrapper">
+                        <div class="custom-select" onclick="toggleDropdown('bankDropdown')">
+                            <span id="selectedBankText"><i data-lucide="landmark" size="14"></i> ธ.ไทยพาณิชย์ (SCB)</span>
+                            <i data-lucide="chevron-down" size="14"></i>
+                        </div>
+                        <div class="custom-options" id="bankDropdown">
+                            <div class="custom-option" onclick="selectBank('ธ.ไทยพาณิชย์ (SCB)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.ไทยพาณิชย์ (SCB)')"><i data-lucide="landmark" size="14"></i> ธ.ไทยพาณิชย์ (SCB)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กสิกรไทย (KBANK)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กสิกรไทย (KBANK)')"><i data-lucide="landmark" size="14"></i> ธ.กสิกรไทย (KBANK)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงไทย (KTB)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กรุงไทย (KTB)')"><i data-lucide="landmark" size="14"></i> ธ.กรุงไทย (KTB)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงเทพ (BBL)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กรุงเทพ (BBL)')"><i data-lucide="landmark" size="14"></i> ธ.กรุงเทพ (BBL)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงศรีอยุธยา (BAY)', '<i data-lucide=\'landmark\' size=\'14\'></i> ธ.กรุงศรีอยุธยา (BAY)')"><i data-lucide="landmark" size="14"></i> ธ.กรุงศรีอยุธยา (BAY)</div>
+                            <div class="custom-option" onclick="selectBank('พร้อมเพย์ (PromptPay)', '<i data-lucide=\'credit-card\' size=\'14\'></i> พร้อมเพย์ (PromptPay)')"><i data-lucide="credit-card" size="14"></i> พร้อมเพย์ (PromptPay)</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="newBankName" value="ธ.ไทยพาณิชย์ (SCB)">
                 </div>
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-accname">ชื่อบัญชี / ผู้รับเงิน</label>
                     <input type="text" id="newAccName" placeholder="เช่น นายสมชาย ใจดี">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่างเพื่อความปลอดภัย)</label>
+                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่าง)</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
@@ -436,6 +460,38 @@
 
 <script>
     lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+
+    // ฟังก์ชันจัดการ Custom Dropdown
+    function toggleDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        // ปิดอันอื่นก่อน
+        document.querySelectorAll('.custom-options').forEach(el => {
+            if(el.id !== dropdownId) el.classList.remove('open');
+        });
+        dropdown.classList.toggle('open');
+    }
+
+    function selectMethod(value, htmlText) {
+        document.getElementById('newBillMethod').value = value;
+        document.getElementById('selectedMethodText').innerHTML = htmlText;
+        document.getElementById('methodDropdown').classList.remove('open');
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+        toggleBankFields();
+    }
+
+    function selectBank(value, htmlText) {
+        document.getElementById('newBankName').value = value;
+        document.getElementById('selectedBankText').innerHTML = htmlText;
+        document.getElementById('bankDropdown').classList.remove('open');
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+    }
+
+    // ปิด dropdown เมื่อคลิกนอกพื้นที่
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-select-wrapper')) {
+            document.querySelectorAll('.custom-options').forEach(el => el.classList.remove('open'));
+        }
+    });
 
     const dateObj = new Date();
     let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
