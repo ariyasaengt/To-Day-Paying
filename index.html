@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today Paying - Budget Tracker</title>
     
-    <!-- โหลดไลบรารี PapaParse สำหรับดึงข้อมูลจาก Google Sheet -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    
     <!-- โหลดไลบรารี Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -26,7 +23,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e5e5e5; /* สีพื้นหลังสำหรับจอใหญ่ */
+            background-color: #e5e5e5;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -34,20 +31,19 @@
             min-height: 100vh;
         }
 
-        /* คอนเทนเนอร์หลัก (ปรับขนาดตามหน้าจอ Responsive) */
+        /* คอนเทนเนอร์หลัก (Responsive) */
         .app-container {
             width: 100%;
-            max-width: 450px; /* จำกัดความกว้างไม่ให้ใหญ่เกินไปบนจอคอม */
+            max-width: 450px;
             background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg-color) 30%);
             min-height: 100vh;
             position: relative;
             box-sizing: border-box;
             padding: 40px 24px 100px 24px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.1); /* เพิ่มเงาเวลาอยู่บนจอคอม */
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
             overflow-y: auto;
         }
 
-        /* สำหรับจอที่ใหญ่กว่ามือถือ (Desktop/Tablet) ให้กำหนดความสูงและขอบโค้งมน */
         @media (min-width: 480px) {
             .app-container {
                 min-height: 85vh;
@@ -80,7 +76,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* สรุป 3 กล่อง (รายรับ, รายจ่าย, คงเหลือ) */
+        /* สรุป 3 กล่อง */
         .summary-row {
             display: flex;
             justify-content: space-between;
@@ -98,12 +94,9 @@
             flex-direction: column;
             align-items: center;
         }
-        .summary-card i { 
-            color: var(--primary); 
-            margin-bottom: 8px;
-        }
+        .summary-card i { color: var(--primary); margin-bottom: 8px; }
         .summary-card h3 { margin: 0; font-size: 13px; color: var(--text-light); font-weight: 500; }
-        .summary-card p { margin: 8px 0 0; font-size: 16px; color: var(--text-dark); font-weight: 700; }
+        .summary-card p { margin: 8px 0 0; font-size: 15px; color: var(--text-dark); font-weight: 700; word-break: break-word;}
 
         /* แถบสถานะ (Progress Card) */
         .progress-card {
@@ -134,11 +127,12 @@
             background: white;
             height: 100%;
             border-radius: 10px;
-            width: 65%; /* เปลี่ยนค่าตรงนี้เพื่อเปลี่ยนความยาวหลอด */
+            width: 0%; /* จะอัปเดตผ่าน JS */
+            transition: width 0.5s ease-in-out;
         }
         .progress-text { font-size: 13px; opacity: 0.9; }
 
-        /* รายการใช้จ่าย (Transactions) */
+        /* รายการใช้จ่าย */
         .section-title {
             display: flex;
             justify-content: space-between;
@@ -170,9 +164,7 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.02);
             transition: transform 0.2s;
         }
-        .transaction-item:hover {
-            transform: translateY(-2px);
-        }
+        .transaction-item:hover { transform: translateY(-2px); }
         .item-left { display: flex; align-items: center; gap: 15px; }
         .item-icon {
             width: 48px;
@@ -184,17 +176,17 @@
             align-items: center;
             justify-content: center;
         }
-        /* สีไอคอนเฉพาะหมวดหมู่ */
-        .icon-food { background: #ffe3e3; color: var(--expense); }
-        .icon-shop { background: #e3f2fd; color: #2196f3; }
+        
+        .icon-expense { background: #ffe3e3; color: var(--expense); }
         .icon-income { background: #e8f5e9; color: var(--income); }
 
         .item-details h4 { margin: 0 0 6px; font-size: 15px; color: var(--text-dark); }
         .item-details p { margin: 0; font-size: 13px; color: var(--text-light); }
         .item-amount { font-size: 16px; font-weight: bold; color: var(--expense); }
         .item-amount.income { color: var(--income); }
+        .loading-text { text-align: center; color: var(--text-light); font-size: 14px; margin-top: 20px; }
 
-        /* แถบเมนูด้านล่าง (Bottom Nav) */
+        /* แถบเมนูด้านล่าง */
         .bottom-nav {
             position: absolute;
             bottom: 24px;
@@ -257,65 +249,25 @@
     <!-- ส่วน Progress -->
     <div class="progress-card">
         <div class="progress-card-header">
-            <h2>งบประมาณเดือนนี้</h2>
+            <h2>งบประมาณของคุณ</h2>
             <i data-lucide="target"></i>
         </div>
         <div class="progress-bar">
             <div class="progress-fill" id="budget-progress"></div>
         </div>
-        <div class="progress-text">ใช้จ่ายไปแล้ว 65% ของงบทั้งหมด</div>
+        <div class="progress-text" id="progress-text">กำลังโหลดข้อมูล...</div>
     </div>
 
     <!-- ส่วนรายการใช้จ่ายล่าสุด -->
     <div class="section-title">
-        <h3>รายการล่าสุด (Recent)</h3>
+        <h3>รายการ (Transactions)</h3>
         <button class="add-btn">
             <i data-lucide="plus" size="20"></i>
         </button>
     </div>
 
     <div class="transaction-list" id="transaction-container">
-        <!-- ตัวอย่างข้อมูล 1 -->
-        <div class="transaction-item">
-            <div class="item-left">
-                <div class="item-icon icon-food">
-                    <i data-lucide="utensils"></i>
-                </div>
-                <div class="item-details">
-                    <h4>CP AXTRA</h4>
-                    <p>ของใช้เข้าบ้าน</p>
-                </div>
-            </div>
-            <div class="item-amount">- ฿1,200</div>
-        </div>
-
-        <!-- ตัวอย่างข้อมูล 2 -->
-        <div class="transaction-item">
-            <div class="item-left">
-                <div class="item-icon icon-shop">
-                    <i data-lucide="shopping-bag"></i>
-                </div>
-                <div class="item-details">
-                    <h4>TikTok Shop</h4>
-                    <p>ช้อปปิ้งออนไลน์</p>
-                </div>
-            </div>
-            <div class="item-amount">- ฿350</div>
-        </div>
-
-        <!-- ตัวอย่างข้อมูล 3 -->
-        <div class="transaction-item">
-            <div class="item-left">
-                <div class="item-icon icon-food">
-                    <i data-lucide="beef"></i>
-                </div>
-                <div class="item-details">
-                    <h4>โชคดีหมูสด</h4>
-                    <p>วัตถุดิบทำอาหาร</p>
-                </div>
-            </div>
-            <div class="item-amount">- ฿250</div>
-        </div>
+        <div class="loading-text">กำลังดึงข้อมูลจาก Sheet...</div>
     </div>
 
     <!-- เมนูด้านล่าง -->
@@ -336,22 +288,118 @@
 </div>
 
 <script>
-    // คำสั่งสร้างไอคอนของ Lucide Icons (จำเป็นต้องมีเพื่อให้ไอคอนแสดงผล)
+    // สร้างไอคอนเริ่มต้น
     lucide.createIcons();
 
-    // 1. นำลิงก์ของคุณมาเติม /pub?output=csv เพื่อดึงข้อมูลมาแสดงผล
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRBKKi49NYuLB0rm1pR2OZNcBqpjbIsX1xXtjOLakOskqA1PJB9yEDJmcq5Ndg1doOKNJ_McLMgKi9b/pub?output=csv';
+    // ==============================================================
+    // 🔴 1. ตั้งค่า API และชื่อคอลัมน์ (กรุณาแก้ให้ตรงกับ Sheet ของคุณ)
+    // ==============================================================
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbzbKOKDn6c3vvg_dvNLtOH07Mh6bluJ0if5jzIEZIJzuyRmE1kbvXkosNQy8IDdNYeCfA/exec';
+    
+    // พิมพ์ชื่อหัวตารางให้เป๊ะๆ (คำนึงถึงเว้นวรรคด้วย)
+    const COL_NAME = 'รายการ';       // คอลัมน์ที่เก็บชื่อรายการ
+    const COL_CATEGORY = 'หมวดหมู่';  // คอลัมน์ที่เก็บหมวดหมู่
+    const COL_AMOUNT = 'จำนวนเงิน';   // คอลัมน์ที่เก็บตัวเลข
+    const COL_TYPE = 'ประเภท';      // คอลัมน์ที่บอกว่าเป็น 'รายรับ' หรือ 'รายจ่าย'
+    // ==============================================================
 
-    Papa.parse(sheetUrl, {
-        download: true,
-        header: true,
-        complete: function(results) {
-            const data = results.data;
-            console.log("ข้อมูลจาก Sheet:", data);
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            let totalIncome = 0;
+            let totalExpense = 0;
+            const container = document.getElementById('transaction-container');
+            container.innerHTML = ''; // ล้างข้อความ Loading
+
+            // ถ้าไม่มีข้อมูลเลย
+            if(data.length === 0) {
+                container.innerHTML = '<div class="loading-text">ยังไม่มีข้อมูลในระบบ</div>';
+                return;
+            }
+
+            // วนลูปสร้างรายการจาก Sheet (แสดงจากล่างขึ้นบน จะได้เห็นของใหม่ล่าสุดก่อน)
+            data.reverse().forEach(row => {
+                
+                // ข้ามถ้าบรรทัดนั้นไม่มีชื่อรายการหรือจำนวนเงิน
+                if (!row[COL_NAME] || !row[COL_AMOUNT]) return;
+
+                const amount = parseFloat(row[COL_AMOUNT].toString().replace(/,/g, '')) || 0;
+                
+                // เช็คเงื่อนไขรายรับ (รองรับคำว่า 'รายรับ' หรือ 'Income')
+                const typeStr = row[COL_TYPE] ? row[COL_TYPE].trim() : '';
+                const isIncome = typeStr === 'รายรับ' || typeStr === 'Income'; 
+
+                if (isIncome) {
+                    totalIncome += amount;
+                } else {
+                    totalExpense += amount;
+                }
+
+                // กำหนดไอคอนตามประเภทและหมวดหมู่
+                let iconName = 'shopping-bag';
+                let iconClass = 'icon-expense';
+                let amountClass = 'item-amount';
+                let sign = '-';
+                
+                const category = row[COL_CATEGORY] ? row[COL_CATEGORY].toLowerCase() : '';
+
+                if (isIncome) {
+                    iconName = 'wallet';
+                    iconClass = 'icon-income';
+                    amountClass = 'item-amount income';
+                    sign = '+';
+                } else if (category.includes('อาหาร') || category.includes('กิน') || category.includes('food')) {
+                    iconName = 'utensils';
+                } else if (category.includes('เดินทาง') || category.includes('รถ') || category.includes('transport')) {
+                    iconName = 'car';
+                } else if (category.includes('บ้าน') || category.includes('ของใช้')) {
+                    iconName = 'home';
+                }
+
+                // สร้าง HTML
+                const itemHTML = `
+                <div class="transaction-item">
+                    <div class="item-left">
+                        <div class="item-icon ${iconClass}">
+                            <i data-lucide="${iconName}"></i>
+                        </div>
+                        <div class="item-details">
+                            <h4>${row[COL_NAME]}</h4>
+                            <p>${row[COL_CATEGORY] || '-'}</p>
+                        </div>
+                    </div>
+                    <div class="${amountClass}">${sign} ฿${amount.toLocaleString()}</div>
+                </div>`;
+                
+                container.innerHTML += itemHTML;
+            });
+
+            // อัปเดตตัวเลขรวม
+            const balance = totalIncome - totalExpense;
+            document.getElementById('total-income').innerText = `฿${totalIncome.toLocaleString()}`;
+            document.getElementById('total-expense').innerText = `฿${totalExpense.toLocaleString()}`;
+            document.getElementById('total-balance').innerText = `฿${balance.toLocaleString()}`;
+
+            // อัปเดต Progress Bar (เทียบบัญชีรายจ่ายกับรายรับ)
+            const budgetTarget = totalIncome > 0 ? totalIncome : 1; // กันหารด้วย 0
+            let percent = (totalExpense / budgetTarget) * 100;
+            const displayPercent = percent > 100 ? 100 : percent;
             
-            // รอรับคำสั่งเพิ่มเติมเพื่อนำข้อมูลจาก Sheet มาแทนที่ข้อมูลจำลอง...
-        }
-    });
+            document.getElementById('budget-progress').style.width = `${displayPercent}%`;
+            
+            if(totalIncome > 0) {
+                document.getElementById('progress-text').innerText = `ใช้จ่ายไปแล้ว ${percent.toFixed(0)}% ของรายรับทั้งหมด`;
+            } else {
+                document.getElementById('progress-text').innerText = `ยังไม่มีรายรับเข้ามา`;
+            }
+            
+            // วาดไอคอนใหม่สำหรับรายการที่เพิ่งสร้าง
+            lucide.createIcons();
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById('transaction-container').innerHTML = '<div class="loading-text" style="color:red;">พบปัญหาการเชื่อมต่อข้อมูล กรุณาตรวจสอบ API หรือชื่อคอลัมน์</div>';
+        });
 </script>
 
 </body>
