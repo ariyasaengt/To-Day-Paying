@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Day Paying - Financial Dashboard</title>
     
+    <!-- PWA Manifest & Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +52,7 @@
         * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         
-        /* ควบคุมขนาดและตำแหน่งของไอคอน Lucide ทุกตัวให้พอดีเป๊ะกับข้อความ */
+        /* ควบคุมขนาดและตำแหน่งของไอคอน Lucide ให้พอดีกับตัวอักษรเป๊ะๆ */
         svg.lucide {
             width: 1em !important;
             height: 1em !important;
