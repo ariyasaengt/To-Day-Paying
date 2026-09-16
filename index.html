@@ -119,8 +119,8 @@
 
         .form-group { margin-bottom: 14px; position: relative; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight: 500;}
-        .form-group input, .form-group select { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+        .form-group input, .form-group select { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 36px; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1); }
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
         .submit-btn:hover { opacity: 0.9; }
 
@@ -324,6 +324,19 @@
                 <input type="number" id="newIncAmount" placeholder="0" min="0" step="0.01" required>
             </div>
             <div class="form-group">
+                <label>กำหนดวันที่รับเงินประจำเดือน</label>
+                <select id="newIncDateType" onchange="toggleIncDateInput()">
+                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
+                    <option value="dayLast">วันสุดท้ายของเดือน</option>
+                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
+                    <option value="customText">ระบุข้อความกำหนดเอง</option>
+                </select>
+            </div>
+            <div class="form-group" id="incDateInputContainer" style="display:none;">
+                <label id="incDateLabel">เลือกวันที่</label>
+                <input type="date" id="newIncDateVal">
+            </div>
+            <div class="form-group">
                 <label>ช่องทางรับเงิน</label>
                 <select id="newIncMethod" onchange="toggleIncBankFields()">
                     <option value="แอปธนาคาร / โอนเข้าบัญชี">แอปธนาคาร / โอนเข้าบัญชี</option>
@@ -339,19 +352,6 @@
                     <label>เลขที่บัญชี</label>
                     <input type="text" id="newIncAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
-            </div>
-            <div class="form-group">
-                <label>กำหนดวันที่รับเงินประจำเดือน</label>
-                <select id="newIncDateType" onchange="toggleIncDateInput()">
-                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
-                    <option value="dayLast">วันสุดท้ายของเดือน</option>
-                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
-                    <option value="customText">ระบุข้อความกำหนดเอง</option>
-                </select>
-            </div>
-            <div class="form-group" id="incDateInputContainer" style="display:none;">
-                <label id="incDateLabel">เลือกวันที่</label>
-                <input type="date" id="newIncDateVal">
             </div>
             <button type="submit" class="submit-btn">เพิ่มรายรับประจำ</button>
         </form>
@@ -385,6 +385,19 @@
                 <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
             </div>
             <div class="form-group">
+                <label>กำหนดวันตัดจ่ายประจำเดือน</label>
+                <select id="newBillDateType" onchange="toggleBillDateInput()">
+                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
+                    <option value="dayLast">วันสุดท้ายของเดือน</option>
+                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
+                    <option value="customText">ระบุข้อความกำหนดเอง</option>
+                </select>
+            </div>
+            <div class="form-group" id="billDateInputContainer" style="display:none;">
+                <label id="billDateLabel">เลือกวันที่</label>
+                <input type="date" id="newBillDateVal">
+            </div>
+            <div class="form-group">
                 <label>ช่องทางชำระเงิน</label>
                 <select id="newBillMethod" onchange="toggleBankFields()">
                     <option value="แอปธนาคาร / โอนบิล">แอปธนาคาร / โอนบิล</option>
@@ -401,19 +414,6 @@
                     <label>เลขที่บัญชี</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
-            </div>
-            <div class="form-group">
-                <label>กำหนดวันตัดจ่ายประจำเดือน</label>
-                <select id="newBillDateType" onchange="toggleBillDateInput()">
-                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
-                    <option value="dayLast">วันสุดท้ายของเดือน</option>
-                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
-                    <option value="customText">ระบุข้อความกำหนดเอง</option>
-                </select>
-            </div>
-            <div class="form-group" id="billDateInputContainer" style="display:none;">
-                <label id="billDateLabel">เลือกวันที่</label>
-                <input type="date" id="newBillDateVal">
             </div>
             <button type="submit" class="submit-btn">เพิ่มรายจ่ายประจำ</button>
         </form>
@@ -676,14 +676,14 @@
         e.preventDefault();
         const name = document.getElementById('newIncName').value.trim();
         const amount = Number(document.getElementById('newIncAmount').value) || 0;
+        const dateType = document.getElementById('newIncDateType').value;
+        const dateVal = document.getElementById('newIncDateVal').value;
         const method = document.getElementById('newIncMethod').value;
         const bank_name = document.getElementById('newIncBankName').value.trim();
         const acc_no = document.getElementById('newIncAccNo').value.trim();
-        const dateType = document.getElementById('newIncDateType').value;
-        const dateVal = document.getElementById('newIncDateVal').value;
 
         db.ref(getUserDbPath('recurring_incomes')).push({
-            name, amount, method, bank_name, acc_no, dateType, dateVal, status: 'pending'
+            name, amount, dateType, dateVal, method, bank_name, acc_no, status: 'pending'
         }).then(() => {
             closeModal('addRecurringIncomeModal');
         });
@@ -805,14 +805,14 @@
         const name = document.getElementById('newBillName').value.trim();
         const category = document.getElementById('newBillCat').value;
         const amount = Number(document.getElementById('newBillAmount').value) || 0;
+        const dateType = document.getElementById('newBillDateType').value;
+        const dateVal = document.getElementById('newBillDateVal').value;
         const payment_method = document.getElementById('newBillMethod').value;
         const bank_name = document.getElementById('newBankName').value.trim();
         const acc_no = document.getElementById('newAccNo').value.trim();
-        const dateType = document.getElementById('newBillDateType').value;
-        const dateVal = document.getElementById('newBillDateVal').value;
 
         db.ref(getUserDbPath('fixed_expenses')).push({
-            name, category, amount, payment_method, bank_name, acc_no, dateType, dateVal, status: 'unpaid'
+            name, category, amount, dateType, dateVal, payment_method, bank_name, acc_no, status: 'unpaid'
         }).then(() => {
             closeModal('addBillModal');
         });
