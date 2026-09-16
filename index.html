@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todaypaying - Ultimate Workspace</title>
     
+    <!-- นำเข้าฟอนต์ Prompt จาก Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -12,14 +17,20 @@
 
     <style>
         :root { --bg-color: #f1f5f9; --primary: #6366f1; --primary-light: #e0e7ff; --text-dark: #1e293b; --text-light: #64748b; --success: #10b981; --danger: #ef4444; --warning: #f59e0b; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); }
+        
+        /* เปลี่ยนฟอนต์หลักเป็น Prompt */
+        body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px;}
+        
+        /* จัดตำแหน่ง Icon ทั่วไปให้พอดีกับข้อความ */
+        .lucide { vertical-align: middle; margin-bottom: 2px; }
+
         .app-container { width: 100%; max-width: 1300px; margin: 0 auto; box-sizing: border-box; padding: 15px; display: flex; flex-direction: column; min-height: 100vh; }
         
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 15px 25px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);}
-        .header h1 { margin: 0; font-size: 22px; color: var(--primary); display: flex; align-items: center; gap:10px;}
-        .header p { margin: 2px 0 0 35px; font-size: 13px; color: var(--text-light); }
-        .month-selector { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 15px; border-radius: 12px; font-weight: bold; color: var(--text-dark); cursor: pointer; font-family: inherit;}
-        .lang-btn { background: #fff; border: 2px solid var(--primary-light); color: var(--primary); font-weight: bold; padding: 8px 12px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit;}
+        .header h1 { margin: 0; font-size: 22px; color: var(--primary); display: flex; align-items: center; gap:10px; font-weight: 600;}
+        .header p { margin: 2px 0 0 35px; font-size: 13px; color: var(--text-light); font-weight: 300;}
+        .month-selector { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 15px; border-radius: 12px; font-weight: 500; color: var(--text-dark); cursor: pointer; font-family: inherit;}
+        .lang-btn { background: #fff; border: 2px solid var(--primary-light); color: var(--primary); font-weight: 600; padding: 8px 12px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit;}
         .lang-btn:hover { background: var(--primary-light); }
         
         /* Layout Grid */
@@ -35,7 +46,7 @@
         /* Panels */
         .panel { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;}
-        .panel-header h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px;}
+        .panel-header h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; font-weight: 500;}
         
         /* Buttons */
         .action-btn { background: var(--primary-light); color: var(--primary); border: none; width: 32px; height: 32px; border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; }
@@ -46,31 +57,33 @@
         .list-container { max-height: 450px; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 10px; }
         .item-card { background: #f8fafc; border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f1f5f9; transition: 0.2s;}
         .item-card:hover { border-color: #e2e8f0; }
-        .item-info h4 { margin: 0 0 4px; font-size: 14px; }
-        .item-info p { margin: 0; font-size: 12px; color: var(--text-light); }
+        .item-info h4 { margin: 0 0 4px; font-size: 14px; font-weight: 500;}
+        .item-info p { margin: 0; font-size: 12px; color: var(--text-light); font-weight: 300;}
+        .meta-tag { background: white; padding: 3px 8px; border-radius: 6px; font-size: 10px; border: 1px solid #e2e8f0; color: var(--text-light); margin-right: 5px; font-weight: 400;}
         
         .check-btn { width: 28px; height: 28px; border-radius: 8px; border: 2px solid #cbd5e1; display: flex; justify-content: center; align-items: center; cursor: pointer; background: white;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
         /* แถบค่ากินอยู่ */
-        .daily-tracker-bar { background: #fffbeb; border: 1px solid #fde68a; border-radius: 15px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: bold; color: #92400e; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
+        .daily-tracker-bar { background: #fffbeb; border: 1px solid #fde68a; border-radius: 15px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; color: #92400e; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
         
         /* สัดส่วน (Breakdown) */
         .breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; }
-        .breakdown-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .breakdown-table { width: 100%; border-collapse: collapse; font-size: 13px; font-weight: 300;}
         .breakdown-table td { padding: 10px 0; border-bottom: 1px dashed #e2e8f0; }
 
         /* ตารางหนี้สิน (Debt Tracker) */
         .debt-table-wrapper { overflow-x: auto; margin-top: 20px;}
-        .debt-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap;}
-        .debt-table th { background: #f8fafc; color: var(--text-light); padding: 12px; text-align: left; border-bottom: 2px solid #e2e8f0;}
+        .debt-table { width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; font-weight: 300;}
+        .debt-table th { background: #f8fafc; color: var(--text-light); padding: 12px; text-align: left; border-bottom: 2px solid #e2e8f0; font-weight: 500;}
         .debt-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
 
         /* ปฏิทิน */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; margin-top: 15px;}
-        .cal-day-header { font-size: 12px; font-weight: bold; color: var(--text-light); padding: 10px 0; }
-        .cal-cell { aspect-ratio: 1; background: #f8fafc; border-radius: 10px; display: flex; flex-direction: column; align-items: center; padding: 5px; font-size: 12px; border: 1px solid #f1f5f9; cursor: pointer;}
-        .cal-cell.has-bill { background: #eff6ff; border-color: #bfdbfe; font-weight: bold;}
+        .cal-day-header { font-size: 12px; font-weight: 500; color: var(--text-light); padding: 10px 0; }
+        .cal-cell { aspect-ratio: 1; background: #f8fafc; border-radius: 10px; display: flex; flex-direction: column; align-items: center; padding: 5px; font-size: 12px; border: 1px solid #f1f5f9; cursor: pointer; font-weight: 400;}
+        .cal-cell:hover { background: #e2e8f0; }
+        .cal-cell.has-bill { background: #eff6ff; border-color: #bfdbfe; font-weight: 600;}
         .cal-cell.today { background: var(--primary); color: white; }
         .bill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--danger); margin-top: auto; }
 
@@ -80,18 +93,23 @@
         .modal-content { background: white; width: 90%; max-width: 450px; border-radius: 20px; padding: 25px; transform: scale(0.95); transition: 0.2s; }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-btn { background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; }
+        .modal-header h2 { font-weight: 500; margin:0;}
+        .close-btn { background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display:flex; justify-content:center; align-items:center;}
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-light); font-weight:bold;}
-        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; font-size: 14px; box-sizing: border-box; }
-        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: bold; margin-top: 10px; cursor: pointer; transition:0.2s;}
+        .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-light); font-weight:500;}
+        .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc; font-size: 14px; box-sizing: border-box; font-family: inherit;}
+        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 600; margin-top: 10px; cursor: pointer; transition:0.2s; font-family: inherit;}
         
         .floating-add-btn { position: fixed; bottom: 30px; right: 30px; background: var(--text-dark); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; z-index: 50; transition: 0.2s;}
         
-        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold;}
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500;}
         .status-good { background: #e8f5e9; color: var(--success); }
         .status-warn { background: #fef3c7; color: var(--warning); }
         .status-danger { background: #fee2e2; color: var(--danger); }
+        
+        /* ปรับแต่งไอคอนแก้ไขให้เล็กลงและพอดีกับข้อความ */
+        .edit-icon-inline { width: 14px; height: 14px; vertical-align: -2px; margin-left: 4px; color: #94a3b8; cursor: pointer; transition: color 0.2s; }
+        .edit-icon-inline:hover { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -104,13 +122,14 @@
         </div>
         <div style="display:flex; gap:15px; align-items:center;">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
-            <!-- ปุ่มเปลี่ยนภาษา (เอามาคืนแล้ว) -->
             <button class="lang-btn" onclick="toggleLanguage()" id="lang-toggle">TH</button>
             <div style="width:40px; height:40px; background:var(--primary-light); color:var(--primary); border-radius:12px; display:flex; justify-content:center; align-items:center;"><i data-lucide="user"></i></div>
         </div>
     </div>
 
+    <!-- ส่วนที่ 1: สรุปภาพรวม -->
     <div class="top-dashboard-grid">
+        
         <!-- 1.1 รายรับ -->
         <div class="panel">
             <div class="panel-header">
@@ -119,19 +138,20 @@
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 200px;">
+                <!-- ปรับไอคอนดินสอให้พอดีตัวหนังสือ -->
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
                         <h4 id="txt-salary-title" style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p id="txt-salary-sub">รายได้หลัก <i data-lucide="edit-3" size="10"></i></p>
+                        <p id="txt-salary-sub" style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" class="edit-icon-inline"></i></p>
                     </div>
-                    <div style="font-weight:bold; font-size:16px;">฿<span id="ui-salary-val">0</span></div>
+                    <div style="font-weight:600; font-size:16px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
                 <div id="extra-income-container"></div>
             </div>
 
-            <div style="margin-top:15px; border-top:2px dashed #f1f5f9; padding-top:15px; display:flex; justify-content:space-between; font-size:16px;">
-                <span id="txt-total-income" style="font-weight:bold; color:var(--text-light);">รวมรายรับ (Total Income)</span>
-                <span id="ui-total-income" style="font-weight:bold; color:var(--success);">฿0</span>
+            <div style="margin-top:15px; border-top:2px dashed #f1f5f9; padding-top:15px; display:flex; justify-content:space-between; font-size:15px;">
+                <span id="txt-total-income" style="font-weight:500; color:var(--text-light);">รวมรายรับ (Total Income)</span>
+                <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
             </div>
         </div>
 
@@ -143,24 +163,25 @@
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div>
-                    <p id="txt-sum-income" style="margin:0; font-size:12px; color:#94a3b8;">รวมรายรับ (Income)</p>
-                    <p id="ui-overview-income" style="margin:5px 0 15px 0; font-size:20px; font-weight:bold; color:var(--success);">฿0</p>
+                    <p id="txt-sum-income" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รวมรายรับ (Income)</p>
+                    <p id="ui-overview-income" style="margin:5px 0 15px 0; font-size:20px; font-weight:600; color:var(--success);">฿0</p>
                     
-                    <p id="txt-sum-savings" style="margin:0; font-size:12px; color:#94a3b8;">เงินคงเหลือสุทธิ (Savings)</p>
-                    <p id="ui-overview-savings" style="margin:5px 0 0 0; font-size:24px; font-weight:bold;">฿0</p>
+                    <p id="txt-sum-savings" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">เงินคงเหลือสุทธิ (Savings)</p>
+                    <p id="ui-overview-savings" style="margin:5px 0 0 0; font-size:24px; font-weight:600;">฿0</p>
                 </div>
                 <div>
-                    <p id="txt-sum-fixed" style="margin:0; font-size:12px; color:#94a3b8;">รายจ่ายประจำ (Fixed Expenses)</p>
-                    <p id="ui-overview-fixed" style="margin:5px 0 15px 0; font-size:20px; font-weight:bold; color:#f87171;">฿0</p>
+                    <p id="txt-sum-fixed" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รายจ่ายประจำ (Fixed Expenses)</p>
+                    <p id="ui-overview-fixed" style="margin:5px 0 15px 0; font-size:20px; font-weight:600; color:#f87171;">฿0</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <!-- ปรับไอคอนดินสอ -->
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:8px 12px; border-radius:10px;">
-                            <p id="txt-sum-daily" style="margin:0; font-size:11px; color:#cbd5e1;">งบต่อวัน <i data-lucide="edit-3" size="10"></i></p>
-                            <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:16px; font-weight:bold; color:var(--warning);">150</p>
+                            <p id="txt-sum-daily" style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" class="edit-icon-inline" style="color:#cbd5e1;"></i></p>
+                            <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:16px; font-weight:600; color:var(--warning);">150</p>
                         </div>
                         <div style="text-align:right;">
-                            <p id="txt-sum-runway" style="margin:0; font-size:12px; color:#94a3b8;">วันคงเหลือ (Runway)</p>
-                            <p style="margin:2px 0 0 0; font-size:24px; font-weight:bold; color:white;"><span id="ui-overview-runway">0</span> <span id="txt-unit-days" style="font-size:14px; font-weight:normal;">วัน</span></p>
+                            <p id="txt-sum-runway" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">วันคงเหลือ (Runway)</p>
+                            <p style="margin:2px 0 0 0; font-size:24px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span id="txt-unit-days" style="font-size:14px; font-weight:400;">วัน</span></p>
                         </div>
                     </div>
                 </div>
@@ -170,10 +191,10 @@
 
     <!-- แถบค่ากินอยู่รายวัน -->
     <div class="daily-tracker-bar" id="daily-expense-bar">
-        <span><i data-lucide="shopping-bag" size="16" style="margin-right:8px; vertical-align:-3px;"></i> <span id="txt-daily-tracker">บันทึกค่ากินอยู่รายวัน</span> <span id="ui-current-month-lbl" style="font-weight:normal;"></span></span>
-        <span><span id="txt-spent-today">ใช้วันนี้:</span> <span id="ui-spent-today" style="font-size:16px;">0.00 บ.</span></span>
-        <span><span id="txt-spent-month">รวมเดือนนี้:</span> <span id="ui-spent-month" style="font-size:16px;">0.00 บ.</span></span>
-        <span id="ui-spent-status">สถานะ: <span style="color:var(--text-light);">รอข้อมูล</span></span>
+        <span><i data-lucide="shopping-bag" size="16" style="margin-right:8px;"></i> <span id="txt-daily-tracker">บันทึกค่ากินอยู่รายวัน</span> <span id="ui-current-month-lbl" style="font-weight:400;"></span></span>
+        <span><span id="txt-spent-today">ใช้วันนี้:</span> <span id="ui-spent-today" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
+        <span><span id="txt-spent-month">รวมเดือนนี้:</span> <span id="ui-spent-month" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
+        <span id="ui-spent-status">สถานะ: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
     <div class="main-dashboard-grid">
@@ -182,8 +203,8 @@
             <div class="panel-header">
                 <h3 id="txt-fixed-panel"><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ (Fixed Expenses)</h3>
                 <div style="text-align:right;">
-                    <span id="ui-bill-tracker" style="font-size:12px; font-weight:bold; color:var(--primary);">ชำระแล้ว 0/0</span>
-                    <p style="margin:0; font-size:10px; color:var(--text-light);"><span id="txt-unpaid-lbl">ยอดรอชำระ:</span> <span id="ui-unpaid-amount" style="color:var(--danger);">฿0</span></p>
+                    <span id="ui-bill-tracker" style="font-size:12px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
+                    <p style="margin:0; font-size:11px; color:var(--text-light); font-weight:300;"><span id="txt-unpaid-lbl">ยอดรอชำระ:</span> <span id="ui-unpaid-amount" style="color:var(--danger); font-weight:500;">฿0</span></p>
                 </div>
             </div>
             <div class="list-container" id="fixed-expenses-container" style="max-height: 500px;"></div>
@@ -241,15 +262,15 @@
 </div>
 
 <div class="floating-add-btn" id="btn-add-floating" onclick="openTxModal('expense')" title="เพิ่มรายจ่ายรายวัน">
-    <i data-lucide="plus" size="28"></i>
+    <i data-lucide="plus" size="24"></i>
 </div>
 
-<!-- Modal 1: ตั้งค่าเงินเดือน / งบเป้าหมาย -->
+<!-- Modals ต่างๆ โครงสร้างเดิม -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 id="settingsModalTitle">ตั้งค่าเงินเดือนประจำ</h2>
-            <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button>
+            <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <form onsubmit="saveSettings(event)">
             <input type="hidden" id="settingKey">
@@ -262,12 +283,11 @@
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายการรายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 id="txModalTitle">บันทึกรายการ</h2>
-            <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button>
+            <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <form id="txForm" onsubmit="submitTransaction(event)">
             <div class="form-group">
@@ -294,19 +314,24 @@
     </div>
 </div>
 
-<!-- Modal 3: ปฏิทิน -->
 <div class="modal-overlay" id="dayDetailModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 id="dayDetailTitle">รายละเอียดวันที่</h2>
-            <button class="close-btn" onclick="closeModal('dayDetailModal')"><i data-lucide="x"></i></button>
+            <button class="close-btn" onclick="closeModal('dayDetailModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <div id="dayDetailContent" style="max-height:300px; overflow-y:auto; display:flex; flex-direction:column; gap:10px;"></div>
     </div>
 </div>
 
 <script>
-    lucide.createIcons();
+    // สั่งวาดไอคอนใหม่โดยกำหนดให้ขนาดพอดีกับตัวหนังสือ
+    lucide.createIcons({
+      attrs: {
+        width: '1em',
+        height: '1em'
+      }
+    });
 
     // ==========================================
     // 🌐 ตั้งค่าเดือน & ระบบแปลภาษา
@@ -379,13 +404,13 @@
         document.getElementById('txt-subtitle').innerText = t.subtitle;
         document.getElementById('txt-income-panel').innerHTML = `<i data-lucide="wallet"></i> ${t.incomePanel}`;
         document.getElementById('txt-salary-title').innerText = t.salaryTitle;
-        document.getElementById('txt-salary-sub').innerHTML = `${t.salarySub} <i data-lucide="edit-3" size="10"></i>`;
+        document.getElementById('txt-salary-sub').innerHTML = `${t.salarySub} <i data-lucide="edit-3" class="edit-icon-inline"></i>`;
         document.getElementById('txt-total-income').innerText = t.totalIncome;
         document.getElementById('txt-runway-panel').innerHTML = `<i data-lucide="pie-chart"></i> ${t.runwayPanel}`;
         document.getElementById('txt-sum-income').innerText = t.sumIncome;
         document.getElementById('txt-sum-savings').innerText = t.sumSavings;
         document.getElementById('txt-sum-fixed').innerText = t.sumFixed;
-        document.getElementById('txt-sum-daily').innerHTML = `${t.sumDaily} <i data-lucide="edit-3" size="10"></i>`;
+        document.getElementById('txt-sum-daily').innerHTML = `${t.sumDaily} <i data-lucide="edit-3" class="edit-icon-inline" style="color:#cbd5e1;"></i>`;
         document.getElementById('txt-sum-runway').innerText = t.sumRunway;
         document.getElementById('txt-unit-days').innerText = t.unitDays;
         document.getElementById('txt-daily-tracker').innerText = t.dailyTracker;
@@ -406,11 +431,11 @@
         t.days.forEach(d => { calHeaders += `<div class="cal-day-header">${d}</div>`; });
         document.getElementById('cal-headers').innerHTML = calHeaders;
         
-        lucide.createIcons();
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
     // ==========================================
-    // 🗄️ Firebase
+    // 🗄️ Firebase Database Logic
     // ==========================================
     const firebaseConfig = { apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", authDomain: "todaypaying-7e8b0.firebaseapp.com", projectId: "todaypaying-7e8b0", storageBucket: "todaypaying-7e8b0.firebasestorage.app", messagingSenderId: "584971063665", appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" };
     firebase.initializeApp(firebaseConfig);
@@ -474,11 +499,11 @@
                 if(b.dueDate) billsForCalendar.push({ key: key, date: b.dueDate, name: b.name, amount: amt, isPaid: isPaid });
 
                 let dueText = '';
-                if(isPaid) dueText = `<span style="color:var(--success); font-weight:bold;"><i data-lucide="check-circle" size="12"></i> ${t.statusGood}</span>`;
+                if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;"><i data-lucide="check-circle" size="14"></i> ${t.statusGood}</span>`;
                 else {
-                    if (b.dueDate < today) dueText = `<span style="color:var(--danger); font-weight:bold;"><i data-lucide="alert-triangle" size="12"></i> Overdue</span>`;
-                    else if (b.dueDate - today <= 5) dueText = `<span style="color:var(--warning); font-weight:bold;"><i data-lucide="bell" size="12"></i> In ${b.dueDate - today} days</span>`;
-                    else dueText = `<span style="color:var(--text-light);"><i data-lucide="clock" size="12"></i> Day ${b.dueDate}</span>`;
+                    if (b.dueDate < today) dueText = `<span style="color:var(--danger); font-weight:600;"><i data-lucide="alert-triangle" size="14"></i> Overdue</span>`;
+                    else if (b.dueDate - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;"><i data-lucide="bell" size="14"></i> In ${b.dueDate - today} days</span>`;
+                    else dueText = `<span style="color:var(--text-light); font-weight:400;"><i data-lucide="clock" size="14"></i> Day ${b.dueDate}</span>`;
                 }
                 
                 const catName = t.fixedCats[b.category] || b.category || 'General';
@@ -488,12 +513,12 @@
                 <div class="item-card">
                     <div style="flex:1;">
                         <div class="item-info">
-                            <h4>${b.name} <span style="font-weight:bold; font-size:13px; color:var(--primary); margin-left:5px;">฿${amt.toLocaleString()}</span></h4>
+                            <h4>${b.name} <span style="font-weight:600; font-size:13px; color:var(--primary); margin-left:5px;">฿${amt.toLocaleString()}</span></h4>
                             <div class="meta-tag" style="display:inline-block; margin-top:5px;">${catName}</div>
                         </div>
                     </div>
                     <div style="text-align:right; margin-right:15px; font-size:12px;">${dueText}</div>
-                    <div class="${checkClass}" onclick="toggleBillStatus('${key}', '${status}')"><i data-lucide="check" size="16" ${isPaid?'':'style="opacity:0"'}></i></div>
+                    <div class="${checkClass}" onclick="toggleBillStatus('${key}', '${status}')"><i data-lucide="check" size="18" ${isPaid?'':'style="opacity:0"'}></i></div>
                 </div>`;
 
                 if(b.installment_total && b.installment_total > 0) {
@@ -505,15 +530,15 @@
                     
                     debtBody.innerHTML += `
                         <tr>
-                            <td><strong>${b.name}</strong></td><td>฿${amt.toLocaleString()}</td><td>${b.installment_total}</td>
+                            <td><strong style="font-weight:500;">${b.name}</strong></td><td>฿${amt.toLocaleString()}</td><td>${b.installment_total}</td>
                             <td>${paidInst}</td><td>${leftInst}</td>
-                            <td style="color:var(--success); font-weight:bold;">฿${paidAmount.toLocaleString()}</td>
-                            <td style="color:var(--danger); font-weight:bold;">฿${debtLeft.toLocaleString()}</td>
+                            <td style="color:var(--success); font-weight:600;">฿${paidAmount.toLocaleString()}</td>
+                            <td style="color:var(--danger); font-weight:600;">฿${debtLeft.toLocaleString()}</td>
                         </tr>
                     `;
                 }
             });
-            lucide.createIcons();
+            lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         } else {
             container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">No bills</p>`;
         }
@@ -536,15 +561,15 @@
             const txArray = Object.keys(globalTxData).map(key => ({ key, ...globalTxData[key] })).reverse(); 
             txArray.forEach(tx => {
                 const amt = tx.amount || 0;
-                const delBtn = isPastMonth ? '' : `<button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="12"></i></button>`;
+                const delBtn = isPastMonth ? '' : `<button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button>`;
 
                 if(tx.type === 'income') {
                     totalExtraIncome += amt;
                     const catName = t.catsIncome[tx.category] || tx.category;
                     extraIncomeContainer.innerHTML += `
                     <div class="item-card" style="margin-top:10px; border-left: 4px solid var(--primary-light); padding:10px 15px;">
-                        <div><h4 style="font-size:13px;">${catName}</h4><p style="color:var(--text-light);">${tx.name}</p></div>
-                        <div style="display:flex; align-items:center; gap:10px;"><div style="font-weight:bold;">฿${amt.toLocaleString()}</div>${delBtn}</div>
+                        <div><h4 style="font-size:13px;">${catName}</h4><p style="color:var(--text-light); font-weight:300;">${tx.name}</p></div>
+                        <div style="display:flex; align-items:center; gap:10px;"><div style="font-weight:600;">฿${amt.toLocaleString()}</div>${delBtn}</div>
                     </div>`;
                 } 
                 else if (tx.type === 'expense') {
@@ -557,7 +582,7 @@
                     historyContainer.innerHTML += `
                     <div class="item-card">
                         <div><div class="item-info"><h4>${tx.name}</h4><p>${catName} • ${tx.date}</p></div></div>
-                        <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:bold;">-฿${amt.toLocaleString()}</span>${delBtn}</div>
+                        <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:600;">-฿${amt.toLocaleString()}</span>${delBtn}</div>
                     </div>`;
                 }
             });
@@ -565,7 +590,7 @@
         } else {
             historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">No history</p>`; updateChartAndTable({});
         }
-        lucide.createIcons(); updateDashboard();
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } }); updateDashboard();
     }
 
     function updateDashboard() {
@@ -598,10 +623,10 @@
         document.getElementById('ui-spent-month').innerText = `${totalVariableExpense.toLocaleString()} ฿`;
         
         const spendStatus = document.getElementById('ui-spent-status');
-        if (isPastMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light);">${t.statusClosed}</span>`; }
-        else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light);">${t.statusNoSpend}</span>`; }
-        else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger);">${t.statusOver}</span>`; }
-        else { spendStatus.innerHTML = `Status: <span style="color:var(--success);">${t.statusInBudget}</span>`; }
+        if (isPastMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusClosed}</span>`; }
+        else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusNoSpend}</span>`; }
+        else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">${t.statusOver}</span>`; }
+        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">${t.statusInBudget}</span>`; }
 
         document.getElementById('ui-bill-tracker').innerText = `${paidBills}/${totalBills}`;
         document.getElementById('ui-unpaid-amount').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
@@ -617,7 +642,6 @@
         else { myChart = new Chart(ctx, { type: 'doughnut', data: { labels: labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '70%' } }); }
 
         const tableBody = document.getElementById('breakdown-table-body'); tableBody.innerHTML = '';
-        let totalVal = values.reduce((a, b) => a + b, 0);
         labels.forEach((label, i) => {
             tableBody.innerHTML += `<tr><td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${colors[i%colors.length]}; margin-right:8px;"></span>${label}</td><td style="text-align:right;">฿${values[i].toLocaleString()}</td></tr>`;
         });
@@ -656,9 +680,9 @@
         if(bills.length > 0) {
             bills.forEach(b => {
                 let statusText = b.isPaid ? '<span style="color:var(--success);">✅</span>' : '<span style="color:var(--danger);">❌</span>';
-                content.innerHTML += `<div class="item-card"><div><h4>${b.name}</h4><p>${statusText}</p></div><strong>฿${b.amount.toLocaleString()}</strong></div>`;
+                content.innerHTML += `<div class="item-card"><div><h4 style="font-weight:500;">${b.name}</h4><p>${statusText}</p></div><strong style="font-weight:600;">฿${b.amount.toLocaleString()}</strong></div>`;
             });
-        } else { content.innerHTML = `<p style="text-align:center; color:gray;">No bills</p>`; }
+        } else { content.innerHTML = `<p style="text-align:center; color:gray; font-weight:300;">No bills</p>`; }
         document.getElementById('dayDetailModal').classList.add('active');
     }
 
