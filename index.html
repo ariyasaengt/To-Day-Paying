@@ -161,6 +161,17 @@
         body.dark-mode .loan-progress-box { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
         
         .profile-pic { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; border: 4px solid var(--primary-light); background: var(--input-bg); }
+        
+        /* สไตล์สำหรับส่วนตั้งค่าเพิ่มเติม (พับเก็บได้) */
+        .collapsible-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 14px; background: var(--input-bg); border-radius: 12px;
+            font-size: 13px; font-weight: 500; color: var(--text-dark);
+            cursor: pointer; border: 1px solid var(--border-color); margin-bottom: 14px;
+        }
+        .collapsible-header:hover { border-color: var(--primary); }
+        .collapsible-content { display: none; padding: 14px; background: var(--panel-bg); border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 14px; }
+        .collapsible-content.active { display: block; }
     </style>
 </head>
 <body>
@@ -216,6 +227,7 @@
                 <div class="custom-dropdown-list" id="monthDropdown" style="width: max-content; right: 0; left: auto;"></div>
             </div>
             
+            <!-- แก้ไขปุ่มสลับธีม -->
             <div class="control-pill icon-only" onclick="toggleDarkMode()" id="btn-dark" title="เปลี่ยนโหมดสี">
                 <i data-lucide="moon" size="16"></i>
             </div>
@@ -298,9 +310,7 @@
     </div>
 
     <div class="main-dashboard-grid">
-        <!-- จัดกลุ่มบิลและสินเชื่อให้อยู่คอลัมน์ซ้าย (ถ้าจอใหญ่) -->
         <div style="display: flex; flex-direction: column; gap: 16px;">
-            <!-- รายจ่ายประจำ (ไม่รวมสินเชื่อ) -->
             <div class="panel" style="margin-bottom: 0;">
                 <div class="panel-header">
                     <h3><i data-lucide="calendar-check" style="color:var(--primary);"></i> รายการค่าใช้จ่ายประจำ</h3>
@@ -312,7 +322,6 @@
                 <div class="list-container" id="fixed-expenses-container" style="max-height: 400px;"></div>
             </div>
 
-            <!-- ส่วนใหม่: สินเชื่อ / ผ่อนชำระ -->
             <div class="panel" style="margin-bottom: 0;">
                 <div class="panel-header">
                     <h3><i data-lucide="credit-card" style="color:var(--warning);"></i> รายการสินเชื่อ / ผ่อนชำระ</h3>
@@ -325,7 +334,6 @@
             </div>
         </div>
 
-        <!-- ประวัติการใช้จ่าย (คอลัมน์ขวา) -->
         <div class="panel" style="margin-bottom: 0;">
             <div class="panel-header">
                 <h3><i data-lucide="list" style="color:var(--primary);"></i> ประวัติรายการรายวัน</h3>
@@ -401,21 +409,30 @@
                 </div>
             </div>
             <div class="form-group" id="incDateInputContainer" style="display:none;"><label id="incDateLabel">เลือกวันที่</label><input type="date" id="newIncDateVal"></div>
-            <div class="form-group">
-                <label>ช่องทางรับเงิน</label>
-                <div class="custom-select-wrapper">
-                    <div class="custom-select-box" onclick="toggleDropdown('incMethodDropdown', event)"><span id="selectedIncMethodText">แอปธนาคาร / โอนเข้าบัญชี</span><i data-lucide="chevron-down" size="16"></i></div>
-                    <input type="hidden" id="newIncMethod" value="แอปธนาคาร / โอนเข้าบัญชี">
-                    <div class="custom-dropdown-list" id="incMethodDropdown">
-                        <div class="custom-option" onclick="chooseOption('incMethod', 'แอปธนาคาร / โอนเข้าบัญชี', 'แอปธนาคาร / โอนเข้าบัญชี', event)">แอปธนาคาร / โอนเข้าบัญชี</div>
-                        <div class="custom-option" onclick="chooseOption('incMethod', 'เงินสด', 'เงินสด', event)">เงินสด</div>
+            
+            <!-- ซ่อนช่องรับเงินไว้ใต้การตั้งค่าเพิ่มเติม -->
+            <div class="collapsible-header" onclick="toggleCollapse('incAdditionalSettings', this)">
+                <span><i data-lucide="settings" size="14" style="margin-right: 6px;"></i> ตั้งค่าเพิ่มเติม (ช่องทางรับเงิน/เลขบัญชี)</span>
+                <i data-lucide="chevron-down" size="16"></i>
+            </div>
+            <div class="collapsible-content" id="incAdditionalSettings">
+                <div class="form-group" style="margin-top: 0;">
+                    <label>ช่องทางรับเงิน</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select-box" onclick="toggleDropdown('incMethodDropdown', event)"><span id="selectedIncMethodText">แอปธนาคาร / โอนเข้าบัญชี</span><i data-lucide="chevron-down" size="16"></i></div>
+                        <input type="hidden" id="newIncMethod" value="แอปธนาคาร / โอนเข้าบัญชี">
+                        <div class="custom-dropdown-list" id="incMethodDropdown">
+                            <div class="custom-option" onclick="chooseOption('incMethod', 'แอปธนาคาร / โอนเข้าบัญชี', 'แอปธนาคาร / โอนเข้าบัญชี', event)">แอปธนาคาร / โอนเข้าบัญชี</div>
+                            <div class="custom-option" onclick="chooseOption('incMethod', 'เงินสด', 'เงินสด', event)">เงินสด</div>
+                        </div>
                     </div>
                 </div>
+                <div id="incBankAccountFields">
+                    <div class="form-group"><label>ธนาคาร</label><input type="text" id="newIncBankName" placeholder="เช่น SCB, KBANK"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>เลขที่บัญชี</label><input type="text" id="newIncAccNo" placeholder="เช่น 012-3-45678-9"></div>
+                </div>
             </div>
-            <div id="incBankAccountFields" style="background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-color);">
-                <div class="form-group"><label>ธนาคาร</label><input type="text" id="newIncBankName" placeholder="เช่น SCB, KBANK"></div>
-                <div class="form-group" style="margin-bottom:0;"><label>เลขที่บัญชี</label><input type="text" id="newIncAccNo" placeholder="เช่น 012-3-45678-9"></div>
-            </div>
+
             <button type="button" class="submit-btn" onclick="saveNewRecurringIncome()">เพิ่มรายรับประจำ</button>
         </form>
     </div>
@@ -477,22 +494,31 @@
                 </div>
             </div>
             <div class="form-group" id="billDateInputContainer" style="display:none;"><label id="billDateLabel">เลือกวันที่</label><input type="date" id="newBillDateVal"></div>
-            <div class="form-group">
-                <label>ช่องทางชำระเงิน</label>
-                <div class="custom-select-wrapper">
-                    <div class="custom-select-box" onclick="toggleDropdown('billMethodDropdown', event)"><span id="selectedBillMethodText">แอปธนาคาร / โอนบิล</span><i data-lucide="chevron-down" size="16"></i></div>
-                    <input type="hidden" id="newBillMethod" value="แอปธนาคาร / โอนบิล">
-                    <div class="custom-dropdown-list" id="billMethodDropdown">
-                        <div class="custom-option" onclick="chooseOption('billMethod', 'แอปธนาคาร / โอนบิล', 'แอปธนาคาร / โอนบิล', event)">แอปธนาคาร / โอนบิล</div>
-                        <div class="custom-option" onclick="chooseOption('billMethod', 'ตัดบัตรเครดิต / เดบิต', 'ตัดบัตรเครดิต / เดบิต', event)">ตัดบัตรเครดิต / เดบิต</div>
-                        <div class="custom-option" onclick="chooseOption('billMethod', 'เงินสด / โอนจ่าย', 'เงินสด / โอนจ่าย', event)">เงินสด / โอนจ่าย</div>
+            
+            <!-- ซ่อนช่องชำระเงินไว้ใต้การตั้งค่าเพิ่มเติม -->
+            <div class="collapsible-header" onclick="toggleCollapse('billAdditionalSettings', this)">
+                <span><i data-lucide="settings" size="14" style="margin-right: 6px;"></i> ตั้งค่าเพิ่มเติม (ช่องทางชำระเงิน/เลขบัญชี)</span>
+                <i data-lucide="chevron-down" size="16"></i>
+            </div>
+            <div class="collapsible-content" id="billAdditionalSettings">
+                <div class="form-group" style="margin-top: 0;">
+                    <label>ช่องทางชำระเงิน</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select-box" onclick="toggleDropdown('billMethodDropdown', event)"><span id="selectedBillMethodText">แอปธนาคาร / โอนบิล</span><i data-lucide="chevron-down" size="16"></i></div>
+                        <input type="hidden" id="newBillMethod" value="แอปธนาคาร / โอนบิล">
+                        <div class="custom-dropdown-list" id="billMethodDropdown">
+                            <div class="custom-option" onclick="chooseOption('billMethod', 'แอปธนาคาร / โอนบิล', 'แอปธนาคาร / โอนบิล', event)">แอปธนาคาร / โอนบิล</div>
+                            <div class="custom-option" onclick="chooseOption('billMethod', 'ตัดบัตรเครดิต / เดบิต', 'ตัดบัตรเครดิต / เดบิต', event)">ตัดบัตรเครดิต / เดบิต</div>
+                            <div class="custom-option" onclick="chooseOption('billMethod', 'เงินสด / โอนจ่าย', 'เงินสด / โอนจ่าย', event)">เงินสด / โอนจ่าย</div>
+                        </div>
                     </div>
                 </div>
+                <div id="bankAccountFields">
+                    <div class="form-group"><label>ธนาคาร</label><input type="text" id="newBankName" placeholder="เช่น SCB, KBANK"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>เลขที่บัญชี</label><input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9"></div>
+                </div>
             </div>
-            <div id="bankAccountFields" style="background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-color);">
-                <div class="form-group"><label>ธนาคาร</label><input type="text" id="newBankName" placeholder="เช่น SCB, KBANK"></div>
-                <div class="form-group" style="margin-bottom:0;"><label>เลขที่บัญชี</label><input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9"></div>
-            </div>
+
             <button type="button" class="submit-btn" onclick="saveNewBill()">เพิ่มรายจ่าย</button>
         </form>
     </div>
@@ -523,13 +549,37 @@
 </div>
 
 <script>
+    // การจัดการหน้าต่างพับ (Collapsible Settings)
+    window.toggleCollapse = function(targetId, headerElement) {
+        const content = document.getElementById(targetId);
+        const icon = headerElement.querySelector('i[data-lucide^="chevron"]');
+        if (content.classList.contains('active')) {
+            content.classList.remove('active');
+            icon.setAttribute('data-lucide', 'chevron-down');
+        } else {
+            content.classList.add('active');
+            icon.setAttribute('data-lucide', 'chevron-up');
+        }
+        lucide.createIcons();
+    };
+
+    // บันทึกและดึงสถานะ Theme 
     if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); }
+    
+    // โหลดไอคอนและปรับไอคอนดวงจันทร์/ดวงอาทิตย์เมื่อโหลดเว็บ
     document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+        updateThemeIcon();
+    });
+
+    function updateThemeIcon() {
         const isDarkTheme = document.body.classList.contains('dark-mode');
         const btnDark = document.getElementById('btn-dark');
-        if(btnDark) btnDark.innerHTML = isDarkTheme ? '<i data-lucide="sun" size="16"></i>' : '<i data-lucide="moon" size="16"></i>';
-        lucide.createIcons();
-    });
+        if(btnDark) {
+            btnDark.innerHTML = isDarkTheme ? '<i data-lucide="sun" size="16"></i>' : '<i data-lucide="moon" size="16"></i>';
+            lucide.createIcons();
+        }
+    }
 
     const firebaseConfig = { 
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
@@ -611,7 +661,7 @@
             document.getElementById('appMainSection').style.display = 'none'; 
             document.getElementById('btn-add-floating').style.display = 'none';
         }
-        lucide.createIcons();
+        updateThemeIcon(); // เรียกซ้ำตอนโหลดไอคอนเสร็จเพื่อความชัวร์
     });
 
     window.toggleAuthMode = function() {
@@ -701,9 +751,16 @@
                 
                 if (isReceived) { totalRecurringIncomeReceived += amt; received++; } else { totalRecurringIncomePending += amt; }
                 const dueText = formatDueDateText(inc.dateType, inc.dateVal);
+                
+                // แสดงข้อมูลตั้งค่าเพิ่มเติม (ธนาคาร) ถ้ามี
+                let extraInfo = '';
+                if (inc.method.includes('แอปธนาคาร') && (inc.bank_name || inc.acc_no)) {
+                    extraInfo = ` <span style="color:var(--text-light); font-size:10px;">(${inc.bank_name || ''} ${inc.acc_no || ''})</span>`;
+                }
+
                 container.innerHTML += `
                 <div class="item-card">
-                    <div class="item-info"><h4>${inc.name} <span style="color:var(--success);">+฿${amt.toLocaleString()}</span></h4><p>${inc.method} • ${dueText}</p></div>
+                    <div class="item-info"><h4>${inc.name} <span style="color:var(--success);">+฿${amt.toLocaleString()}</span></h4><p>${inc.method}${extraInfo} • ${dueText}</p></div>
                     <div class="card-actions">
                         <button class="edit-btn" onclick="openEditPriceModal('recurring_incomes', '${key}', ${amt}, '${inc.name}')" title="แก้ไขราคา"><i data-lucide="edit-2" size="14"></i></button>
                         <div class="check-btn ${isReceived ? 'checked' : ''}" onclick="toggleRecurringIncomeStatus('${key}', ${isReceived})" title="ยืนยันการรับเงิน"><i data-lucide="check" size="16"></i></div>
@@ -736,6 +793,11 @@
 
                 const dueText = formatDueDateText(b.dateType, b.dateVal);
                 
+                let extraInfo = '';
+                if (b.payment_method.includes('แอปธนาคาร') && (b.bank_name || b.acc_no)) {
+                    extraInfo = ` <span style="color:var(--text-light); font-size:10px;">(${b.bank_name || ''} ${b.acc_no || ''})</span>`;
+                }
+                
                 if (b.category === 'loan') {
                     loanTotalCount++;
                     if (isPaid) loanPaidCount++;
@@ -763,7 +825,7 @@
                     <div class="item-card">
                         <div class="item-info">
                             <h4>${b.name} <span style="color:var(--primary);">฿${amt.toLocaleString()}</span></h4>
-                            <p>${b.category} • ${b.payment_method} • ${dueText}</p>
+                            <p>${b.category} • ${b.payment_method}${extraInfo} • ${dueText}</p>
                             ${loanInfoHTML}
                         </div>
                         <div class="card-actions">
@@ -782,7 +844,7 @@
                     <div class="item-card">
                         <div class="item-info">
                             <h4>${b.name} <span style="color:var(--primary);">฿${amt.toLocaleString()}</span></h4>
-                            <p>${b.category} • ${b.payment_method} • ${dueText}</p>
+                            <p>${b.category} • ${b.payment_method}${extraInfo} • ${dueText}</p>
                         </div>
                         <div class="card-actions">
                             <button class="edit-btn" onclick="openEditPriceModal('fixed_expenses', '${key}', ${amt}, '${b.name}')" title="แก้ไขยอดเงิน"><i data-lucide="edit-3" size="14"></i></button>
@@ -885,16 +947,25 @@
             document.getElementById('selectedIncDateText').innerText = 'วันแรกของเดือน (วันที่ 1)'; document.getElementById('newIncDateType').value = 'day1';
             document.getElementById('selectedIncMethodText').innerText = 'แอปธนาคาร / โอนเข้าบัญชี'; document.getElementById('newIncMethod').value = 'แอปธนาคาร / โอนเข้าบัญชี';
             document.getElementById('incBankAccountFields').style.display = 'block'; document.getElementById('incDateInputContainer').style.display = 'none';
+            // รีเซ็ตการพับ
+            document.getElementById('incAdditionalSettings').classList.remove('active');
+            const icon = document.querySelector('#incAdditionalSettings').previousElementSibling.querySelector('i[data-lucide^="chevron"]');
+            if(icon) icon.setAttribute('data-lucide', 'chevron-down');
         } else if(modalType === 'bill') {
             document.getElementById('selectedBillCatText').innerText = 'ความบันเทิง & สตรีมมิ่ง'; document.getElementById('newBillCat').value = 'entertainment';
             document.getElementById('loanFields').style.display = 'none';
             document.getElementById('selectedBillDateText').innerText = 'วันแรกของเดือน (วันที่ 1)'; document.getElementById('newBillDateType').value = 'day1';
             document.getElementById('selectedBillMethodText').innerText = 'แอปธนาคาร / โอนบิล'; document.getElementById('newBillMethod').value = 'แอปธนาคาร / โอนบิล';
             document.getElementById('bankAccountFields').style.display = 'block'; document.getElementById('billDateInputContainer').style.display = 'none';
+            // รีเซ็ตการพับ
+            document.getElementById('billAdditionalSettings').classList.remove('active');
+            const icon = document.querySelector('#billAdditionalSettings').previousElementSibling.querySelector('i[data-lucide^="chevron"]');
+            if(icon) icon.setAttribute('data-lucide', 'chevron-down');
         } else if(modalType === 'tx') {
             document.getElementById('selectedTxTypeText').innerText = 'รายจ่าย'; document.getElementById('inputType').value = 'expense';
             document.getElementById('selectedTxCatText').innerText = 'อาหาร'; document.getElementById('inputCategory').value = 'food';
         }
+        lucide.createIcons();
     }
 
     window.openAddRecurringIncomeModal = function() { document.getElementById('addRecurringIncomeForm').reset(); resetCustomDropdowns('inc'); document.getElementById('addRecurringIncomeModal').classList.add('active'); };
@@ -918,7 +989,6 @@
 
     window.deleteRecurringIncome = function(key) { if (confirm("ลบรายการรายรับประจำนี้หรือไม่?")) db.ref(getUserDbPath(`recurring_incomes/${key}`)).remove(); };
 
-    // อัปเดตฟังก์ชันเพื่อรองรับการเลือกหมวดหมู่ล่วงหน้าเมื่อกดปุ่มบวก
     window.openAddBillModal = function(defaultCat = 'entertainment') { 
         document.getElementById('addBillForm').reset(); 
         resetCustomDropdowns('bill'); 
@@ -1001,8 +1071,7 @@
         document.body.classList.toggle('dark-mode'); 
         const isDark = document.body.classList.contains('dark-mode'); 
         localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
-        document.getElementById('btn-dark').innerHTML = isDark ? '<i data-lucide="sun" size="16"></i>' : '<i data-lucide="moon" size="16"></i>'; 
-        lucide.createIcons(); 
+        updateThemeIcon();
     };
 </script>
 </body>
