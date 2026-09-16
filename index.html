@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Day Paying - Financial Dashboard</title>
     
-    <!-- PWA Manifest & Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0ea5e9">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -52,7 +51,6 @@
         * { box-sizing: border-box; transition: background-color 0.2s ease, border-color 0.2s ease; }
         body { font-family: 'Prompt', sans-serif; margin: 0; padding: 0; background: var(--bg-color); min-height: 100vh; color: var(--text-dark); letter-spacing: 0.2px; overflow-x: hidden; }
         
-        /* ควบคุมขนาดและตำแหน่งของไอคอน Lucide ให้พอดีกับตัวอักษรเป๊ะๆ */
         svg.lucide {
             width: 1em !important;
             height: 1em !important;
@@ -224,7 +222,7 @@
         <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
                 <h3><i data-lucide="wallet" style="color:var(--primary);"></i> ส่วนบันทึกรายรับ</h3>
-                <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus"></i></button>
+                <button class="action-btn" onclick="openAddRecurringIncomeModal()" title="เพิ่มรายรับประจำใหม่"><i data-lucide="plus"></i></button>
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 180px;">
@@ -235,11 +233,12 @@
                     </div>
                     <div style="font-weight:600; font-size:15px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
+                <div id="recurring-incomes-container" style="display:flex; flex-direction:column; gap:8px; width:100%;"></div>
                 <div id="extra-income-container"></div>
             </div>
 
             <div style="margin-top:14px; border-top:1px dashed var(--border-color); padding-top:12px; display:flex; justify-content:space-between; font-size:14px;">
-                <span style="font-weight:500; color:var(--text-light);">รวมรายรับ</span>
+                <span style="font-weight:500; color:var(--text-light);">รวมรายรับทั้งหมด</span>
                 <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
             </div>
         </div>
@@ -307,13 +306,37 @@
 </div>
 
 <!-- Modals -->
+<div class="modal-overlay" id="addRecurringIncomeModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 style="font-size:18px;">เพิ่มรายรับประจำใหม่</h2>
+            <button class="close-btn" onclick="closeModal('addRecurringIncomeModal')"><i data-lucide="x"></i></button>
+        </div>
+        <form id="addRecurringIncomeForm" onsubmit="saveNewRecurringIncome(event);">
+            <div class="form-group">
+                <label>ชื่อรายการรายรับ</label>
+                <input type="text" id="newIncName" placeholder="เช่น ค่าเช่าห้อง, งานเสริมประจำ" required>
+            </div>
+            <div class="form-group">
+                <label>ยอดเงินที่รับต่อเดือน (฿)</label>
+                <input type="number" id="newIncAmount" placeholder="0" min="0" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label>ช่องทางรับเงิน</label>
+                <input type="text" id="newIncMethod" placeholder="เช่น โอนเข้าบัญชี, เงินสด">
+            </div>
+            <button type="submit" class="submit-btn">เพิ่มรายรับประจำ</button>
+        </form>
+    </div>
+</div>
+
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 style="font-size:18px;">เพิ่มรายจ่ายประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="addBillForm" onsubmit="saveNewBill(event); return false;">
+        <form id="addBillForm" onsubmit="saveNewBill(event);">
             <div class="form-group">
                 <label>ชื่อรายการ / บริการ</label>
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง" required>
@@ -362,12 +385,12 @@
             <h2 style="font-size:18px;">บันทึกรายการรายวัน</h2>
             <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="txForm" onsubmit="submitTransaction(event); return false;">
+        <form id="txForm" onsubmit="submitTransaction(event);">
             <div class="form-group">
                 <label>ประเภท</label>
                 <select id="inputType">
                     <option value="expense">รายจ่าย</option>
-                    <option value="income">รายได้เสริม</option>
+                    <option value="income">รายได้เสริม (ครั้งคราว)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -399,7 +422,7 @@
             <h2 id="settingsModalTitle" style="font-size:18px;">ตั้งค่า</h2>
             <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="settingsForm" onsubmit="saveSettings(event); return false;">
+        <form id="settingsForm" onsubmit="saveSettings(event);">
             <input type="hidden" id="settingKey">
             <div class="form-group">
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
@@ -421,7 +444,9 @@
         messagingSenderId: "584971063665", 
         appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" 
     };
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const auth = firebase.auth();
     const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
@@ -508,6 +533,7 @@
 
     function initMonthSelector() {
         const selector = document.getElementById('monthSelector');
+        if (!selector) return;
         selector.innerHTML = '';
         for (let i = 0; i < 6; i++) {
             let d = new Date(dateObj.getFullYear(), dateObj.getMonth() - i, 1);
@@ -525,8 +551,9 @@
 
     let settingsData = { salary: 17625, daily_target: 150 };
     let globalBillsData = null;
+    let globalRecurringIncomesData = null;
     let globalTxData = null;
-    let totalFixedPaid = 0, totalFixedUnpaid = 0, totalVariableExpense = 0, spentToday = 0;
+    let totalFixedPaid = 0, totalFixedUnpaid = 0, totalRecurringIncomeAmount = 0, totalVariableExpense = 0, spentToday = 0;
 
     function loadDataForMonth() {
         if (!currentUser) return;
@@ -534,6 +561,11 @@
         db.ref(getUserDbPath('settings')).on('value', (snap) => {
             settingsData = snap.val() || { salary: 17625, daily_target: 150 };
             updateDashboard();
+        });
+
+        db.ref(getUserDbPath('recurring_incomes')).on('value', (snap) => {
+            globalRecurringIncomesData = snap.val() || {};
+            processRecurringIncomes();
         });
 
         db.ref(getUserDbPath('fixed_expenses')).on('value', (snap) => { 
@@ -547,8 +579,59 @@
         });
     }
 
+    function processRecurringIncomes() {
+        const container = document.getElementById('recurring-incomes-container');
+        if (!container) return;
+        container.innerHTML = '';
+        totalRecurringIncomeAmount = 0;
+
+        if (globalRecurringIncomesData && Object.keys(globalRecurringIncomesData).length > 0) {
+            Object.keys(globalRecurringIncomesData).forEach(key => {
+                const inc = globalRecurringIncomesData[key];
+                const amt = Number(inc.amount) || 0;
+                totalRecurringIncomeAmount += amt;
+
+                container.innerHTML += `
+                <div class="item-card">
+                    <div class="item-info">
+                        <h4 style="color:var(--success);">${inc.name} <span style="font-weight:600;">+฿${amt.toLocaleString()}</span></h4>
+                        <p>${inc.method || 'รายรับประจำ'}</p>
+                    </div>
+                    <button class="del-btn" onclick="deleteRecurringIncome('${key}')" title="ลบรายรับประจำ"><i data-lucide="trash-2"></i></button>
+                </div>`;
+            });
+        }
+        lucide.createIcons();
+        updateDashboard();
+    }
+
+    function openAddRecurringIncomeModal() {
+        document.getElementById('addRecurringIncomeForm').reset();
+        document.getElementById('addRecurringIncomeModal').classList.add('active');
+    }
+
+    function saveNewRecurringIncome(e) {
+        e.preventDefault();
+        const name = document.getElementById('newIncName').value.trim();
+        const amount = Number(document.getElementById('newIncAmount').value) || 0;
+        const method = document.getElementById('newIncMethod').value.trim();
+
+        db.ref(getUserDbPath('recurring_incomes')).push({
+            name, amount, method
+        }).then(() => {
+            closeModal('addRecurringIncomeModal');
+        });
+    }
+
+    function deleteRecurringIncome(key) {
+        if (confirm("ลบรายการรายรับประจำนี้หรือไม่?")) {
+            db.ref(getUserDbPath(`recurring_incomes/${key}`)).remove();
+        }
+    }
+
     function processBills() {
         const container = document.getElementById('fixed-expenses-container'); 
+        if (!container) return;
         container.innerHTML = '';
         totalFixedPaid = 0; totalFixedUnpaid = 0;
         let total = 0, paid = 0;
@@ -586,6 +669,7 @@
     function processHistory() {
         totalVariableExpense = 0; spentToday = 0;
         const container = document.getElementById('history-container');
+        if (!container) return;
         container.innerHTML = '';
         const todayStr = new Date().toISOString().split('T')[0];
 
@@ -617,12 +701,15 @@
     }
 
     function updateDashboard() {
-        document.getElementById('ui-salary-val').innerText = (settingsData.salary || 0).toLocaleString();
-        document.getElementById('ui-total-income').innerText = `฿${(settingsData.salary || 0).toLocaleString()}`;
-        document.getElementById('ui-overview-income').innerText = `฿${(settingsData.salary || 0).toLocaleString()}`;
+        const salary = Number(settingsData.salary) || 0;
+        const totalIncome = salary + totalRecurringIncomeAmount;
+
+        document.getElementById('ui-salary-val').innerText = salary.toLocaleString();
+        document.getElementById('ui-total-income').innerText = `฿${totalIncome.toLocaleString()}`;
+        document.getElementById('ui-overview-income').innerText = `฿${totalIncome.toLocaleString()}`;
         
         const totalFixed = totalFixedPaid + totalFixedUnpaid;
-        const netSavings = (settingsData.salary || 0) - totalFixed;
+        const netSavings = totalIncome - totalFixed;
         document.getElementById('ui-overview-fixed').innerText = `฿${totalFixed.toLocaleString()}`;
         document.getElementById('ui-overview-savings').innerText = `฿${netSavings.toLocaleString()}`;
         document.getElementById('ui-overview-target').innerText = settingsData.daily_target || 150;
