@@ -121,7 +121,7 @@
         .form-group input { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
         .form-group input:focus { border-color: var(--primary); }
 
-        /* Custom Dropdown UI ดีไซน์ตรงกับแอป 100% */
+        /* Custom Dropdown UI 100% พรีเมียม ไม่ใช้ select ของระบบมือถือ */
         .custom-select-wrapper { position: relative; width: 100%; }
         .custom-select-box {
             width: 100%;
@@ -244,14 +244,15 @@
 
         <div class="divider"><span>หรือใช้อีเมล</span></div>
 
-        <form id="emailAuthForm" onsubmit="handleEmailAuth(event)">
+        <!-- เอา required ออก และเรียก JS โดยตรง -->
+        <form id="emailAuthForm" onsubmit="event.preventDefault(); handleEmailAuth();">
             <div class="form-group" style="text-align:left;">
                 <label>อีเมล</label>
-                <input type="email" id="authEmail" placeholder="you@example.com" required autocomplete="email">
+                <input type="email" id="authEmail" placeholder="you@example.com" autocomplete="email">
             </div>
             <div class="form-group" style="text-align:left;">
                 <label>รหัสผ่าน</label>
-                <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required minlength="6" autocomplete="current-password">
+                <input type="password" id="authPassword" placeholder="อย่างน้อย 6 ตัวอักษร" autocomplete="current-password">
             </div>
             <button type="submit" class="submit-btn" id="emailAuthSubmitBtn">เข้าสู่ระบบ</button>
         </form>
@@ -380,14 +381,14 @@
             <h2 style="font-size:18px;">เพิ่มรายรับประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addRecurringIncomeModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="addRecurringIncomeForm" onsubmit="saveNewRecurringIncome(event)">
+        <form id="addRecurringIncomeForm" onsubmit="event.preventDefault(); saveNewRecurringIncome();">
             <div class="form-group">
                 <label>ชื่อรายการรายรับ</label>
-                <input type="text" id="newIncName" placeholder="เช่น ค่าเช่าห้อง, งานเสริมประจำ" required>
+                <input type="text" id="newIncName" placeholder="เช่น ค่าเช่าห้อง, งานเสริมประจำ">
             </div>
             <div class="form-group">
                 <label>ยอดเงินที่รับต่อเดือน (฿)</label>
-                <input type="number" id="newIncAmount" placeholder="0" min="0" step="0.01" required>
+                <input type="number" id="newIncAmount" placeholder="0" min="0" step="0.01">
             </div>
             <div class="form-group">
                 <label>กำหนดวันที่รับเงินประจำเดือน</label>
@@ -445,10 +446,10 @@
             <h2 style="font-size:18px;">เพิ่มรายจ่ายประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="addBillForm" onsubmit="saveNewBill(event)">
+        <form id="addBillForm" onsubmit="event.preventDefault(); saveNewBill();">
             <div class="form-group">
                 <label>ชื่อรายการ / บริการ</label>
-                <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง" required>
+                <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง">
             </div>
             <div class="form-group">
                 <label>หมวดหมู่</label>
@@ -470,7 +471,7 @@
             </div>
             <div class="form-group">
                 <label>ยอดเงินที่ต้องจ่าย (฿)</label>
-                <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
+                <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01">
             </div>
             <div class="form-group">
                 <label>กำหนดวันตัดจ่ายประจำเดือน</label>
@@ -522,14 +523,14 @@
     </div>
 </div>
 
-<!-- Modal 3: บันทึกรายวัน -->
+<!-- Modal 3: บันทึกรายการรายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 style="font-size:18px;">บันทึกรายการรายวัน</h2>
             <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="txForm" onsubmit="submitTransaction(event)">
+        <form id="txForm" onsubmit="event.preventDefault(); submitTransaction();">
             <div class="form-group">
                 <label>ประเภท</label>
                 <div class="custom-select-wrapper">
@@ -546,11 +547,11 @@
             </div>
             <div class="form-group">
                 <label>จำนวนเงิน (฿)</label>
-                <input type="number" id="inputAmount" placeholder="0" required min="1" step="0.01">
+                <input type="number" id="inputAmount" placeholder="0" min="1" step="0.01">
             </div>
             <div class="form-group">
                 <label>ชื่อรายการ</label>
-                <input type="text" id="inputName" placeholder="เช่น ค่าข้าว, รับจ้าง" required>
+                <input type="text" id="inputName" placeholder="เช่น ค่าข้าว, รับจ้าง">
             </div>
             <div class="form-group">
                 <label>หมวดหมู่</label>
@@ -581,11 +582,11 @@
             <h2 id="settingsModalTitle" style="font-size:18px;">ตั้งค่า</h2>
             <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x"></i></button>
         </div>
-        <form id="settingsForm" onsubmit="saveSettings(event)">
+        <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();">
             <input type="hidden" id="settingKey">
             <div class="form-group">
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
-                <input type="number" id="settingValue" required min="0" step="0.01">
+                <input type="number" id="settingValue" min="0" step="0.01">
             </div>
             <button type="submit" class="submit-btn">บันทึกข้อมูล</button>
         </form>
@@ -595,7 +596,7 @@
 <script>
     lucide.createIcons();
 
-    // Firebase Config (คงเดิมของคุณไว้ 100%)
+    // Firebase Config
     const firebaseConfig = { 
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
         authDomain: "todaypaying-7e8b0.firebaseapp.com", 
@@ -617,24 +618,28 @@
        ส่วนที่ 1: ระบบ UI Custom Dropdown ป้องกัน Mobile Popup 100%
        ============================================================== */
     window.toggleDropdown = function(dropdownId, event) {
-        if(event) event.stopPropagation(); // หยุดไม่ให้ event.click วิ่งไปกระตุ้น window.click
+        if(event) event.stopPropagation(); // ป้องกันคลิกทะลุ
+        
         const target = document.getElementById(dropdownId);
         const isActive = target.classList.contains('active');
         
-        // ซ่อนตัวอื่นๆ ก่อน
-        document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
+        // ซ่อนตัวอื่นๆ ทั้งหมดก่อน
+        document.querySelectorAll('.custom-dropdown-list').forEach(el => {
+            el.classList.remove('active');
+        });
         
-        // ถ้าตัวเป้าหมายไม่ได้เปิดอยู่ ให้เปิด
+        // ถ้าเป้าหมายไม่ได้เปิดอยู่ ให้เปิดขึ้นมา
         if (!isActive) {
             target.classList.add('active');
         }
     };
 
-    // คลิกพื้นที่ว่าง ให้ซ่อนกล่องเลือกทั้งหมด
+    // คลิกพื้นที่ว่าง ให้ซ่อนเมนูกล่องเลือกทั้งหมด
     window.addEventListener('click', function() {
         document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
     });
 
+    // ฟังก์ชันเลือก Option
     window.chooseOption = function(group, val, text, event) {
         if(event) event.stopPropagation();
 
@@ -665,7 +670,7 @@
             document.getElementById('selectedTxCatText').innerText = text;
         }
 
-        // ซ่อนทั้งหมดหลังเลือก
+        // ซ่อน dropdown หลังเลือกเสร็จ
         document.querySelectorAll('.custom-dropdown-list').forEach(el => el.classList.remove('active'));
         lucide.createIcons();
     };
@@ -714,19 +719,18 @@
     window.toggleAuthMode = function() {
         clearAuthError();
         isRegisterMode = !isRegisterMode;
-        document.querySelector('#emailAuthForm .submit-btn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
+        document.querySelector('#emailAuthSubmitBtn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
         document.getElementById('authToggleText').innerText = isRegisterMode ? 'มีบัญชีอยู่แล้วใช่หรือไม่?' : 'ยังไม่มีบัญชีใช่หรือไม่?';
         document.getElementById('authToggleLink').innerText = isRegisterMode ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก';
     };
 
-    window.handleEmailAuth = function(e) {
-        e.preventDefault();
+    window.handleEmailAuth = function() {
         clearAuthError();
         const email = document.getElementById('authEmail').value.trim();
         const pass = document.getElementById('authPassword').value;
 
         if (!email || !pass) {
-            showAuthError("กรุณากรอกอีเมลและรหัสผ่าน");
+            showAuthError("กรุณากรอกอีเมลและรหัสผ่านให้ครบถ้วน");
             return;
         }
 
@@ -779,9 +783,8 @@
         }
     }
 
-
     /* ==============================================================
-       ส่วนที่ 3: ระบบคำนวณเงินและแสดงผล
+       ส่วนที่ 3: ดึงข้อมูลและคำนวณหน้า Dashboard
        ============================================================== */
     let settingsData = { salary: 17625, daily_target: 150 };
     let globalBillsData = null;
@@ -956,7 +959,6 @@
        ส่วนที่ 4: ระบบรับข้อมูลฟอร์ม และบันทึกลง Firebase (ปลอดภัย 100%)
        ============================================================== */
     
-    // ฟอร์ม 1: เพิ่มรายรับประจำ
     window.openAddRecurringIncomeModal = function() {
         document.getElementById('addRecurringIncomeForm').reset();
         chooseOption('incDate', 'day1', 'วันแรกของเดือน (วันที่ 1)', null);
@@ -966,19 +968,21 @@
         document.getElementById('addRecurringIncomeModal').classList.add('active');
     };
 
-    window.saveNewRecurringIncome = function(e) {
-        e.preventDefault();
+    window.saveNewRecurringIncome = function() {
+        if (!currentUser) return;
         const name = document.getElementById('newIncName').value.trim();
         const amount = Number(document.getElementById('newIncAmount').value) || 0;
         const dateType = document.getElementById('newIncDateType').value;
-        const dateVal = document.getElementById('newIncDateVal').value;
+        const dateVal = document.getElementById('newIncDateVal').value.trim();
         const method = document.getElementById('newIncMethod').value;
         const bank_name = document.getElementById('newIncBankName').value.trim();
         const acc_no = document.getElementById('newIncAccNo').value.trim();
 
-        if (!name || amount <= 0) {
-            alert("กรุณากรอกชื่อและจำนวนเงินให้ถูกต้อง");
-            return;
+        // ตรวจสอบความถูกต้องด้วย JS โดยตรง
+        if (!name) { alert("กรุณากรอกชื่อรายการ"); return; }
+        if (amount <= 0) { alert("กรุณาระบุจำนวนเงินให้ถูกต้อง"); return; }
+        if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) {
+            alert("กรุณาระบุวันที่หรือข้อความให้ครบถ้วน"); return;
         }
 
         db.ref(getUserDbPath('recurring_incomes')).push({
@@ -999,7 +1003,6 @@
         }
     };
 
-    // ฟอร์ม 2: เพิ่มรายจ่ายประจำ
     window.openAddBillModal = function() {
         document.getElementById('addBillForm').reset();
         chooseOption('billCat', 'entertainment', 'ความบันเทิง & สตรีมมิ่ง', null);
@@ -1010,20 +1013,21 @@
         document.getElementById('addBillModal').classList.add('active');
     };
 
-    window.saveNewBill = function(e) {
-        e.preventDefault();
+    window.saveNewBill = function() {
+        if (!currentUser) return;
         const name = document.getElementById('newBillName').value.trim();
         const category = document.getElementById('newBillCat').value;
         const amount = Number(document.getElementById('newBillAmount').value) || 0;
         const dateType = document.getElementById('newBillDateType').value;
-        const dateVal = document.getElementById('newBillDateVal').value;
+        const dateVal = document.getElementById('newBillDateVal').value.trim();
         const payment_method = document.getElementById('newBillMethod').value;
         const bank_name = document.getElementById('newBankName').value.trim();
         const acc_no = document.getElementById('newAccNo').value.trim();
 
-        if (!name || amount <= 0) {
-            alert("กรุณากรอกชื่อรายการและยอดเงินให้ถูกต้อง");
-            return;
+        if (!name) { alert("กรุณากรอกชื่อรายการบิล"); return; }
+        if (amount <= 0) { alert("กรุณาระบุยอดเงินให้ถูกต้อง"); return; }
+        if ((dateType === 'customDate' || dateType === 'customText') && !dateVal) {
+            alert("กรุณาระบุวันที่หรือข้อความให้ครบถ้วน"); return;
         }
 
         db.ref(getUserDbPath('fixed_expenses')).push({
@@ -1044,7 +1048,6 @@
         }
     };
 
-    // ฟอร์ม 3: บันทึกรายการรายวัน
     window.openTxModal = function(type = 'expense') {
         document.getElementById('txForm').reset();
         chooseOption('txType', type, type === 'expense' ? 'รายจ่าย' : 'รายได้เสริม (ครั้งคราว)', null);
@@ -1052,18 +1055,16 @@
         document.getElementById('txModal').classList.add('active');
     };
 
-    window.submitTransaction = function(e) {
-        e.preventDefault();
+    window.submitTransaction = function() {
+        if (!currentUser) return;
         const type = document.getElementById('inputType').value;
         const amount = Number(document.getElementById('inputAmount').value) || 0;
         const name = document.getElementById('inputName').value.trim();
         const category = document.getElementById('inputCategory').value;
         const dateStr = new Date().toISOString().split('T')[0];
 
-        if (!name || amount <= 0) {
-            alert("กรุณากรอกชื่อรายการและจำนวนเงินให้ถูกต้อง");
-            return;
-        }
+        if (!name) { alert("กรุณากรอกชื่อรายการ"); return; }
+        if (amount <= 0) { alert("กรุณาระบุจำนวนเงินให้ถูกต้อง"); return; }
 
         db.ref(getUserDbPath(`transactions/${actualCurrentMonth}`)).push({
             type, amount, name, category, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP
@@ -1072,7 +1073,6 @@
         }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
     };
 
-    // ฟอร์ม 4: ตั้งค่า
     window.openSettingsModal = function(type) {
         document.getElementById('settingKey').value = type;
         document.getElementById('settingValue').value = settingsData[type] || 0;
@@ -1080,10 +1080,13 @@
         document.getElementById('settingsModal').classList.add('active');
     };
 
-    window.saveSettings = function(e) {
-        e.preventDefault();
+    window.saveSettings = function() {
+        if (!currentUser) return;
         const key = document.getElementById('settingKey').value;
         const val = Number(document.getElementById('settingValue').value) || 0;
+        
+        if (val < 0) { alert("ยอดเงินไม่ถูกต้อง"); return; }
+
         db.ref(getUserDbPath(`settings/${key}`)).set(val).then(() => {
             closeModal('settingsModal');
         }).catch(err => alert("เกิดข้อผิดพลาด: " + err.message));
@@ -1111,17 +1114,15 @@
         if (type === 'customDate') {
             container.style.display = 'block';
             input.type = 'date';
-            input.required = true;
             label.innerText = 'เลือกวันที่จากปฏิทิน';
         } else if (type === 'customText') {
             container.style.display = 'block';
             input.type = 'text';
             input.placeholder = 'เช่น วันที่ 25 ของทุกเดือน';
-            input.required = true;
             label.innerText = 'ระบุข้อความกำหนดเอง';
         } else {
             container.style.display = 'none';
-            input.required = false;
+            input.value = '';
         }
     };
 
@@ -1134,17 +1135,15 @@
         if (type === 'customDate') {
             container.style.display = 'block';
             input.type = 'date';
-            input.required = true;
             label.innerText = 'เลือกวันที่จากปฏิทิน';
         } else if (type === 'customText') {
             container.style.display = 'block';
             input.type = 'text';
             input.placeholder = 'เช่น สัญญาเข้าวันที่ 28';
-            input.required = true;
             label.innerText = 'ระบุข้อความกำหนดเอง';
         } else {
             container.style.display = 'none';
-            input.required = false;
+            input.value = '';
         }
     };
 
