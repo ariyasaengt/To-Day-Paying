@@ -103,7 +103,7 @@
     <div class="header">
         <div>
             <h1><i data-lucide="layout-dashboard"></i> Todaypaying</h1>
-            <p>ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
+            <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
         <div style="display:flex; gap:15px; align-items:center;">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
@@ -116,15 +116,15 @@
     <div class="top-dashboard-grid">
         <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
-                <h3><i data-lucide="wallet"></i> ส่วนบันทึกรายรับ (Monthly Income)</h3>
+                <h3 id="txt-income-title"><i data-lucide="wallet"></i> ส่วนบันทึกรายรับ (Monthly Income)</h3>
                 <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus"></i></button>
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 200px;">
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
-                        <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" size="12" style="margin-left:4px;"></i></p>
+                        <h4 style="color:var(--primary);" id="txt-salary-lbl">เงินเดือนประจำ (Salary)</h4>
+                        <p style="display:flex; align-items:center;" id="txt-main-inc">รายได้หลัก <i data-lucide="edit-3" size="12" style="margin-left:4px;"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:16px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -132,36 +132,36 @@
             </div>
 
             <div style="margin-top:15px; border-top:2px dashed #f1f5f9; padding-top:15px; display:flex; justify-content:space-between; font-size:15px;">
-                <span style="font-weight:500; color:var(--text-light);">รวมรายรับ (Total Income)</span>
+                <span id="txt-total-inc-lbl" style="font-weight:500; color:var(--text-light);">รวมรายรับ (Total Income)</span>
                 <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
             </div>
         </div>
 
         <div class="panel" style="background: var(--text-dark); color: white; margin-bottom:0;">
             <div class="panel-header" style="border-bottom-color: #334155;">
-                <h3 style="color: white;"><i data-lucide="pie-chart"></i> สรุปภาพรวม (Runway Calculator)</h3>
+                <h3 style="color: white;" id="txt-runway-title"><i data-lucide="pie-chart"></i> สรุปภาพรวม (Runway Calculator)</h3>
                 <span class="status-badge" id="ui-liquidity-status">กำลังประมวลผล...</span>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div>
-                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รวมรายรับ (Income)</p>
+                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;" id="txt-sum-inc">รวมรายรับ (Income)</p>
                     <p id="ui-overview-income" style="margin:5px 0 15px 0; font-size:20px; font-weight:600; color:var(--success);">฿0</p>
                     
-                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">เงินคงเหลือสุทธิ (Savings)</p>
+                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;" id="txt-sum-sav">เงินคงเหลือสุทธิ (Savings)</p>
                     <p id="ui-overview-savings" style="margin:5px 0 0 0; font-size:24px; font-weight:600;">฿0</p>
                 </div>
                 <div>
-                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รายจ่ายประจำ (Fixed Expenses)</p>
+                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;" id="txt-sum-fix">รายจ่ายประจำ (Fixed Expenses)</p>
                     <p id="ui-overview-fixed" style="margin:5px 0 15px 0; font-size:20px; font-weight:600; color:#f87171;">฿0</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:8px 12px; border-radius:10px;">
-                            <p style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i></p>
+                            <p style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;" id="txt-daily-lbl">งบต่อวัน <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:16px; font-weight:600; color:var(--warning);">150</p>
                         </div>
                         <div style="text-align:right;">
-                            <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">วันคงเหลือ (Runway)</p>
-                            <p style="margin:2px 0 0 0; font-size:24px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span style="font-size:14px; font-weight:400;">วัน</span></p>
+                            <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;" id="txt-runway-lbl">วันคงเหลือ (Runway)</p>
+                            <p style="margin:2px 0 0 0; font-size:24px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span id="txt-days-unit" style="font-size:14px; font-weight:400;">วัน</span></p>
                         </div>
                     </div>
                 </div>
@@ -171,16 +171,16 @@
 
     <!-- แถบค่ากินอยู่รายวัน -->
     <div class="daily-tracker-bar">
-        <span><i data-lucide="shopping-bag" size="16" style="margin-right:8px;"></i> บันทึกค่ากินอยู่รายวัน <span id="ui-current-month-lbl" style="font-weight:400;"></span></span>
-        <span>ใช้วันนี้: <span id="ui-spent-today" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
-        <span>รวมเดือนนี้: <span id="ui-spent-month" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
-        <span id="ui-spent-status">สถานะ: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
+        <span><i data-lucide="shopping-bag" size="16" style="margin-right:8px;"></i> <span id="txt-daily-track">บันทึกค่ากินอยู่รายวัน</span> <span id="ui-current-month-lbl" style="font-weight:400;"></span></span>
+        <span><span id="txt-spent-today">ใช้วันนี้:</span> <span id="ui-spent-today" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
+        <span><span id="txt-spent-month">รวมเดือนนี้:</span> <span id="ui-spent-month" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
+        <span id="ui-spent-status">Status: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
     <!-- กราฟแนวโน้ม -->
     <div class="panel">
         <div class="panel-header">
-            <h3><i data-lucide="trending-up"></i> กราฟแนวโน้มการใช้จ่ายรายวัน (Monthly Spending Trend)</h3>
+            <h3 id="txt-trend-title"><i data-lucide="trending-up"></i> กราฟแนวโน้มการใช้จ่ายรายวัน (Monthly Spending Trend)</h3>
         </div>
         <div style="position: relative; height:220px; width:100%;">
             <canvas id="trendChart"></canvas>
@@ -191,11 +191,11 @@
         <!-- 2.1 รายจ่ายประจำ -->
         <div class="panel">
             <div class="panel-header">
-                <h3><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ</h3>
+                <h3 id="txt-bills-title"><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ</h3>
                 <div style="display:flex; align-items:center; gap:15px;">
                     <div style="text-align:right;">
                         <span id="ui-bill-tracker" style="font-size:12px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
-                        <p style="margin:0; font-size:11px; color:var(--text-light); font-weight:300;">ยอดรอชำระ: <span id="ui-unpaid-amount" style="color:var(--danger); font-weight:500;">฿0</span></p>
+                        <p style="margin:0; font-size:11px; color:var(--text-light); font-weight:300;"><span id="txt-unpaid-lbl">ยอดรอชำระ:</span> <span id="ui-unpaid-amount" style="color:var(--danger); font-weight:500;">฿0</span></p>
                     </div>
                     <button class="action-btn" onclick="openAddBillModal()" title="เพิ่มรายจ่ายประจำ"><i data-lucide="plus"></i></button>
                 </div>
@@ -206,7 +206,7 @@
         <div style="display:flex; flex-direction:column; gap:20px;">
             <div class="panel">
                 <div class="panel-header">
-                    <h3><i data-lucide="pie-chart"></i> สัดส่วนค่าใช้จ่าย</h3>
+                    <h3 id="txt-pie-title"><i data-lucide="pie-chart"></i> สัดส่วนค่าใช้จ่าย</h3>
                 </div>
                 <div class="breakdown-grid">
                     <div style="position: relative; height:150px;"><canvas id="expenseChart"></canvas></div>
@@ -216,7 +216,7 @@
 
             <div class="panel">
                 <div class="panel-header">
-                    <h3><i data-lucide="list"></i> ประวัติรายการรายวัน</h3>
+                    <h3 id="txt-history-title"><i data-lucide="list"></i> ประวัติรายการรายวัน</h3>
                 </div>
                 <div class="list-container" id="history-container" style="max-height: 220px;"></div>
             </div>
@@ -227,13 +227,13 @@
     <div class="top-dashboard-grid" style="margin-top:20px;">
         <div class="panel">
             <div class="panel-header">
-                <h3><i data-lucide="trending-down"></i> ติดตามค่างวดผ่อนชำระ (Debt Tracker)</h3>
+                <h3 id="txt-debt-title"><i data-lucide="trending-down"></i> ติดตามค่างวดผ่อนชำระ (Debt Tracker)</h3>
             </div>
             <div class="debt-table-wrapper">
                 <table class="debt-table">
                     <thead>
                         <tr>
-                            <th>อุปกรณ์/สัญญา</th><th>ยอด/เดือน</th><th>งวดรวม</th><th>จ่ายแล้ว</th><th>งวดเหลือ</th><th>ผ่อนสะสม</th><th>ภาระหนี้เหลือ</th>
+                            <th id="th-device">อุปกรณ์/สัญญา</th><th id="th-amt">ยอด/เดือน</th><th id="th-total">งวดรวม</th><th id="th-paid">จ่ายแล้ว</th><th id="th-left">งวดเหลือ</th><th id="th-accum">ผ่อนสะสม</th><th id="th-debt">ภาระหนี้เหลือ</th>
                         </tr>
                     </thead>
                     <tbody id="debt-table-body"></tbody>
@@ -243,7 +243,7 @@
 
         <div class="panel">
             <div class="panel-header">
-                <h3><i data-lucide="calendar"></i> ปฏิทินรอบบิล</h3>
+                <h3 id="txt-cal-title"><i data-lucide="calendar"></i> ปฏิทินรอบบิล</h3>
             </div>
             <div class="calendar-grid" id="cal-headers"></div>
             <div class="calendar-grid" id="calendar-body"></div>
@@ -268,25 +268,25 @@
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
                 <input type="number" id="settingValue" required min="0" step="0.01">
             </div>
-            <button type="submit" class="submit-btn">บันทึกข้อมูล</button>
+            <button type="submit" class="submit-btn" id="btn-save-settings">บันทึกข้อมูล</button>
         </form>
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายจ่ายประจำ (เลือกธนาคาร + ตัวอย่างเลข 0-9 เพื่อความเป็นส่วนตัว) -->
+<!-- Modal 2: เพิ่มรายจ่ายประจำ -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>เพิ่มรายจ่ายประจำใหม่</h2>
+            <h2 id="txt-modal-add-bill">เพิ่มรายจ่ายประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <form id="addBillForm" onsubmit="saveNewBill(event); return false;">
             <div class="form-group">
-                <label>ชื่อรายการ / บริการ</label>
+                <label id="txt-lbl-name">ชื่อรายการ / บริการ</label>
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง" required>
             </div>
             <div class="form-group">
-                <label>หมวดหมู่</label>
+                <label id="txt-lbl-cat">หมวดหมู่</label>
                 <select id="newBillCat" onchange="toggleInstallmentFields()">
                     <option value="entertainment">ความบันเทิง & สตรีมมิ่ง</option>
                     <option value="software">ซอฟต์แวร์ทำงาน</option>
@@ -299,17 +299,17 @@
             
             <div id="installmentFields" style="display: none; background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
                 <div class="form-group" style="margin-bottom: 10px;">
-                    <label>จำนวนงวดทั้งหมด (เดือน)</label>
+                    <label id="txt-lbl-inst-total">จำนวนงวดทั้งหมด (เดือน)</label>
                     <input type="number" id="newInstallmentTotal" placeholder="เช่น 24" min="1">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label>งวดที่จ่ายไปแล้ว</label>
+                    <label id="txt-lbl-inst-paid">งวดที่จ่ายไปแล้ว</label>
                     <input type="number" id="newInstallmentPaid" placeholder="เช่น 5" min="0" value="0">
                 </div>
             </div>
 
             <div class="form-group">
-                <label>วันที่ครบกำหนดตัดรอบ</label>
+                <label id="txt-lbl-due">วันที่ครบกำหนดตัดรอบ</label>
                 <select id="newBillDueType" onchange="toggleDueType()" style="margin-bottom: 8px;">
                     <option value="custom">ระบุวันที่ (1-31)</option>
                     <option value="last_day">วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)</option>
@@ -319,12 +319,12 @@
             </div>
 
             <div class="form-group">
-                <label>ยอดเงินที่ต้องจ่ายรายเดือน (฿)</label>
+                <label id="txt-lbl-amount">ยอดเงินที่ต้องจ่ายรายเดือน (฿)</label>
                 <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
             </div>
 
             <div class="form-group">
-                <label>ช่องทางชำระเงิน</label>
+                <label id="txt-lbl-method">ช่องทางชำระเงิน</label>
                 <select id="newBillMethod" onchange="toggleBankFields()">
                     <option value="แอปธนาคาร / โอนบิล">📱 แอปธนาคาร / โอนบิล</option>
                     <option value="ตัดบัตรเครดิต / เดบิต">💳 ตัดบัตรเครดิต / เดบิต</option>
@@ -334,30 +334,29 @@
                 </select>
             </div>
 
-            <!-- กล่องเลือกธนาคารและเลขบัญชีแบบปลอดภัย (ใช้เลข 0-9 เป็นตัวอย่าง) -->
             <div id="bankAccountFields" style="background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #e2e8f0;">
                 <div class="form-group" style="margin-bottom: 10px;">
-                    <label><i data-lucide="landmark" size="14"></i> เลือกธนาคาร</label>
+                    <label id="txt-lbl-bank">เลือกธนาคาร</label>
                     <select id="newBankName">
-                        <option value="ธ.ไทยพาณิชย์ (SCB)">ธ.ไทยพาณิชย์ (SCB)</option>
-                        <option value="ธ.กสิกรไทย (KBANK)">ธ.กสิกรไทย (KBANK)</option>
-                        <option value="ธ.กรุงไทย (KTB)">ธ.กรุงไทย (KTB)</option>
-                        <option value="ธ.กรุงเทพ (BBL)">ธ.กรุงเทพ (BBL)</option>
-                        <option value="ธ.กรุงศรีอยุธยา (BAY)">ธ.กรุงศรีอยุธยา (BAY)</option>
-                        <option value="พร้อมเพย์ (PromptPay)">พร้อมเพย์ (PromptPay)</option>
+                        <option value="ธ.ไทยพาณิชย์ (SCB)">🏦 ธ.ไทยพาณิชย์ (SCB)</option>
+                        <option value="ธ.กสิกรไทย (KBANK)">🏦 ธ.กสิกรไทย (KBANK)</option>
+                        <option value="ธ.กรุงไทย (KTB)">🏦 ธ.กรุงไทย (KTB)</option>
+                        <option value="ธ.กรุงเทพ (BBL)">🏦 ธ.กรุงเทพ (BBL)</option>
+                        <option value="ธ.กรุงศรีอยุธยา (BAY)">🏦 ธ.กรุงศรีอยุธยา (BAY)</option>
+                        <option value="พร้อมเพย์ (PromptPay)">💳 พร้อมเพย์ (PromptPay)</option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-bottom: 10px;">
-                    <label>ชื่อบัญชี / ผู้รับเงิน</label>
+                    <label id="txt-lbl-accname">ชื่อบัญชี / ผู้รับเงิน</label>
                     <input type="text" id="newAccName" placeholder="เช่น นายสมชาย ใจดี">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label>เลขที่บัญชี (ตัวอย่าง)</label>
+                    <label id="txt-lbl-accno">เลขที่บัญชี (ตัวอย่างเพื่อความปลอดภัย)</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn">เพิ่มรายจ่ายประจำ</button>
+            <button type="submit" class="submit-btn" id="btn-save-new-bill">เพิ่มรายจ่ายประจำ</button>
         </form>
     </div>
 </div>
@@ -366,20 +365,20 @@
 <div class="modal-overlay" id="editBillModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>แก้ไขราคารายจ่ายประจำ</h2>
+            <h2 id="txt-modal-edit-price">แก้ไขราคารายจ่ายประจำ</h2>
             <button class="close-btn" onclick="closeModal('editBillModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <form id="editBillForm" onsubmit="saveBillPrice(event); return false;">
             <input type="hidden" id="editBillKey">
             <div class="form-group">
-                <label>ชื่อรายการ</label>
+                <label id="txt-lbl-edit-name">ชื่อรายการ</label>
                 <input type="text" id="editBillName" disabled style="background:#e2e8f0; color:#64748b;">
             </div>
             <div class="form-group">
-                <label>ยอดเงินใหม่ (฿)</label>
+                <label id="txt-lbl-edit-amt">ยอดเงินใหม่ (฿)</label>
                 <input type="number" id="editBillAmount" required min="0" step="0.01">
             </div>
-            <button type="submit" class="submit-btn">บันทึกราคาใหม่</button>
+            <button type="submit" class="submit-btn" id="btn-save-price">บันทึกราคาใหม่</button>
         </form>
     </div>
 </div>
@@ -388,30 +387,30 @@
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>บันทึกรายการรายวัน</h2>
+            <h2 id="txt-modal-tx">บันทึกรายการรายวัน</h2>
             <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <form id="txForm" onsubmit="submitTransaction(event); return false;">
             <div class="form-group">
-                <label>ประเภท</label>
+                <label id="txt-lbl-tx-type">ประเภท</label>
                 <select id="inputType" onchange="changeCategoryOptions()">
-                    <option value="expense">รายจ่าย</option>
-                    <option value="income">รายได้เสริม (งานนอก)</option>
+                    <option value="expense" id="opt-tx-exp">รายจ่าย</option>
+                    <option value="income" id="opt-tx-inc">รายได้เสริม (งานนอก)</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>จำนวนเงิน (฿)</label>
+                <label id="txt-lbl-tx-amt">จำนวนเงิน (฿)</label>
                 <input type="number" id="inputAmount" placeholder="0" required min="1" step="0.01">
             </div>
             <div class="form-group">
-                <label>ชื่อรายการ</label>
+                <label id="txt-lbl-tx-name">ชื่อรายการ</label>
                 <input type="text" id="inputName" placeholder="เช่น ค่าข้าว, รับจ้าง" required>
             </div>
             <div class="form-group">
-                <label>หมวดหมู่</label>
+                <label id="txt-lbl-tx-cat">หมวดหมู่</label>
                 <select id="inputCategory"></select>
             </div>
-            <button type="submit" class="submit-btn">บันทึก</button>
+            <button type="submit" class="submit-btn" id="btn-save-tx">บันทึก</button>
         </form>
     </div>
 </div>
@@ -438,7 +437,7 @@
         for (let i = 0; i < 6; i++) {
             let d = new Date(dateObj.getFullYear(), dateObj.getMonth() - i, 1);
             let val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-            let label = d.toLocaleString('th-TH', { month: 'short', year: 'numeric' });
+            let label = d.toLocaleString(currentLang === 'th' ? 'th-TH' : 'en-US', { month: 'short', year: 'numeric' });
             selector.innerHTML += `<option value="${val}">${label}</option>`;
         }
         selector.value = currentViewMonth;
@@ -452,12 +451,40 @@
     let currentLang = 'th';
     const translations = {
         th: {
+            subtitle: "ระบบจัดการงบประมาณและรายจ่ายประจำเดือน",
+            incomeTitle: "ส่วนบันทึกรายรับ (Monthly Income)",
+            salaryLbl: "เงินเดือนประจำ (Salary)", mainInc: "รายได้หลัก", totalIncLbl: "รวมรายรับ (Total Income)",
+            runwayTitle: "สรุปภาพรวม (Runway Calculator)", sumInc: "รวมรายรับ (Income)", sumSav: "เงินคงเหลือสุทธิ (Savings)", sumFix: "รายจ่ายประจำ (Fixed Expenses)", dailyLbl: "งบต่อวัน", runwayLbl: "วันคงเหลือ (Runway)", daysUnit: "วัน",
+            dailyTrack: "บันทึกค่ากินอยู่รายวัน", spentToday: "ใช้วันนี้:", spentMonth: "รวมเดือนนี้:",
+            trendTitle: "กราฟแนวโน้มการใช้จ่ายรายวัน (Monthly Spending Trend)",
+            billsTitle: "รายการค่าใช้จ่ายประจำ / บริการ", unpaidLbl: "ยอดรอชำระ:",
+            pieTitle: "สัดส่วนค่าใช้จ่าย", historyTitle: "ประวัติรายการรายวัน",
+            debtTitle: "ติดตามค่างวดผ่อนชำระ (Debt Tracker)", calTitle: "ปฏิทินรอบบิล",
+            thDev: "อุปกรณ์/สัญญา", thAmt: "ยอด/เดือน", thTot: "งวดรวม", thPaid: "จ่ายแล้ว", thLeft: "งวดเหลือ", thAcc: "ผ่อนสะสม", thDebt: "ภาระหนี้เหลือ",
+            statusGood: "สภาพคล่องดี", statusWarn: "ปานกลาง", statusDanger: "ควรประหยัดเพิ่ม", statusNoSpend: "ยังไม่มีการใช้จ่าย", statusOver: "เกินงบรายวัน!", statusInBudget: "อยู่ในงบ", statusClosed: "ปิดรอบแล้ว",
+            modalAddBill: "เพิ่มรายจ่ายประจำใหม่", lblName: "ชื่อรายการ / บริการ", lblCat: "หมวดหมู่", lblInstTot: "จำนวนงวดทั้งหมด (เดือน)", lblInstPaid: "งวดที่จ่ายไปแล้ว", lblDue: "วันที่ครบกำหนดตัดรอบ", lblAmt: "ยอดเงินที่ต้องจ่ายรายเดือน (฿)", lblMethod: "ช่องทางชำระเงิน", lblBank: "เลือกธนาคาร", lblAccName: "ชื่อบัญชี / ผู้รับเงิน", lblAccNo: "เลขที่บัญชี (ตัวอย่าง)", btnSaveBill: "เพิ่มรายจ่ายประจำ",
+            modalEditPrice: "แก้ไขราคารายจ่ายประจำ", lblEditName: "ชื่อรายการ", lblEditAmt: "ยอดเงินใหม่ (฿)", btnSavePrice: "บันทึกราคาใหม่",
+            modalTx: "บันทึกรายการรายวัน", lblTxType: "ประเภท", optExp: "รายจ่าย", optInc: "รายได้เสริม (งานนอก)", lblTxAmt: "จำนวนเงิน (฿)", lblTxName: "ชื่อรายการ", lblTxCat: "หมวดหมู่", btnSaveTx: "บันทึก",
             days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
             catsExpense: { "food": "อาหาร", "grocery": "ของใช้", "transport": "เดินทาง", "shopping": "ช้อปปิ้ง", "others": "อื่นๆ" },
             catsIncome: { "freelance": "งานนอก 1", "extra": "งานนอก 2", "others": "รายได้อื่นๆ" },
             fixedCats: { "housing": "ที่พักอาศัย", "device": "ผ่อนอุปกรณ์สื่อสาร", "software": "ซอฟต์แวร์ทำงาน", "work": "อุปกรณ์ทำงาน/สื่อ", "loan": "สินเชื่อ / ผ่อนชำระ", "utility": "สาธารณูปโภค/สื่อสาร", "entertainment": "ความบันเทิง&สตรีมมิ่ง" }
         },
         en: {
+            subtitle: "Monthly Budget & Expense Tracker",
+            incomeTitle: "Monthly Income",
+            salaryLbl: "Salary", mainInc: "Main Income", totalIncLbl: "Total Income",
+            runwayTitle: "Runway Calculator", sumInc: "Total Income", sumSav: "Net Savings", sumFix: "Fixed Expenses", dailyLbl: "Daily Target", runwayLbl: "Runway", daysUnit: "Days",
+            dailyTrack: "Daily Expenses Tracker", spentToday: "Today:", spentMonth: "This Month:",
+            trendTitle: "Monthly Spending Trend",
+            billsTitle: "Subscriptions & Fixed Expenses", unpaidLbl: "Unpaid:",
+            pieTitle: "Expense Breakdown", historyTitle: "Daily Transactions",
+            debtTitle: "Installment Tracker", calTitle: "Billing Calendar",
+            thDev: "Contract/Device", thAmt: "Amount/Mo", thTot: "Total", thPaid: "Paid", thLeft: "Left", thAcc: "Accumulated", thDebt: "Debt Left",
+            statusGood: "Good", statusWarn: "Fair", statusDanger: "Save More", statusNoSpend: "No spending", statusOver: "Over budget!", statusInBudget: "In budget", statusClosed: "Month Closed",
+            modalAddBill: "Add New Fixed Expense", lblName: "Item Name / Service", lblCat: "Category", lblInstTot: "Total Installments (Months)", lblInstPaid: "Paid Installments", lblDue: "Due Date", lblAmt: "Monthly Amount (฿)", lblMethod: "Payment Method", lblBank: "Select Bank", lblAccName: "Account Name", lblAccNo: "Account No. (Example)", btnSaveBill: "Add Fixed Expense",
+            modalEditPrice: "Edit Fixed Expense Price", lblEditName: "Item Name", lblEditAmt: "New Amount (฿)", btnSavePrice: "Save New Price",
+            modalTx: "Add Daily Transaction", lblTxType: "Type", optExp: "Expense", optInc: "Extra Income", lblTxAmt: "Amount (฿)", lblTxName: "Title", lblTxCat: "Category", btnSaveTx: "Save",
             days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             catsExpense: { "food": "Food", "grocery": "Grocery", "transport": "Transport", "shopping": "Shopping", "others": "Others" },
             catsIncome: { "freelance": "Freelance", "extra": "Extra Job", "others": "Others" },
@@ -473,9 +500,74 @@
 
     function applyTranslations() {
         const t = translations[currentLang];
+        document.getElementById('txt-subtitle').innerText = t.subtitle;
+        document.getElementById('txt-income-title').innerHTML = `<i data-lucide="wallet"></i> ${t.incomeTitle}`;
+        document.getElementById('txt-salary-lbl').innerText = t.salaryLbl;
+        document.getElementById('txt-main-inc').innerHTML = `${t.mainInc} <i data-lucide="edit-3" size="12" style="margin-left:4px;"></i>`;
+        document.getElementById('txt-total-inc-lbl').innerText = t.totalIncLbl;
+
+        document.getElementById('txt-runway-title').innerHTML = `<i data-lucide="pie-chart"></i> ${t.runwayTitle}`;
+        document.getElementById('txt-sum-inc').innerText = t.sumInc;
+        document.getElementById('txt-sum-sav').innerText = t.sumSav;
+        document.getElementById('txt-sum-fix').innerText = t.sumFix;
+        document.getElementById('txt-daily-lbl').innerHTML = `${t.dailyLbl} <i data-lucide="edit-3" size="10" style="margin-left:4px;"></i>`;
+        document.getElementById('txt-runway-lbl').innerText = t.runwayLbl;
+        document.getElementById('txt-days-unit').innerText = t.daysUnit;
+
+        document.getElementById('txt-daily-track').innerText = t.dailyTrack;
+        document.getElementById('txt-spent-today').innerText = t.spentToday;
+        document.getElementById('txt-spent-month').innerText = t.spentMonth;
+        document.getElementById('txt-trend-title').innerHTML = `<i data-lucide="trending-up"></i> ${t.trendTitle}`;
+
+        document.getElementById('txt-bills-title').innerHTML = `<i data-lucide="calendar-check"></i> ${t.billsTitle}`;
+        document.getElementById('txt-unpaid-lbl').innerText = t.unpaidLbl;
+        document.getElementById('txt-pie-title').innerHTML = `<i data-lucide="pie-chart"></i> ${t.pieTitle}`;
+        document.getElementById('txt-history-title').innerHTML = `<i data-lucide="list"></i> ${t.historyTitle}`;
+
+        document.getElementById('txt-debt-title').innerHTML = `<i data-lucide="trending-down"></i> ${t.debtTitle}`;
+        document.getElementById('th-device').innerText = t.thDev;
+        document.getElementById('th-amt').innerText = t.thAmt;
+        document.getElementById('th-total').innerText = t.thTot;
+        document.getElementById('th-paid').innerText = t.thPaid;
+        document.getElementById('th-left').innerText = t.thLeft;
+        document.getElementById('th-accum').innerText = t.thAcc;
+        document.getElementById('th-debt').innerText = t.thDebt;
+
+        document.getElementById('txt-cal-title').innerHTML = `<i data-lucide="calendar"></i> ${t.calTitle}`;
+
+        // Modals
+        document.getElementById('txt-modal-add-bill').innerText = t.modalAddBill;
+        document.getElementById('txt-lbl-name').innerText = t.lblName;
+        document.getElementById('txt-lbl-cat').innerText = t.lblCat;
+        document.getElementById('txt-lbl-inst-total').innerText = t.lblInstTot;
+        document.getElementById('txt-lbl-inst-paid').innerText = t.lblInstPaid;
+        document.getElementById('txt-lbl-due').innerText = t.lblDue;
+        document.getElementById('txt-lbl-amount').innerText = t.lblAmt;
+        document.getElementById('txt-lbl-method').innerText = t.lblMethod;
+        document.getElementById('txt-lbl-bank').innerText = t.lblBank;
+        document.getElementById('txt-lbl-accname').innerText = t.lblAccName;
+        document.getElementById('txt-lbl-accno').innerText = t.lblAccNo;
+        document.getElementById('btn-save-new-bill').innerText = t.btnSaveBill;
+
+        document.getElementById('txt-modal-edit-price').innerText = t.modalEditPrice;
+        document.getElementById('txt-lbl-edit-name').innerText = t.lblEditName;
+        document.getElementById('txt-lbl-edit-amt').innerText = t.lblEditAmt;
+        document.getElementById('btn-save-price').innerText = t.btnSavePrice;
+
+        document.getElementById('txt-modal-tx').innerText = t.modalTx;
+        document.getElementById('txt-lbl-tx-type').innerText = t.lblTxType;
+        document.getElementById('opt-tx-exp').innerText = t.optExp;
+        document.getElementById('opt-tx-inc').innerText = t.optInc;
+        document.getElementById('txt-lbl-tx-amt').innerText = t.lblTxAmt;
+        document.getElementById('txt-lbl-tx-name').innerText = t.lblTxName;
+        document.getElementById('txt-lbl-tx-cat').innerText = t.lblTxCat;
+        document.getElementById('btn-save-tx').innerText = t.btnSaveTx;
+
         let calHeaders = '';
         t.days.forEach(d => { calHeaders += `<div class="cal-day-header">${d}</div>`; });
         document.getElementById('cal-headers').innerHTML = calHeaders;
+        
+        initMonthSelector();
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
@@ -539,11 +631,11 @@
                 if(dueDay) billsForCalendar.push({ key: key, date: dueDay, name: b.name, amount: amt, isPaid: isPaid });
 
                 let dueText = '';
-                if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;">ชำระแล้ว</span>`;
+                if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;">${currentLang==='th'?'ชำระแล้ว':'Paid'}</span>`;
                 else {
-                    if (dueDay < today) dueText = `<span style="color:var(--danger); font-weight:600;">เกินกำหนด</span>`;
-                    else if (dueDay - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;">อีก ${dueDay - today} วัน</span>`;
-                    else dueText = `<span style="color:var(--text-light); font-weight:400;">วันที่ ${dueDay}</span>`;
+                    if (dueDay < today) dueText = `<span style="color:var(--danger); font-weight:600;">${currentLang==='th'?'เกินกำหนด':'Overdue'}</span>`;
+                    else if (dueDay - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;">${currentLang==='th'?'อีก ':'In '}${dueDay - today}${currentLang==='th'?' วัน':' days'}</span>`;
+                    else dueText = `<span style="color:var(--text-light); font-weight:400;">${currentLang==='th'?'วันที่ ':'Day '}${dueDay}</span>`;
                 }
                 
                 const catName = t.fixedCats[b.category] || b.category || 'General';
@@ -551,7 +643,7 @@
 
                 let paymentDisplay = b.payment_method || 'โอน';
                 if(b.bank_name && b.acc_no) {
-                    paymentDisplay = `<i data-lucide="landmark" size="12"></i> ${b.bank_name} (${b.acc_no}) <button class="copy-btn" onclick="copyToClipboard('${b.acc_no}')">คัดลอก</button>`;
+                    paymentDisplay = `<i data-lucide="landmark" size="12"></i> ${b.bank_name} (${b.acc_no}) <button class="copy-btn" onclick="copyToClipboard('${b.acc_no}')">${currentLang==='th'?'คัดลอก':'Copy'}</button>`;
                 }
 
                 container.innerHTML += `
@@ -588,8 +680,8 @@
             });
             lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         } else {
-            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีบิลประจำ</p>`;
-            debtBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:gray;">ไม่มีข้อมูลหนี้สิน</td></tr>`;
+            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">${currentLang==='th'?'ไม่มีบิลประจำ':'No bills'}</p>`;
+            debtBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:gray;">${currentLang==='th'?'ไม่มีข้อมูลหนี้สิน':'No debt data'}</td></tr>`;
         }
         
         renderCalendar(billsForCalendar);
@@ -598,9 +690,9 @@
 
     function copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(() => {
-            alert("คัดลอกเลขบัญชีสำเร็จ! 📋");
+            alert(currentLang === 'th' ? "คัดลอกเลขบัญชีสำเร็จ! 📋" : "Copied successfully! 📋");
         }).catch(err => {
-            alert("คัดลอกไม่สำเร็จ: " + err);
+            alert("Error: " + err);
         });
     }
 
@@ -652,7 +744,7 @@
 
             updateChartAndTable(catTotals, dailyTrend);
         } else {
-            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีประวัติรายวัน</p>`; updateChartAndTable({}, {});
+            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">${currentLang==='th'?'ไม่มีประวัติรายวัน':'No history'}</p>`; updateChartAndTable({}, {});
         }
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } }); updateDashboard();
     }
@@ -674,20 +766,21 @@
         if(settingsData.daily_target > 0) runwayDays = netSavings / settingsData.daily_target;
         document.getElementById('ui-overview-runway').innerText = (currentViewMonth !== actualCurrentMonth) ? '-' : Math.floor(runwayDays);
         
+        const t = translations[currentLang];
         const liquidityStatus = document.getElementById('ui-liquidity-status');
         let percentUsed = totalIncome > 0 ? ((totalFixedExpenses + totalVariableExpense) / totalIncome) * 100 : 0;
-        if (percentUsed > 80) { liquidityStatus.className = 'status-badge status-danger'; liquidityStatus.innerText = "ควรประหยัดเพิ่ม"; }
-        else if (percentUsed > 50) { liquidityStatus.className = 'status-badge status-warn'; liquidityStatus.innerText = "ปานกลาง"; }
-        else { liquidityStatus.className = 'status-badge status-good'; liquidityStatus.innerText = "สภาพคล่องดี"; }
+        if (percentUsed > 80) { liquidityStatus.className = 'status-badge status-danger'; liquidityStatus.innerText = t.statusDanger; }
+        else if (percentUsed > 50) { liquidityStatus.className = 'status-badge status-warn'; liquidityStatus.innerText = t.statusWarn; }
+        else { liquidityStatus.className = 'status-badge status-good'; liquidityStatus.innerText = t.statusGood; }
 
         document.getElementById('ui-spent-today').innerText = `${spentToday.toLocaleString()} ฿`;
         document.getElementById('ui-spent-month').innerText = `${totalVariableExpense.toLocaleString()} ฿`;
         
         const spendStatus = document.getElementById('ui-spent-status');
-        if (currentViewMonth !== actualCurrentMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">ปิดรอบแล้ว</span>`; }
-        else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">ยังไม่มีการใช้จ่าย</span>`; }
-        else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">เกินงบรายวัน!</span>`; }
-        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">อยู่ในงบ</span>`; }
+        if (currentViewMonth !== actualCurrentMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusClosed}</span>`; }
+        else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusNoSpend}</span>`; }
+        else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">${t.statusOver}</span>`; }
+        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">${t.statusInBudget}</span>`; }
 
         document.getElementById('ui-bill-tracker').innerText = `${paidBills}/${totalBills}`;
         document.getElementById('ui-unpaid-amount').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
@@ -712,7 +805,7 @@
         } else {
             trendChart = new Chart(tCtx, {
                 type: 'line',
-                data: { labels: sortedDates, datasets: [{ label: 'รายจ่าย (บาท)', data: trendValues, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', fill: true, tension: 0.3 }] },
+                data: { labels: sortedDates, datasets: [{ label: currentLang==='th'?'รายจ่าย (บาท)':'Expense (฿)', data: trendValues, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', fill: true, tension: 0.3 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
             });
         }
@@ -722,7 +815,7 @@
         labels.forEach((label, i) => {
             tableBody.innerHTML += `<tr><td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${colors[i%colors.length]}; margin-right:8px;"></span>${label}</td><td style="text-align:right;">฿${values[i].toLocaleString()}</td></tr>`;
         });
-        if(labels.length === 0) tableBody.innerHTML = '<tr><td style="color:gray;">ไม่มีข้อมูลรายจ่าย</td></tr>';
+        if(labels.length === 0) tableBody.innerHTML = `<tr><td style="color:gray;">${currentLang==='th'?'ไม่มีข้อมูลรายจ่าย':'No data'}</td></tr>`;
     }
 
     function renderCalendar(bills) {
@@ -757,10 +850,10 @@
 
         if(bills.length > 0) {
             bills.forEach(b => {
-                let statusText = b.isPaid ? '<span style="color:var(--success);">✅ ชำระแล้ว</span>' : '<span style="color:var(--danger);">❌ ยังไม่ชำระ</span>';
+                let statusText = b.isPaid ? `<span style="color:var(--success);">${currentLang==='th'?'✅ ชำระแล้ว':'✅ Paid'}</span>` : `<span style="color:var(--danger);">${currentLang==='th'?'❌ ยังไม่ชำระ':'❌ Unpaid'}</span>`;
                 content.innerHTML += `<div class="item-card"><div><h4 style="font-weight:500;">${b.name}</h4><p>${statusText}</p></div><strong style="font-weight:600;">฿${b.amount.toLocaleString()}</strong></div>`;
             });
-        } else { content.innerHTML = `<p style="text-align:center; color:gray; font-weight:300;">ไม่มีบิลในวันนี้</p>`; }
+        } else { content.innerHTML = `<p style="text-align:center; color:gray; font-weight:300;">${currentLang==='th'?'ไม่มีบิลในวันนี้':'No bills'}</p>`; }
         document.getElementById('dayDetailModal').classList.add('active');
     }
 
@@ -770,7 +863,7 @@
         const modal = document.getElementById('settingsModal');
         document.getElementById('settingKey').value = type;
         document.getElementById('settingValue').value = settingsData[type] || 0;
-        document.getElementById('settingsModalTitle').innerText = type === 'salary' ? "ตั้งค่าเงินเดือนประจำ" : "ตั้งเป้าหมายงบต่อวัน (บ./วัน)";
+        document.getElementById('settingsModalTitle').innerText = type === 'salary' ? (currentLang==='th'?"ตั้งค่าเงินเดือนประจำ":"Set Salary") : (currentLang==='th'?"ตั้งเป้าหมายงบต่อวัน (บ./วัน)":"Set Daily Target");
         modal.classList.add('active');
     }
 
@@ -778,7 +871,7 @@
         e.preventDefault();
         const key = document.getElementById('settingKey').value;
         const val = Number(document.getElementById('settingValue').value);
-        db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); }).catch(err => alert("บันทึกไม่สำเร็จ: " + err));
+        db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); }).catch(err => alert("Error: " + err));
     }
 
     function toggleInstallmentFields() {
@@ -845,11 +938,11 @@
         db.ref('todaypaying/fixed_expenses').push(billData).then(() => {
             closeModal('addBillModal');
             document.getElementById('addBillForm').reset();
-        }).catch(err => alert("เพิ่มไม่สำเร็จ: " + err));
+        }).catch(err => alert("Error: " + err));
     }
 
     function deleteFixedBill(key) {
-        if(confirm("ต้องการลบรายจ่ายประจำรายการนี้ใช่หรือไม่?")) {
+        if(confirm(currentLang==='th'?"ต้องการลบรายจ่ายประจำรายการนี้ใช่หรือไม่?":"Delete this fixed expense?")) {
             db.ref(`todaypaying/fixed_expenses/${key}`).remove();
         }
     }
@@ -867,7 +960,7 @@
         const newAmount = Number(document.getElementById('editBillAmount').value);
         db.ref(`todaypaying/fixed_expenses/${key}`).update({ amount: newAmount }).then(() => {
             closeModal('editBillModal');
-        }).catch(err => alert("อัปเดตราคาไม่สำเร็จ: " + err));
+        }).catch(err => alert("Error: " + err));
     }
 
     function toggleBillStatus(billKey, currentStatus) {
@@ -894,7 +987,7 @@
         const type = document.getElementById('inputType').value, amt = Number(document.getElementById('inputAmount').value), name = document.getElementById('inputName').value, cat = document.getElementById('inputCategory').value, dateStr = new Date().toISOString().split('T')[0];
         db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({ type: type, amount: amt, name: name, category: cat, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => { 
             closeModal('txModal'); document.getElementById('txForm').reset();
-        }).catch(err => alert("บันทึกรายวันไม่สำเร็จ: " + err));
+        }).catch(err => alert("Error: " + err));
     }
 
     initMonthSelector(); 
