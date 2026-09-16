@@ -5,65 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todaypaying - Budget Buddy</title>
     
+    <!-- โหลดไลบรารีต่างๆ -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- โหลด Chart.js สำหรับทำกราฟ -->
 
     <style>
+        /* --- ตั้งค่าสีและโครงสร้างพื้นฐาน --- */
         :root {
             --bg-color: #f4f6fc; --primary: #8a78ff; --primary-light: #d8d4ff;
             --text-dark: #2d3142; --text-light: #9094a6; --card-bg: #ffffff;
             --success: #34d399; --danger: #ef4444;
         }
-
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 0;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-color) 40%);
-            min-height: 100vh;
-        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-color) 40%); min-height: 100vh; }
+        .app-container { width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* โครงสร้างหลักแบบเต็มจอ (Desktop First / Responsive) */
-        .app-container { 
-            width: 100%; max-width: 1200px; /* จำกัดความกว้างสูงสุดเพื่อไม่ให้ยืดเกินไป แต่ยังเต็มตา */
-            margin: 0 auto; 
-            box-sizing: border-box; 
-            padding: 20px;
-            display: flex; flex-direction: column;
-            min-height: 100vh;
-        }
-        
-        /* ปรับ Layout ให้เป็น 2 คอลัมน์บนจอใหญ่ */
         @media (min-width: 768px) {
-            .app-container { 
-                padding: 40px; 
-                display: grid; grid-template-columns: 1fr 1fr; gap: 40px; 
-                align-items: start;
-            }
+            .app-container { padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
             .header { grid-column: 1 / -1; margin-bottom: 20px; }
-            .bottom-nav { display: none !important; } /* ซ่อนเมนูมือถือเมื่ออยู่บนคอม */
-            .desktop-add-btn { 
-                display: flex !important; background: var(--text-dark); color: white; 
-                border: none; width: 36px; height: 36px; border-radius: 50%; 
-                justify-content: center; align-items: center; cursor: pointer; 
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-            }
-            .right-panel { 
-                background: white; border-radius: 30px; padding: 30px; 
-                box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-                height: calc(100vh - 150px); /* ให้แผงรายการยาวลงมาเกือบสุดจอ */
-                display: flex; flex-direction: column;
-            }
-            .expense-list { flex: 1; overflow-y: auto; padding-right: 10px; }
-            .expense-list::-webkit-scrollbar { width: 6px; }
-            .expense-list::-webkit-scrollbar-thumb { background: #dcdcdc; border-radius: 10px; }
+            .bottom-nav { display: none !important; }
+            .desktop-add-btn { display: flex !important; background: var(--text-dark); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+            .right-panel { background: white; border-radius: 30px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); height: calc(100vh - 150px); display: flex; flex-direction: column; }
+            .scrollable-list { flex: 1; overflow-y: auto; padding-right: 10px; }
+            .scrollable-list::-webkit-scrollbar { width: 6px; }
+            .scrollable-list::-webkit-scrollbar-thumb { background: #dcdcdc; border-radius: 10px; }
         }
-
-        /* --- สไตล์บนมือถือ (จอเล็ก) --- */
         @media (max-width: 767px) {
             .app-container { padding: 30px 20px 100px 20px; }
             .right-panel { margin-top: 20px; }
-            .expense-list { display: flex; flex-direction: column; gap: 12px; }
+            .scrollable-list { display: flex; flex-direction: column; gap: 12px; }
         }
 
         /* --- สไตล์ UI ทั่วไป --- */
@@ -85,13 +56,18 @@
         .bar-bg { background: rgba(255,255,255,0.3); height: 10px; border-radius: 10px; }
         .bar-fill { background: white; height: 100%; border-radius: 10px; width: 0%; transition: width 0.5s ease-out; }
         
-        .section-title { font-size: 18px; font-weight: bold; color: var(--text-dark); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;}
+        .chart-box { background: white; border-radius: 24px; padding: 25px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.03); display: flex; flex-direction: column; align-items: center;}
+        
+        .section-title { font-size: 18px; font-weight: bold; color: var(--text-dark); margin-bottom: 15px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center;}
         
         .expense-item { background: white; border-radius: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 5px 20px rgba(0,0,0,0.02); margin-bottom: 12px; }
         .expense-info h4 { margin: 0 0 4px; font-size: 15px; color: var(--text-dark); }
         .expense-info p { margin: 0; font-size: 13px; color: var(--text-light); }
+        
         .check-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #e2e8f0; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
+        .del-btn { color: #cbd5e1; cursor: pointer; transition: color 0.2s; background: none; border: none; padding: 5px;}
+        .del-btn:hover { color: var(--danger); }
 
         .bottom-nav { position: fixed; bottom: 20px; left: 20px; right: 20px; background: white; border-radius: 25px; height: 65px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.08); z-index: 10; }
         .nav-item { color: var(--text-light); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: color 0.3s;}
@@ -108,7 +84,6 @@
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .modal-header h2 { margin: 0; font-size: 20px; color: var(--text-dark); }
         .close-btn { background: #f0f2f8; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-light); }
         .form-group input, .form-group select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f9fafb; font-size: 15px; box-sizing: border-box; font-family: inherit; }
@@ -120,7 +95,6 @@
 <body>
 
 <div class="app-container">
-    
     <div class="header">
         <div>
             <h1>Hey, Ariya</h1>
@@ -129,7 +103,7 @@
         <div class="profile-btn"><i data-lucide="user"></i></div>
     </div>
 
-    <!-- Panel ฝั่งซ้ายสำหรับ Desktop -->
+    <!-- Panel ฝั่งซ้าย (สรุปผลและกราฟ) -->
     <div class="left-panel">
         <div class="summary-cards">
             <div class="card">
@@ -154,17 +128,35 @@
             <div class="bar-bg"><div class="bar-fill" id="ui-progress"></div></div>
             <p style="margin: 15px 0 0; font-size: 13px; opacity: 0.9;" id="ui-days-left">คำนวณข้อมูล...</p>
         </div>
+
+        <!-- เพิ่มกล่องกราฟแสดงสัดส่วนรายจ่าย -->
+        <div class="chart-box">
+            <h3 style="margin:0 0 15px; font-size:16px; align-self:flex-start;">Expense Breakdown</h3>
+            <div style="position: relative; height:200px; width:100%;">
+                <canvas id="expenseChart"></canvas>
+            </div>
+        </div>
     </div>
 
-    <!-- Panel ฝั่งขวาสำหรับ Desktop -->
+    <!-- Panel ฝั่งขวา (บิลและประวัติรายการ) -->
     <div class="right-panel">
-        <div class="section-title">
-            <span>This Month's Bills</span>
-            <button class="desktop-add-btn" onclick="openModal()"><i data-lucide="plus" size="20"></i></button>
-        </div>
-        
-        <div class="expense-list" id="fixed-expenses-container">
-            <p style="text-align:center; font-size: 14px; color: gray;">กำลังโหลดข้อมูลจาก Firebase...</p>
+        <div class="scrollable-list">
+            
+            <!-- ส่วนของบิลคงที่ -->
+            <div class="section-title">
+                <span>This Month's Bills</span>
+            </div>
+            <div id="fixed-expenses-container"></div>
+
+            <!-- ส่วนของประวัติรายการทั่วไป -->
+            <div class="section-title">
+                <span>Recent Transactions</span>
+                <button class="desktop-add-btn" onclick="openModal()"><i data-lucide="plus" size="20"></i></button>
+            </div>
+            <div id="history-container">
+                <p style="text-align:center; font-size: 14px; color: gray;">กำลังโหลดประวัติ...</p>
+            </div>
+            
         </div>
     </div> 
 
@@ -176,10 +168,9 @@
         <div class="nav-item"><i data-lucide="calendar"></i></div>
         <div class="nav-item"><i data-lucide="settings"></i></div>
     </div>
-
 </div>
 
-<!-- Popup Modal (โค้ดเดิม ไม่ต้องเปลี่ยน) -->
+<!-- Popup Modal -->
 <div class="modal-overlay" id="addModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -220,7 +211,7 @@
 <script>
     lucide.createIcons();
 
-    // 🔴 ข้อมูล Firebase เดิม (ไม่ต้องแก้)
+    // ตั้งค่า Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8",
         authDomain: "todaypaying-7e8b0.firebaseapp.com",
@@ -236,7 +227,9 @@
     let totalIncome = 0;
     let totalFixed = 0;
     let totalVariableExpense = 0;
+    let myChart = null; // ตัวแปรกราฟ
 
+    // ดึงค่าใช้จ่ายคงที่ (Bills)
     const fixedExpensesRef = db.ref('todaypaying/fixed_expenses'); 
     fixedExpensesRef.on('value', (snapshot) => {
         const data = snapshot.val();
@@ -256,15 +249,13 @@
                 const color = bill.color || '#9094a6';
 
                 totalFixed += amount;
-                
                 const isPaid = status === 'paid';
                 const checkClass = isPaid ? 'check-btn checked' : 'check-btn';
                 const checkIconStyle = isPaid ? '' : 'style="opacity:0"';
-                
                 const isDueSoon = !isPaid && (dueDate >= today && dueDate <= today + 3);
                 const dueText = isDueSoon 
-                    ? `<span style="color:var(--danger); font-weight:bold;">Due: ${dueDate} นี้ (฿${amount.toLocaleString()}) - รีบจ่าย!</span>` 
-                    : `Due: ${dueDate} ของเดือน (฿${amount.toLocaleString()})`;
+                    ? `<span style="color:var(--danger); font-weight:bold;">Due: วันที่ ${dueDate} (฿${amount.toLocaleString()}) - รีบจ่าย!</span>` 
+                    : `Due: วันที่ ${dueDate} (฿${amount.toLocaleString()})`;
 
                 const html = `<div class="expense-item"><div style="display:flex; gap: 15px; align-items: center;"><div style="background: ${color}20; color: ${color}; padding: 10px; border-radius: 12px;"><i data-lucide="${icon}" size="20"></i></div><div class="expense-info"><h4>${name}</h4><p>${dueText}</p></div></div><div class="${checkClass}" onclick="toggleBillStatus('${key}', '${status}')"><i data-lucide="check" size="16" ${checkIconStyle}></i></div></div>`;
                 container.innerHTML += html;
@@ -276,20 +267,106 @@
         }
     });
 
+    // ดึงประวัติรายการ และทำกราฟ (History & Chart)
     const txRef = db.ref('todaypaying/transactions');
     txRef.on('value', (snapshot) => {
         totalIncome = 0;
         totalVariableExpense = 0;
+        
         const data = snapshot.val();
+        const historyContainer = document.getElementById('history-container');
+        historyContainer.innerHTML = '';
+        
+        let categoryTotals = {}; // เก็บยอดรวมแต่ละหมวดหมู่
+
         if(data){
-            Object.values(data).forEach(tx => {
-                if(tx.type === 'income') totalIncome += (tx.amount || 0);
-                else if (tx.type === 'expense') totalVariableExpense += (tx.amount || 0);
+            // แปลงข้อมูลเป็น Array แล้วเรียงจากใหม่สุดไปเก่าสุด
+            const txArray = Object.keys(data).map(key => ({ key, ...data[key] }));
+            txArray.reverse(); 
+
+            txArray.forEach(tx => {
+                const amount = tx.amount || 0;
+                
+                // คำนวณยอด
+                if(tx.type === 'income') {
+                    totalIncome += amount;
+                } else if (tx.type === 'expense') {
+                    totalVariableExpense += amount;
+                    // รวมยอดเข้าหมวดหมู่สำหรับทำกราฟ
+                    categoryTotals[tx.category] = (categoryTotals[tx.category] || 0) + amount;
+                }
+
+                // สร้าง HTML ประวัติ
+                const isIncome = tx.type === 'income';
+                const sign = isIncome ? '+' : '-';
+                const amountColor = isIncome ? 'var(--success)' : 'var(--text-dark)';
+                const iconName = isIncome ? 'wallet' : 'shopping-bag';
+                const iconBg = isIncome ? '#e8f5e9' : '#f0f2f8';
+                const iconColor = isIncome ? 'var(--success)' : 'var(--primary)';
+
+                const html = `
+                <div class="expense-item">
+                    <div style="display:flex; gap: 15px; align-items: center;">
+                        <div style="background: ${iconBg}; color: ${iconColor}; padding: 10px; border-radius: 12px;">
+                            <i data-lucide="${iconName}" size="20"></i>
+                        </div>
+                        <div class="expense-info">
+                            <h4>${tx.name}</h4>
+                            <p>${tx.category} • ${tx.date}</p>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-weight:bold; color:${amountColor}">${sign}฿${amount.toLocaleString()}</span>
+                        <button class="del-btn" onclick="deleteTransaction('${tx.key}')" title="ลบรายการ"><i data-lucide="trash-2" size="16"></i></button>
+                    </div>
+                </div>`;
+                historyContainer.innerHTML += html;
             });
+            lucide.createIcons();
+            updateChart(categoryTotals);
+        } else {
+            historyContainer.innerHTML = '<p style="text-align:center; font-size: 14px; color: gray;">ยังไม่มีประวัติการใช้จ่าย</p>';
+            updateChart({}); // ล้างกราฟ
         }
         updateDashboard();
     });
 
+    // ฟังก์ชันสร้าง/อัปเดตกราฟ
+    function updateChart(catData) {
+        const ctx = document.getElementById('expenseChart').getContext('2d');
+        const labels = Object.keys(catData);
+        const values = Object.values(catData);
+        
+        // ชุดสีพาสเทลสำหรับกราฟ
+        const colors = ['#ff8a8a', '#8a78ff', '#4ecdc4', '#ffd166', '#a0aec0'];
+
+        if(myChart) {
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = values;
+            myChart.update();
+        } else {
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right', labels: { font: { family: "'Segoe UI', sans-serif" } } } },
+                    cutout: '70%'
+                }
+            });
+        }
+    }
+
+    // ฟังก์ชันอัปเดตตัวเลขหน้าจอ
     function updateDashboard() {
         document.getElementById('ui-income').innerText = `฿${totalIncome.toLocaleString()}`;
         document.getElementById('ui-fixed').innerText = `฿${totalFixed.toLocaleString()}`;
@@ -312,6 +389,22 @@
         document.getElementById('ui-progress').style.width = `${percent}%`; 
     }
 
+    // --- ฟังก์ชันการทำงาน (Actions) ---
+
+    // ลบรายการทั่วไป
+    function deleteTransaction(key) {
+        if(confirm("แน่ใจหรือไม่ว่าต้องการลบรายการนี้?")) {
+            db.ref('todaypaying/transactions/' + key).remove();
+        }
+    }
+
+    // กดจ่ายบิล
+    function toggleBillStatus(billKey, currentStatus) {
+        const newStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
+        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ status: newStatus });
+    }
+
+    // ระบบ Popup เพิ่มรายการ
     const modal = document.getElementById('addModal');
     function openModal() { modal.classList.add('active'); }
     function closeModal() { modal.classList.remove('active'); document.getElementById('addForm').reset(); }
@@ -327,6 +420,7 @@
         event.preventDefault(); 
         const btn = document.getElementById('submitBtn');
         btn.disabled = true; btn.innerText = "กำลังบันทึก...";
+        
         const type = document.getElementById('inputType').value;
         const amount = Number(document.getElementById('inputAmount').value);
         const name = document.getElementById('inputName').value;
@@ -337,16 +431,10 @@
             type: type, amount: amount, name: name, category: category, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP
         }).then(() => {
             closeModal(); btn.disabled = false; btn.innerText = "บันทึก (Save)";
-            alert("บันทึกข้อมูลสำเร็จ! 🥳");
         }).catch((error) => {
             alert("เกิดข้อผิดพลาด: " + error);
             btn.disabled = false; btn.innerText = "บันทึก (Save)";
         });
-    }
-
-    function toggleBillStatus(billKey, currentStatus) {
-        const newStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
-        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ status: newStatus });
     }
 </script>
 </body>
