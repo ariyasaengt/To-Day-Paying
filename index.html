@@ -341,8 +341,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <label>วันที่คาดว่าเงินจะเข้า (แต่ละเดือนไม่เหมือนกัน)</label>
-                <input type="text" id="newIncDueDate" placeholder="เช่น วันที่ 25 ของทุกเดือน, หรือระบุวันที่เฉพาะ">
+                <label>กำหนดวันที่รับเงินประจำเดือน</label>
+                <select id="newIncDateType" onchange="toggleIncDateInput()">
+                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
+                    <option value="dayLast">วันสุดท้ายของเดือน</option>
+                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
+                    <option value="customText">ระบุข้อความกำหนดเอง</option>
+                </select>
+            </div>
+            <div class="form-group" id="incDateInputContainer" style="display:none;">
+                <label id="incDateLabel">เลือกวันที่</label>
+                <input type="date" id="newIncDateVal">
             </div>
             <button type="submit" class="submit-btn">เพิ่มรายรับประจำ</button>
         </form>
@@ -392,6 +401,19 @@
                     <label>เลขที่บัญชี</label>
                     <input type="text" id="newAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
+            </div>
+            <div class="form-group">
+                <label>กำหนดวันตัดจ่ายประจำเดือน</label>
+                <select id="newBillDateType" onchange="toggleBillDateInput()">
+                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
+                    <option value="dayLast">วันสุดท้ายของเดือน</option>
+                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
+                    <option value="customText">ระบุข้อความกำหนดเอง</option>
+                </select>
+            </div>
+            <div class="form-group" id="billDateInputContainer" style="display:none;">
+                <label id="billDateLabel">เลือกวันที่</label>
+                <input type="date" id="newBillDateVal">
             </div>
             <button type="submit" class="submit-btn">เพิ่มรายจ่ายประจำ</button>
         </form>
@@ -598,6 +620,13 @@
         });
     }
 
+    function formatDueDateText(type, val) {
+        if (type === 'day1') return 'วันที่ 1 ของเดือน';
+        if (type === 'dayLast') return 'วันสุดท้ายของเดือน';
+        if (type === 'customDate') return `วันที่ ${val}`;
+        return val || 'กำหนดเอง';
+    }
+
     function processRecurringIncomes() {
         const container = document.getElementById('recurring-incomes-container');
         if (!container) return;
@@ -614,11 +643,13 @@
                 total++;
                 if (isReceived) { totalRecurringIncomeReceived += amt; received++; } else { totalRecurringIncomePending += amt; }
 
+                const dueText = formatDueDateText(inc.dateType, inc.dateVal);
+
                 container.innerHTML += `
                 <div class="item-card">
                     <div class="item-info">
                         <h4>${inc.name} <span style="color:var(--success);">+฿${amt.toLocaleString()}</span></h4>
-                        <p>${inc.method} ${inc.dueDate ? '• ' + inc.dueDate : ''}</p>
+                        <p>${inc.method} • ${dueText}</p>
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
                         <div class="check-btn ${isReceived ? 'checked' : ''}" onclick="toggleRecurringIncomeStatus('${key}', '${inc.status}')" title="คลิกเปลี่ยนสถานะการรับเงิน">
@@ -637,6 +668,7 @@
     function openAddRecurringIncomeModal() {
         document.getElementById('addRecurringIncomeForm').reset();
         document.getElementById('incBankAccountFields').style.display = 'block';
+        document.getElementById('incDateInputContainer').style.display = 'none';
         document.getElementById('addRecurringIncomeModal').classList.add('active');
     }
 
@@ -647,10 +679,11 @@
         const method = document.getElementById('newIncMethod').value;
         const bank_name = document.getElementById('newIncBankName').value.trim();
         const acc_no = document.getElementById('newIncAccNo').value.trim();
-        const dueDate = document.getElementById('newIncDueDate').value.trim();
+        const dateType = document.getElementById('newIncDateType').value;
+        const dateVal = document.getElementById('newIncDateVal').value;
 
         db.ref(getUserDbPath('recurring_incomes')).push({
-            name, amount, method, bank_name, acc_no, dueDate, status: 'pending'
+            name, amount, method, bank_name, acc_no, dateType, dateVal, status: 'pending'
         }).then(() => {
             closeModal('addRecurringIncomeModal');
         });
@@ -682,11 +715,13 @@
                 total++;
                 if (isPaid) { totalFixedPaid += amt; paid++; } else { totalFixedUnpaid += amt; }
 
+                const dueText = formatDueDateText(b.dateType, b.dateVal);
+
                 container.innerHTML += `
                 <div class="item-card">
                     <div class="item-info">
                         <h4>${b.name} <span style="color:var(--primary);">฿${amt.toLocaleString()}</span></h4>
-                        <p>${b.category} • ${b.payment_method}</p>
+                        <p>${b.category} • ${b.payment_method} • ${dueText}</p>
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
                         <div class="check-btn ${isPaid ? 'checked' : ''}" onclick="toggleBillStatus('${key}', '${b.status}')">
@@ -761,6 +796,7 @@
     function openAddBillModal() {
         document.getElementById('addBillForm').reset();
         document.getElementById('bankAccountFields').style.display = 'block';
+        document.getElementById('billDateInputContainer').style.display = 'none';
         document.getElementById('addBillModal').classList.add('active');
     }
 
@@ -772,9 +808,11 @@
         const payment_method = document.getElementById('newBillMethod').value;
         const bank_name = document.getElementById('newBankName').value.trim();
         const acc_no = document.getElementById('newAccNo').value.trim();
+        const dateType = document.getElementById('newBillDateType').value;
+        const dateVal = document.getElementById('newBillDateVal').value;
 
         db.ref(getUserDbPath('fixed_expenses')).push({
-            name, category, amount, payment_method, bank_name, acc_no, status: 'unpaid'
+            name, category, amount, payment_method, bank_name, acc_no, dateType, dateVal, status: 'unpaid'
         }).then(() => {
             closeModal('addBillModal');
         });
@@ -836,6 +874,52 @@
     function toggleIncBankFields() {
         const method = document.getElementById('newIncMethod').value;
         document.getElementById('incBankAccountFields').style.display = method.includes('แอปธนาคาร') ? 'block' : 'none';
+    }
+
+    function toggleBillDateInput() {
+        const type = document.getElementById('newBillDateType').value;
+        const container = document.getElementById('billDateInputContainer');
+        const input = document.getElementById('newBillDateVal');
+        const label = document.getElementById('billDateLabel');
+
+        if (type === 'customDate') {
+            container.style.display = 'block';
+            input.type = 'date';
+            input.required = true;
+            label.innerText = 'เลือกวันที่จากปฏิทิน';
+        } else if (type === 'customText') {
+            container.style.display = 'block';
+            input.type = 'text';
+            input.placeholder = 'เช่น วันที่ 25 ของทุกเดือน';
+            input.required = true;
+            label.innerText = 'ระบุข้อความกำหนดเอง';
+        } else {
+            container.style.display = 'none';
+            input.required = false;
+        }
+    }
+
+    function toggleIncDateInput() {
+        const type = document.getElementById('newIncDateType').value;
+        const container = document.getElementById('incDateInputContainer');
+        const input = document.getElementById('newIncDateVal');
+        const label = document.getElementById('incDateLabel');
+
+        if (type === 'customDate') {
+            container.style.display = 'block';
+            input.type = 'date';
+            input.required = true;
+            label.innerText = 'เลือกวันที่จากปฏิทิน';
+        } else if (type === 'customText') {
+            container.style.display = 'block';
+            input.type = 'text';
+            input.placeholder = 'เช่น สัญญาเข้าวันที่ 28';
+            input.required = true;
+            label.innerText = 'ระบุข้อความกำหนดเอง';
+        } else {
+            container.style.display = 'none';
+            input.required = false;
+        }
     }
 
     function closeModal(id) {
