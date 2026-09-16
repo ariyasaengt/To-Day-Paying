@@ -26,7 +26,6 @@
         .header p { margin: 2px 0 0 35px; font-size: 13px; color: var(--text-light); font-weight: 300;}
         .month-selector { background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 15px; border-radius: 12px; font-weight: 500; color: var(--text-dark); cursor: pointer; font-family: inherit;}
         .lang-btn { background: #fff; border: 2px solid var(--primary-light); color: var(--primary); font-weight: 600; padding: 8px 12px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit;}
-        .lang-btn:hover { background: var(--primary-light); }
         
         .top-dashboard-grid { display: grid; gap: 20px; margin-bottom: 20px; }
         .main-dashboard-grid { display: grid; gap: 20px; }
@@ -34,7 +33,6 @@
             .app-container { padding: 20px 30px; }
             .top-dashboard-grid { grid-template-columns: 1fr 1.2fr; }
             .main-dashboard-grid { grid-template-columns: 1.5fr 1fr; align-items: start; }
-            .full-width { grid-column: 1 / -1; }
         }
 
         .panel { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.02); }
@@ -79,7 +77,6 @@
         .modal-content { background: white; width: 90%; max-width: 450px; border-radius: 20px; padding: 25px; transform: scale(0.95); transition: 0.2s; }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal-header h2 { font-weight: 500; margin:0;}
         .close-btn { background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display:flex; justify-content:center; align-items:center;}
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-light); font-weight:500;}
@@ -104,7 +101,7 @@
     <div class="header">
         <div>
             <h1><i data-lucide="layout-dashboard"></i> Todaypaying</h1>
-            <p id="txt-subtitle">ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
+            <p>ระบบจัดการงบประมาณและรายจ่ายประจำเดือน</p>
         </div>
         <div style="display:flex; gap:15px; align-items:center;">
             <select class="month-selector" id="monthSelector" onchange="changeMonth()"></select>
@@ -117,15 +114,15 @@
     <div class="top-dashboard-grid">
         <div class="panel">
             <div class="panel-header">
-                <h3 id="txt-income-panel"><i data-lucide="wallet"></i> ส่วนบันทึกรายรับ (Monthly Income)</h3>
+                <h3><i data-lucide="wallet"></i> ส่วนบันทึกรายรับ (Monthly Income)</h3>
                 <button class="action-btn" onclick="openTxModal('income')" title="เพิ่มรายได้เสริม"><i data-lucide="plus"></i></button>
             </div>
             
             <div class="list-container" id="income-list-container" style="max-height: 200px;">
                 <div class="item-card" onclick="openSettingsModal('salary')" style="cursor:pointer; border-left: 4px solid var(--primary);">
                     <div>
-                        <h4 id="txt-salary-title" style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
-                        <p id="txt-salary-sub" style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" class="edit-icon-inline"></i></p>
+                        <h4 style="color:var(--primary);">เงินเดือนประจำ (Salary)</h4>
+                        <p style="display:flex; align-items:center;">รายได้หลัก <i data-lucide="edit-3" class="edit-icon-inline"></i></p>
                     </div>
                     <div style="font-weight:600; font-size:16px;">฿<span id="ui-salary-val">0</span></div>
                 </div>
@@ -133,36 +130,36 @@
             </div>
 
             <div style="margin-top:15px; border-top:2px dashed #f1f5f9; padding-top:15px; display:flex; justify-content:space-between; font-size:15px;">
-                <span id="txt-total-income" style="font-weight:500; color:var(--text-light);">รวมรายรับ (Total Income)</span>
+                <span style="font-weight:500; color:var(--text-light);">รวมรายรับ (Total Income)</span>
                 <span id="ui-total-income" style="font-weight:600; color:var(--success);">฿0</span>
             </div>
         </div>
 
         <div class="panel" style="background: var(--text-dark); color: white;">
             <div class="panel-header" style="border-bottom-color: #334155;">
-                <h3 id="txt-runway-panel" style="color: white;"><i data-lucide="pie-chart"></i> สรุปภาพรวม (Runway Calculator)</h3>
+                <h3 style="color: white;"><i data-lucide="pie-chart"></i> สรุปภาพรวม (Runway Calculator)</h3>
                 <span class="status-badge" id="ui-liquidity-status">กำลังประมวลผล...</span>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div>
-                    <p id="txt-sum-income" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รวมรายรับ (Income)</p>
+                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รวมรายรับ (Income)</p>
                     <p id="ui-overview-income" style="margin:5px 0 15px 0; font-size:20px; font-weight:600; color:var(--success);">฿0</p>
                     
-                    <p id="txt-sum-savings" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">เงินคงเหลือสุทธิ (Savings)</p>
+                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">เงินคงเหลือสุทธิ (Savings)</p>
                     <p id="ui-overview-savings" style="margin:5px 0 0 0; font-size:24px; font-weight:600;">฿0</p>
                 </div>
                 <div>
-                    <p id="txt-sum-fixed" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รายจ่ายประจำ (Fixed Expenses)</p>
+                    <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">รายจ่ายประจำ (Fixed Expenses)</p>
                     <p id="ui-overview-fixed" style="margin:5px 0 15px 0; font-size:20px; font-weight:600; color:#f87171;">฿0</p>
                     
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div onclick="openSettingsModal('daily_target')" style="cursor:pointer; background:#334155; padding:8px 12px; border-radius:10px;">
-                            <p id="txt-sum-daily" style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" class="edit-icon-inline" style="color:#cbd5e1;"></i></p>
+                            <p style="margin:0; font-size:11px; color:#cbd5e1; display:flex; align-items:center;">งบต่อวัน <i data-lucide="edit-3" class="edit-icon-inline" style="color:#cbd5e1;"></i></p>
                             <p id="ui-overview-target" style="margin:2px 0 0 0; font-size:16px; font-weight:600; color:var(--warning);">150</p>
                         </div>
                         <div style="text-align:right;">
-                            <p id="txt-sum-runway" style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">วันคงเหลือ (Runway)</p>
-                            <p style="margin:2px 0 0 0; font-size:24px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span id="txt-unit-days" style="font-size:14px; font-weight:400;">วัน</span></p>
+                            <p style="margin:0; font-size:12px; color:#94a3b8; font-weight:300;">วันคงเหลือ (Runway)</p>
+                            <p style="margin:2px 0 0 0; font-size:24px; font-weight:600; color:white;"><span id="ui-overview-runway">0</span> <span style="font-size:14px; font-weight:400;">วัน</span></p>
                         </div>
                     </div>
                 </div>
@@ -171,21 +168,25 @@
     </div>
 
     <!-- แถบค่ากินอยู่รายวัน -->
-    <div class="daily-tracker-bar" id="daily-expense-bar">
-        <span><i data-lucide="shopping-bag" size="16" style="margin-right:8px;"></i> <span id="txt-daily-tracker">บันทึกค่ากินอยู่รายวัน</span> <span id="ui-current-month-lbl" style="font-weight:400;"></span></span>
-        <span><span id="txt-spent-today">ใช้วันนี้:</span> <span id="ui-spent-today" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
-        <span><span id="txt-spent-month">รวมเดือนนี้:</span> <span id="ui-spent-month" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
+    <div class="daily-tracker-bar">
+        <span><i data-lucide="shopping-bag" size="16" style="margin-right:8px;"></i> บันทึกค่ากินอยู่รายวัน <span id="ui-current-month-lbl" style="font-weight:400;"></span></span>
+        <span>ใช้วันนี้: <span id="ui-spent-today" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
+        <span>รวมเดือนนี้: <span id="ui-spent-month" style="font-size:16px; font-weight:600;">0.00 บ.</span></span>
         <span id="ui-spent-status">สถานะ: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
     <div class="main-dashboard-grid">
-        <!-- 2.1 รายจ่ายประจำ -->
+        <!-- 2.1 รายจ่ายประจำ (เพิ่มปุ่ม (+) สำหรับเพิ่มรายจ่ายประจำใหม่ได้แล้ว!) -->
         <div class="panel">
             <div class="panel-header">
-                <h3 id="txt-fixed-panel"><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ (Fixed Expenses)</h3>
-                <div style="text-align:right;">
-                    <span id="ui-bill-tracker" style="font-size:12px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
-                    <p style="margin:0; font-size:11px; color:var(--text-light); font-weight:300;"><span id="txt-unpaid-lbl">ยอดรอชำระ:</span> <span id="ui-unpaid-amount" style="color:var(--danger); font-weight:500;">฿0</span></p>
+                <h3><i data-lucide="calendar-check"></i> รายการค่าใช้จ่ายประจำ / บริการ</h3>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <div style="text-align:right;">
+                        <span id="ui-bill-tracker" style="font-size:12px; font-weight:600; color:var(--primary);">ชำระแล้ว 0/0</span>
+                        <p style="margin:0; font-size:11px; color:var(--text-light); font-weight:300;">ยอดรอชำระ: <span id="ui-unpaid-amount" style="color:var(--danger); font-weight:500;">฿0</span></p>
+                    </div>
+                    <!-- ปุ่มบวกสำหรับเพิ่มรายจ่ายประจำ -->
+                    <button class="action-btn" onclick="openAddBillModal()" title="เพิ่มรายจ่ายประจำ"><i data-lucide="plus"></i></button>
                 </div>
             </div>
             <div class="list-container" id="fixed-expenses-container" style="max-height: 500px;"></div>
@@ -194,7 +195,7 @@
         <div style="display:flex; flex-direction:column; gap:20px;">
             <div class="panel">
                 <div class="panel-header">
-                    <h3 id="txt-chart-panel"><i data-lucide="pie-chart"></i> สัดส่วนค่าใช้จ่าย</h3>
+                    <h3><i data-lucide="pie-chart"></i> สัดส่วนค่าใช้จ่าย</h3>
                 </div>
                 <div class="breakdown-grid">
                     <div style="position: relative; height:150px;"><canvas id="expenseChart"></canvas></div>
@@ -204,7 +205,7 @@
 
             <div class="panel">
                 <div class="panel-header">
-                    <h3 id="txt-history-panel"><i data-lucide="list"></i> ประวัติรายการรายวัน</h3>
+                    <h3><i data-lucide="list"></i> ประวัติรายการรายวัน</h3>
                 </div>
                 <div class="list-container" id="history-container" style="max-height: 250px;"></div>
             </div>
@@ -215,12 +216,12 @@
     <div class="top-dashboard-grid" style="margin-top:20px;">
         <div class="panel">
             <div class="panel-header">
-                <h3 id="txt-debt-panel"><i data-lucide="trending-down"></i> ติดตามค่างวดผ่อนชำระ (Debt Tracker)</h3>
+                <h3><i data-lucide="trending-down"></i> ติดตามค่างวดผ่อนชำระ (Debt Tracker)</h3>
             </div>
             <div class="debt-table-wrapper">
                 <table class="debt-table">
                     <thead>
-                        <tr id="debt-table-head">
+                        <tr>
                             <th>อุปกรณ์/สัญญา</th><th>ยอด/เดือน</th><th>งวดรวม</th><th>จ่ายแล้ว</th><th>งวดเหลือ</th><th>ผ่อนสะสม</th><th>ภาระหนี้เหลือ</th>
                         </tr>
                     </thead>
@@ -231,7 +232,7 @@
 
         <div class="panel">
             <div class="panel-header">
-                <h3 id="txt-cal-panel"><i data-lucide="calendar"></i> ปฏิทินรอบบิล</h3>
+                <h3><i data-lucide="calendar"></i> ปฏิทินรอบบิล</h3>
             </div>
             <div class="calendar-grid" id="cal-headers"></div>
             <div class="calendar-grid" id="calendar-body"></div>
@@ -243,7 +244,7 @@
     <i data-lucide="plus" size="24"></i>
 </div>
 
-<!-- Modal 1 -->
+<!-- Modal 1: ตั้งค่าเงินเดือน -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -256,7 +257,47 @@
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
                 <input type="number" id="settingValue" required min="0" step="0.01">
             </div>
-            <button type="submit" class="submit-btn" id="btn-save-settings">บันทึกข้อมูล</button>
+            <button type="submit" class="submit-btn">บันทึกข้อมูล</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal พิเศษ: เพิ่มรายจ่ายประจำ (Fixed Expense) ใหม่ -->
+<div class="modal-overlay" id="addBillModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>เพิ่มรายจ่ายประจำใหม่</h2>
+            <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x" size="20"></i></button>
+        </div>
+        <form onsubmit="saveNewBill(event)">
+            <div class="form-group">
+                <label>ชื่อรายการ / บริการ</label>
+                <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, Netflix" required>
+            </div>
+            <div class="form-group">
+                <label>หมวดหมู่</label>
+                <select id="newBillCat">
+                    <option value="entertainment">ความบันเทิง & สตรีมมิ่ง</option>
+                    <option value="software">ซอฟต์แวร์ทำงาน</option>
+                    <option value="housing">ที่พักอาศัย</option>
+                    <option value="utility">สาธารณูปโภค / สื่อสาร</option>
+                    <option value="loan">สินเชื่อ / ผ่อนชำระ</option>
+                    <option value="work">อุปกรณ์ทำงาน / สื่อ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>วันที่ครบกำหนดตัดรอบ (1-31)</label>
+                <input type="number" id="newBillDue" placeholder="เช่น 25" min="1" max="31" required>
+            </div>
+            <div class="form-group">
+                <label>ยอดเงิน (฿)</label>
+                <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label>ช่องทางชำระเงิน</label>
+                <input type="text" id="newBillMethod" placeholder="เช่น ตัดบัตร / แอปธนาคาร">
+            </div>
+            <button type="submit" class="submit-btn">เพิ่มรายจ่ายประจำ</button>
         </form>
     </div>
 </div>
@@ -283,39 +324,38 @@
     </div>
 </div>
 
-<!-- Modal 2 -->
+<!-- Modal รายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2 id="txModalTitle">บันทึกรายการ</h2>
+            <h2>บันทึกรายการรายวัน</h2>
             <button class="close-btn" onclick="closeModal('txModal')"><i data-lucide="x" size="20"></i></button>
         </div>
         <form id="txForm" onsubmit="submitTransaction(event)">
             <div class="form-group">
-                <label id="txt-modal-type">ประเภท (Type)</label>
+                <label>ประเภท</label>
                 <select id="inputType" onchange="changeCategoryOptions()">
-                    <option value="expense" id="opt-exp">รายจ่าย (Expense)</option>
-                    <option value="income" id="opt-inc">รายได้เสริม (Extra Income)</option>
+                    <option value="expense">รายจ่าย</option>
+                    <option value="income">รายได้เสริม (งานนอก)</option>
                 </select>
             </div>
             <div class="form-group">
-                <label id="txt-modal-amount">จำนวนเงิน (฿)</label>
+                <label>จำนวนเงิน (฿)</label>
                 <input type="number" id="inputAmount" placeholder="0" required min="1" step="0.01">
             </div>
             <div class="form-group">
-                <label id="txt-modal-note">ชื่อรายการ / หมายเหตุ</label>
-                <input type="text" id="inputName" placeholder="เช่น ค่าข้าว, โอนเงิน" required>
+                <label>ชื่อรายการ</label>
+                <input type="text" id="inputName" placeholder="เช่น ค่าข้าว, รับจ้าง" required>
             </div>
             <div class="form-group">
-                <label id="txt-modal-cat">หมวดหมู่</label>
+                <label>หมวดหมู่</label>
                 <select id="inputCategory"></select>
             </div>
-            <button type="submit" class="submit-btn" id="btn-save-tx">บันทึก</button>
+            <button type="submit" class="submit-btn">บันทึก</button>
         </form>
     </div>
 </div>
 
-<!-- Modal 3 -->
 <div class="modal-overlay" id="dayDetailModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -356,28 +396,12 @@
     let currentLang = 'th';
     const translations = {
         th: {
-            subtitle: "ระบบจัดการงบประมาณและรายจ่ายประจำเดือน",
-            incomePanel: "ส่วนบันทึกรายรับ (Monthly Income)",
-            salaryTitle: "เงินเดือนประจำ (Salary)", salarySub: "รายได้หลัก", totalIncome: "รวมรายรับ (Total Income)",
-            runwayPanel: "สรุปภาพรวม (Runway Calculator)", sumIncome: "รวมรายรับ (Income)", sumSavings: "เงินคงเหลือสุทธิ (Savings)", sumFixed: "รายจ่ายประจำ (Fixed Expenses)", sumDaily: "งบต่อวัน", sumRunway: "วันคงเหลือ (Runway)", unitDays: "วัน",
-            dailyTracker: "บันทึกค่ากินอยู่รายวัน", spentToday: "ใช้วันนี้:", spentMonth: "รวมเดือนนี้:",
-            fixedPanel: "รายการค่าใช้จ่ายประจำ / บริการ (Fixed Expenses)", unpaidLbl: "ยอดรอชำระ:", chartPanel: "สัดส่วนค่าใช้จ่าย", historyPanel: "ประวัติรายการรายวัน", debtPanel: "ติดตามค่างวดผ่อนชำระ (Debt Tracker)", calPanel: "ปฏิทินรอบบิล",
-            statusGood: "สภาพคล่องดี", statusWarn: "ปานกลาง", statusDanger: "ควรประหยัดเพิ่ม", statusNoSpend: "ยังไม่มีการใช้จ่าย", statusOver: "เกินงบรายวัน!", statusInBudget: "อยู่ในงบ", statusClosed: "ปิดรอบเดือนแล้ว",
-            btnSave: "บันทึกข้อมูล", modalExp: "รายจ่าย (Expense)", modalInc: "รายได้เสริม (Extra Income)",
             days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
             catsExpense: { "food": "อาหาร", "grocery": "ของใช้", "transport": "เดินทาง", "shopping": "ช้อปปิ้ง", "others": "อื่นๆ" },
             catsIncome: { "freelance": "งานนอก 1", "extra": "งานนอก 2", "others": "รายได้อื่นๆ" },
             fixedCats: { "housing": "ที่พักอาศัย", "device": "ผ่อนอุปกรณ์สื่อสาร", "software": "ซอฟต์แวร์ทำงาน", "work": "อุปกรณ์ทำงาน/สื่อ", "loan": "สินเชื่อส่วนบุคคล", "utility": "สาธารณูปโภค/สื่อสาร", "entertainment": "ความบันเทิง&สตรีมมิ่ง" }
         },
         en: {
-            subtitle: "Monthly Budget & Expense Tracker",
-            incomePanel: "Monthly Income",
-            salaryTitle: "Salary", salarySub: "Main Income", totalIncome: "Total Income",
-            runwayPanel: "Runway Calculator", sumIncome: "Total Income", sumSavings: "Net Savings", sumFixed: "Fixed Expenses", sumDaily: "Daily Target", sumRunway: "Runway", unitDays: "Days",
-            dailyTracker: "Daily Expenses Tracker", spentToday: "Today:", spentMonth: "This Month:",
-            fixedPanel: "Subscriptions & Fixed Expenses", unpaidLbl: "Unpaid:", chartPanel: "Expense Breakdown", historyPanel: "Daily Transactions", debtPanel: "Installment Tracker", calPanel: "Billing Calendar",
-            statusGood: "Good", statusWarn: "Fair", statusDanger: "Save More", statusNoSpend: "No spending", statusOver: "Over budget!", statusInBudget: "In budget", statusClosed: "Month Closed",
-            btnSave: "Save Data", modalExp: "Expense", modalInc: "Extra Income",
             days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             catsExpense: { "food": "Food", "grocery": "Grocery", "transport": "Transport", "shopping": "Shopping", "others": "Others" },
             catsIncome: { "freelance": "Freelance", "extra": "Extra Job", "others": "Others" },
@@ -393,36 +417,9 @@
 
     function applyTranslations() {
         const t = translations[currentLang];
-        document.getElementById('txt-subtitle').innerText = t.subtitle;
-        document.getElementById('txt-income-panel').innerHTML = `<i data-lucide="wallet"></i> ${t.incomePanel}`;
-        document.getElementById('txt-salary-title').innerText = t.salaryTitle;
-        document.getElementById('txt-salary-sub').innerHTML = `${t.salarySub} <i data-lucide="edit-3" class="edit-icon-inline"></i>`;
-        document.getElementById('txt-total-income').innerText = t.totalIncome;
-        document.getElementById('txt-runway-panel').innerHTML = `<i data-lucide="pie-chart"></i> ${t.runwayPanel}`;
-        document.getElementById('txt-sum-income').innerText = t.sumIncome;
-        document.getElementById('txt-sum-savings').innerText = t.sumSavings;
-        document.getElementById('txt-sum-fixed').innerText = t.sumFixed;
-        document.getElementById('txt-sum-daily').innerHTML = `${t.sumDaily} <i data-lucide="edit-3" class="edit-icon-inline" style="color:#cbd5e1;"></i>`;
-        document.getElementById('txt-sum-runway').innerText = t.sumRunway;
-        document.getElementById('txt-unit-days').innerText = t.unitDays;
-        document.getElementById('txt-daily-tracker').innerText = t.dailyTracker;
-        document.getElementById('txt-spent-today').innerText = t.spentToday;
-        document.getElementById('txt-spent-month').innerText = t.spentMonth;
-        document.getElementById('txt-fixed-panel').innerHTML = `<i data-lucide="calendar-check"></i> ${t.fixedPanel}`;
-        document.getElementById('txt-unpaid-lbl').innerText = t.unpaidLbl;
-        document.getElementById('txt-chart-panel').innerHTML = `<i data-lucide="pie-chart"></i> ${t.chartPanel}`;
-        document.getElementById('txt-history-panel').innerHTML = `<i data-lucide="list"></i> ${t.historyPanel}`;
-        document.getElementById('txt-debt-panel').innerHTML = `<i data-lucide="trending-down"></i> ${t.debtPanel}`;
-        document.getElementById('txt-cal-panel').innerHTML = `<i data-lucide="calendar"></i> ${t.calPanel}`;
-        document.getElementById('opt-exp').innerText = t.modalExp;
-        document.getElementById('opt-inc').innerText = t.modalInc;
-        document.getElementById('btn-save-settings').innerText = t.btnSave;
-        document.getElementById('btn-save-tx').innerText = t.btnSave;
-        
         let calHeaders = '';
         t.days.forEach(d => { calHeaders += `<div class="cal-day-header">${d}</div>`; });
         document.getElementById('cal-headers').innerHTML = calHeaders;
-        
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
@@ -438,30 +435,25 @@
     let globalBillsData = null, globalTxData = null, billsForCalendar = [];
     let activeTxListener = null; let myChart = null; 
 
-    // 🟢 ระบบ Auto-Seed: ตรวจสอบและเติมข้อมูลตั้งต้นให้ทันทีถ้าฐานข้อมูลว่างเปล่า
+    // Auto-Seed ข้อมูลตั้งต้นเพื่อป้องกันหน้าจอว่างเปล่า
     function checkAndSeedDefaultData() {
-        // 1. ตั้งค่าเงินเดือนเริ่มต้น
         db.ref('todaypaying/settings').once('value').then((snap) => {
-            if (!snap.exists()) {
-                db.ref('todaypaying/settings').set({ salary: 17625, daily_target: 150 });
-            }
+            if (!snap.exists()) db.ref('todaypaying/settings').set({ salary: 17625, daily_target: 150 });
         });
-
-        // 2. เติมรายการบิลประจำ 11 รายการจากตารางของคุณ
         db.ref('todaypaying/fixed_expenses').once('value').then((snap) => {
             if (!snap.exists()) {
                 const defaultBills = {
-                    "sub_01": { name: "YouTube Premium", category: "entertainment", dueDate: 21, amount: 129.00, payment_method: "ตัดบัตร / บัญชี", status: "unpaid", note: "ฟังเพลงไม่มีโฆษณา" },
-                    "sub_02": { name: "Adobe Creative Cloud", category: "software", dueDate: 25, amount: 304.95, payment_method: "ตัดบัตรเครดิต/เดบิต", status: "unpaid", note: "โปรแกรมกราฟิก & ตัดต่อ" },
-                    "sub_03": { name: "Freepik", category: "software", dueDate: 1, amount: 1249.00, payment_method: "ตัดบัตรเครดิต/เดบิต", status: "paid", note: "คลังเวกเตอร์ & รูปภาพ" },
-                    "sub_04": { name: "Umay+ (ยูเมะพลัส)", category: "loan", dueDate: 30, amount: 1000.00, payment_method: "แอปธนาคาร / โอนบิล", status: "paid", note: "ชำระสินเชื่อรายเดือน" },
-                    "sub_05": { name: "Google One", category: "software", dueDate: 29, amount: 750.00, payment_method: "Google Play / ตัดบัตร", status: "unpaid", note: "พื้นที่จัดเก็บ Cloud Storage" },
-                    "sub_06": { name: "Shopee (SPayLater)", category: "loan", dueDate: 30, amount: 790.99, payment_method: "ShopeePay / แอปธนาคาร", status: "paid", note: "ยอดผ่อนช้อปปิ้งประจำเดือน" },
-                    "sub_07": { name: "ค่าผ่อนโทรศัพท์มือถือ", category: "device", dueDate: 30, amount: 2763.00, payment_method: "แอปธนาคาร / บัญชี", status: "paid", note: "หนี้คงเหลือ 52,497.00 บ.", installment_total: 24, installment_paid: 5 },
-                    "sub_08": { name: "ค่าบริการอินเทอร์เน็ต", category: "utility", dueDate: 26, amount: 1709.86, payment_method: "บัญชี กริช-พิมลรัตน์ (SCB)", status: "paid", note: "ชำระ 2 เดือน ค้างชำระ" },
-                    "sub_09": { name: "ค่าหอพัก / ค่าห้อง", category: "housing", dueDate: 30, amount: 4500.00, payment_method: "โอนบัญชีผู้ดูแลหอพัก", status: "paid", note: "ยอดอาจคลาดเคลื่อนตามมิเตอร์น้ำ-ไฟ" },
-                    "sub_10": { name: "ค่าอุปกรณ์ถ่ายทำ", category: "work", dueDate: 30, amount: 1000.00, payment_method: "เงินสด / โอนจ่าย", status: "unpaid", note: "ยอดปรับเปลี่ยนได้" },
-                    "sub_11": { name: "Netflix", category: "entertainment", dueDate: 1, amount: 100.00, payment_method: "ตัดบัตร / บัญชี", status: "unpaid", note: "สตรีมมิงภาพยนตร์ & ซีรีส์" }
+                    "sub_01": { name: "YouTube Premium", category: "entertainment", dueDate: 21, amount: 129.00, payment_method: "ตัดบัตร / บัญชี", status: "unpaid" },
+                    "sub_02": { name: "Adobe Creative Cloud", category: "software", dueDate: 25, amount: 304.95, payment_method: "ตัดบัตรเครดิต", status: "unpaid" },
+                    "sub_03": { name: "Freepik", category: "software", dueDate: 1, amount: 1249.00, payment_method: "ตัดบัตรเครดิต", status: "paid" },
+                    "sub_04": { name: "Umay+", category: "loan", dueDate: 30, amount: 1000.00, payment_method: "แอปธนาคาร", status: "paid" },
+                    "sub_05": { name: "Google One", category: "software", dueDate: 29, amount: 750.00, payment_method: "Google Play", status: "unpaid" },
+                    "sub_06": { name: "Shopee", category: "loan", dueDate: 30, amount: 790.99, payment_method: "ShopeePay", status: "paid" },
+                    "sub_07": { name: "ค่าผ่อนโทรศัพท์มือถือ", category: "device", dueDate: 30, amount: 2763.00, payment_method: "แอปธนาคาร", status: "paid", installment_total: 24, installment_paid: 5 },
+                    "sub_08": { name: "ค่าบริการอินเทอร์เน็ต", category: "utility", dueDate: 26, amount: 1709.86, payment_method: "SCB", status: "paid" },
+                    "sub_09": { name: "ค่าหอพัก / ค่าห้อง", category: "housing", dueDate: 30, amount: 4500.00, payment_method: "โอนจ่าย", status: "paid" },
+                    "sub_10": { name: "ค่าอุปกรณ์ถ่ายทำ", category: "work", dueDate: 30, amount: 1000.00, payment_method: "เงินสด", status: "unpaid" },
+                    "sub_11": { name: "Netflix", category: "entertainment", dueDate: 1, amount: 100.00, payment_method: "ตัดบัตร", status: "unpaid" }
                 };
                 db.ref('todaypaying/fixed_expenses').set(defaultBills);
             }
@@ -501,11 +493,11 @@
                 if(b.dueDate) billsForCalendar.push({ key: key, date: b.dueDate, name: b.name, amount: amt, isPaid: isPaid });
 
                 let dueText = '';
-                if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;"><i data-lucide="check-circle" size="14"></i> ชำระแล้ว</span>`;
+                if(isPaid) dueText = `<span style="color:var(--success); font-weight:600;">ชำระแล้ว</span>`;
                 else {
-                    if (b.dueDate < today) dueText = `<span style="color:var(--danger); font-weight:600;"><i data-lucide="alert-triangle" size="14"></i> เกินกำหนด</span>`;
-                    else if (b.dueDate - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;"><i data-lucide="bell" size="14"></i> อีก ${b.dueDate - today} วัน</span>`;
-                    else dueText = `<span style="color:var(--text-light); font-weight:400;"><i data-lucide="clock" size="14"></i> วันที่ ${b.dueDate}</span>`;
+                    if (b.dueDate < today) dueText = `<span style="color:var(--danger); font-weight:600;">เกินกำหนด</span>`;
+                    else if (b.dueDate - today <= 5) dueText = `<span style="color:var(--warning); font-weight:600;">อีก ${b.dueDate - today} วัน</span>`;
+                    else dueText = `<span style="color:var(--text-light); font-weight:400;">วันที่ ${b.dueDate}</span>`;
                 }
                 
                 const catName = t.fixedCats[b.category] || b.category || 'General';
@@ -515,12 +507,15 @@
                 <div class="item-card">
                     <div style="flex:1;">
                         <div class="item-info">
-                            <h4>${b.name} <span class="editable-price" onclick="openEditBillModal('${key}', '${b.name}', ${amt})" style="font-weight:600; font-size:13px; color:var(--primary); margin-left:5px;" title="คลิกเพื่อแก้ไขราคา">฿${amt.toLocaleString()} ✎</span></h4>
+                            <h4>${b.name} <span class="editable-price" onclick="openEditBillModal('${key}', '${b.name}', ${amt})" style="font-weight:600; font-size:13px; color:var(--primary); margin-left:5px;" title="คลิกแก้ไขราคา">฿${amt.toLocaleString()} ✎</span></h4>
                             <div class="meta-tag" style="display:inline-block; margin-top:5px;">${catName} • ${b.payment_method || 'โอน'}</div>
                         </div>
                     </div>
                     <div style="text-align:right; margin-right:15px; font-size:12px;">${dueText}</div>
-                    <div class="${checkClass}" onclick="toggleBillStatus('${key}', '${status}')"><i data-lucide="check" size="18" ${isPaid?'':'style="opacity:0"'}></i></div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <div class="${checkClass}" onclick="toggleBillStatus('${key}', '${status}')"><i data-lucide="check" size="18" ${isPaid?'':'style="opacity:0"'}></i></div>
+                        <button class="del-btn" onclick="deleteFixedBill('${key}')" title="ลบรายการบิล"><i data-lucide="trash-2" size="14"></i></button>
+                    </div>
                 </div>`;
 
                 if(b.installment_total && b.installment_total > 0) {
@@ -542,7 +537,7 @@
             });
             lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         } else {
-            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">No bills</p>`;
+            container.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีบิลประจำ</p>`;
         }
         
         renderCalendar(billsForCalendar);
@@ -590,15 +585,12 @@
             });
             updateChartAndTable(catTotals);
         } else {
-            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">No history</p>`; updateChartAndTable({});
+            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">ไม่มีประวัติรายวัน</p>`; updateChartAndTable({});
         }
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } }); updateDashboard();
     }
 
     function updateDashboard() {
-        const isPastMonth = currentViewMonth !== actualCurrentMonth;
-        const t = translations[currentLang];
-        
         document.getElementById('ui-salary-val').innerText = settingsData.salary.toLocaleString();
         const totalIncome = settingsData.salary + totalExtraIncome;
         document.getElementById('ui-total-income').innerText = `฿${totalIncome.toLocaleString()}`;
@@ -613,26 +605,25 @@
 
         let runwayDays = 0;
         if(settingsData.daily_target > 0) runwayDays = netSavings / settingsData.daily_target;
-        document.getElementById('ui-overview-runway').innerText = isPastMonth ? '-' : Math.floor(runwayDays);
+        document.getElementById('ui-overview-runway').innerText = (currentViewMonth !== actualCurrentMonth) ? '-' : Math.floor(runwayDays);
         
         const liquidityStatus = document.getElementById('ui-liquidity-status');
         let percentUsed = totalIncome > 0 ? ((totalFixedExpenses + totalVariableExpense) / totalIncome) * 100 : 0;
-        if (percentUsed > 80) { liquidityStatus.className = 'status-badge status-danger'; liquidityStatus.innerText = t.statusDanger; }
-        else if (percentUsed > 50) { liquidityStatus.className = 'status-badge status-warn'; liquidityStatus.innerText = t.statusWarn; }
-        else { liquidityStatus.className = 'status-badge status-good'; liquidityStatus.innerText = t.statusGood; }
+        if (percentUsed > 80) { liquidityStatus.className = 'status-badge status-danger'; liquidityStatus.innerText = "ควรประหยัดเพิ่ม"; }
+        else if (percentUsed > 50) { liquidityStatus.className = 'status-badge status-warn'; liquidityStatus.innerText = "ปานกลาง"; }
+        else { liquidityStatus.className = 'status-badge status-good'; liquidityStatus.innerText = "สภาพคล่องดี"; }
 
         document.getElementById('ui-spent-today').innerText = `${spentToday.toLocaleString()} ฿`;
         document.getElementById('ui-spent-month').innerText = `${totalVariableExpense.toLocaleString()} ฿`;
         
         const spendStatus = document.getElementById('ui-spent-status');
-        if (isPastMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusClosed}</span>`; }
-        else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusNoSpend}</span>`; }
-        else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">${t.statusOver}</span>`; }
-        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">${t.statusInBudget}</span>`; }
+        if (currentViewMonth !== actualCurrentMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">ปิดรอบแล้ว</span>`; }
+        else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">ยังไม่มีการใช้จ่าย</span>`; }
+        else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">เกินงบรายวัน!</span>`; }
+        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">อยู่ในงบ</span>`; }
 
         document.getElementById('ui-bill-tracker').innerText = `${paidBills}/${totalBills}`;
         document.getElementById('ui-unpaid-amount').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
-        document.getElementById('ui-progress').style.width = totalBills > 0 ? `${(paidBills / totalBills) * 100}%` : '0%'; 
     }
 
     function updateChartAndTable(catData) {
@@ -648,7 +639,7 @@
         labels.forEach((label, i) => {
             tableBody.innerHTML += `<tr><td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${colors[i%colors.length]}; margin-right:8px;"></span>${label}</td><td style="text-align:right;">฿${values[i].toLocaleString()}</td></tr>`;
         });
-        if(labels.length === 0) tableBody.innerHTML = '<tr><td style="color:gray;">No expense data</td></tr>';
+        if(labels.length === 0) tableBody.innerHTML = '<tr><td style="color:gray;">ไม่มีข้อมูลรายจ่าย</td></tr>';
     }
 
     function renderCalendar(bills) {
@@ -683,10 +674,10 @@
 
         if(bills.length > 0) {
             bills.forEach(b => {
-                let statusText = b.isPaid ? '<span style="color:var(--success);">✅</span>' : '<span style="color:var(--danger);">❌</span>';
+                let statusText = b.isPaid ? '<span style="color:var(--success);">✅ ชำระแล้ว</span>' : '<span style="color:var(--danger);">❌ ยังไม่ชำระ</span>';
                 content.innerHTML += `<div class="item-card"><div><h4 style="font-weight:500;">${b.name}</h4><p>${statusText}</p></div><strong style="font-weight:600;">฿${b.amount.toLocaleString()}</strong></div>`;
             });
-        } else { content.innerHTML = `<p style="text-align:center; color:gray; font-weight:300;">No bills</p>`; }
+        } else { content.innerHTML = `<p style="text-align:center; color:gray; font-weight:300;">ไม่มีบิลในวันนี้</p>`; }
         document.getElementById('dayDetailModal').classList.add('active');
     }
 
@@ -696,12 +687,7 @@
         const modal = document.getElementById('settingsModal');
         document.getElementById('settingKey').value = type;
         document.getElementById('settingValue').value = settingsData[type] || 0;
-        
-        let titleTh = type === 'salary' ? "ตั้งค่าเงินเดือนประจำ" : "ตั้งเป้าหมายงบต่อวัน (บ./วัน)";
-        let titleEn = type === 'salary' ? "Set Regular Salary" : "Set Daily Target (฿/Day)";
-        
-        document.getElementById('settingsModalTitle').innerText = currentLang === 'th' ? titleTh : titleEn;
-        document.getElementById('settingLabel').innerText = currentLang === 'th' ? "จำนวนเงิน (฿)" : "Amount (฿)";
+        document.getElementById('settingsModalTitle').innerText = type === 'salary' ? "ตั้งค่าเงินเดือนประจำ" : "ตั้งเป้าหมายงบต่อวัน (บ./วัน)";
         modal.classList.add('active');
     }
 
@@ -709,7 +695,31 @@
         e.preventDefault();
         const key = document.getElementById('settingKey').value;
         const val = Number(document.getElementById('settingValue').value);
-        db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); });
+        db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); }).catch(err => alert("บันทึกไม่สำเร็จ: " + err));
+    }
+
+    // เพิ่มรายจ่ายประจำใหม่
+    function openAddBillModal() { document.getElementById('addBillModal').classList.add('active'); }
+    function saveNewBill(e) {
+        e.preventDefault();
+        const name = document.getElementById('newBillName').value;
+        const category = document.getElementById('newBillCat').value;
+        const dueDate = Number(document.getElementById('newBillDue').value);
+        const amount = Number(document.getElementById('newBillAmount').value);
+        const payment_method = document.getElementById('newBillMethod').value || 'โอนจ่าย';
+
+        db.ref('todaypaying/fixed_expenses').push({
+            name, category, dueDate, amount, payment_method, status: 'unpaid'
+        }).then(() => {
+            closeModal('addBillModal');
+            document.getElementById('addBillModal').querySelector('form').reset();
+        }).catch(err => alert("เพิ่มไม่สำเร็จ: " + err));
+    }
+
+    function deleteFixedBill(key) {
+        if(confirm("ต้องการลบรายจ่ายประจำรายการนี้ใช่หรือไม่?")) {
+            db.ref(`todaypaying/fixed_expenses/${key}`).remove();
+        }
     }
 
     function openEditBillModal(key, name, currentAmount) {
@@ -725,7 +735,7 @@
         const newAmount = Number(document.getElementById('editBillAmount').value);
         db.ref(`todaypaying/fixed_expenses/${key}`).update({ amount: newAmount }).then(() => {
             closeModal('editBillModal');
-        });
+        }).catch(err => alert("อัปเดตราคาไม่สำเร็จ: " + err));
     }
 
     function toggleBillStatus(billKey, currentStatus) {
@@ -736,7 +746,6 @@
     function openTxModal(defaultType = 'expense') { 
         document.getElementById('inputType').value = defaultType;
         changeCategoryOptions();
-        document.getElementById('txModalTitle').innerText = currentLang === 'th' ? "บันทึกรายการ" : "Add Transaction";
         document.getElementById('txModal').classList.add('active'); 
     }
     
@@ -744,8 +753,7 @@
         const type = document.getElementById('inputType').value;
         const catSelect = document.getElementById('inputCategory');
         catSelect.innerHTML = '';
-        const t = translations[currentLang];
-        const cats = type === 'income' ? t.catsIncome : t.catsExpense;
+        const cats = type === 'income' ? translations[currentLang].catsIncome : translations[currentLang].catsExpense;
         Object.keys(cats).forEach(key => { catSelect.innerHTML += `<option value="${key}">${cats[key]}</option>`; });
     }
 
@@ -754,10 +762,9 @@
         const type = document.getElementById('inputType').value, amt = Number(document.getElementById('inputAmount').value), name = document.getElementById('inputName').value, cat = document.getElementById('inputCategory').value, dateStr = new Date().toISOString().split('T')[0];
         db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({ type: type, amount: amt, name: name, category: cat, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => { 
             closeModal('txModal'); document.getElementById('txForm').reset();
-        });
+        }).catch(err => alert("บันทึกรายวันไม่สำเร็จ: " + err));
     }
 
-    // เริ่มต้นระบบทั้งหมด และทำการ Seed ข้อมูลตั้งต้นทันทีถ้ายังไม่มี
     initMonthSelector(); 
     applyTranslations(); 
     checkAndSeedDefaultData();
