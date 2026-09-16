@@ -118,51 +118,8 @@
 
         .form-group { margin-bottom: 14px; position: relative; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-light); font-weight: 500;}
-        .form-group input { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
-        .form-group input:focus { border-color: var(--primary); }
-        
-        /* Custom Dropdown UI สไตล์แอป */
-        .custom-select-box {
-            position: relative;
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 11px 14px;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-dark);
-            font-family: inherit;
-            user-select: none;
-        }
-        .custom-select-box:hover { border-color: var(--primary); }
-        .custom-dropdown-options {
-            display: none;
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            width: 100%;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            z-index: 100;
-            overflow: hidden;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .custom-dropdown-options.active { display: block; }
-        .custom-option {
-            padding: 10px 14px;
-            font-size: 13px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-        .custom-option:hover { background: var(--primary-light); color: var(--primary); }
-
+        .form-group input, .form-group select { width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--input-bg); font-size: 13px; box-sizing: border-box; font-family: inherit; color: var(--text-dark); outline: none;}
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
         .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-top: 6px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
         .submit-btn:hover { opacity: 0.9; }
 
@@ -367,17 +324,12 @@
             </div>
             <div class="form-group">
                 <label>กำหนดวันที่รับเงินประจำเดือน</label>
-                <div class="custom-select-box" onclick="toggleCustomDropdown('incDateDropdown')">
-                    <span id="selectedIncDateText">วันแรกของเดือน (วันที่ 1)</span>
-                    <i data-lucide="chevron-down" size="16"></i>
-                </div>
-                <input type="hidden" id="newIncDateType" value="day1">
-                <div class="custom-dropdown-options" id="incDateDropdown">
-                    <div class="custom-option" onclick="selectCustomOption('incDate', 'day1', 'วันแรกของเดือน (วันที่ 1)')">วันแรกของเดือน (วันที่ 1)</div>
-                    <div class="custom-option" onclick="selectCustomOption('incDate', 'dayLast', 'วันสุดท้ายของเดือน')">วันสุดท้ายของเดือน</div>
-                    <div class="custom-option" onclick="selectCustomOption('incDate', 'customDate', 'ระบุวันที่จากปฏิทิน')">ระบุวันที่จากปฏิทิน</div>
-                    <div class="custom-option" onclick="selectCustomOption('incDate', 'customText', 'ระบุข้อความกำหนดเอง')">ระบุข้อความกำหนดเอง</div>
-                </div>
+                <select id="newIncDateType" onchange="toggleIncDateInput()">
+                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
+                    <option value="dayLast">วันสุดท้ายของเดือน</option>
+                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
+                    <option value="customText">ระบุข้อความกำหนดเอง</option>
+                </select>
             </div>
             <div class="form-group" id="incDateInputContainer" style="display:none;">
                 <label id="incDateLabel">เลือกวันที่</label>
@@ -385,15 +337,10 @@
             </div>
             <div class="form-group">
                 <label>ช่องทางรับเงิน</label>
-                <div class="custom-select-box" onclick="toggleCustomDropdown('incMethodDropdown')">
-                    <span id="selectedIncMethodText">แอปธนาคาร / โอนเข้าบัญชี</span>
-                    <i data-lucide="chevron-down" size="16"></i>
-                </div>
-                <input type="hidden" id="newIncMethod" value="แอปธนาคาร / โอนเข้าบัญชี">
-                <div class="custom-dropdown-options" id="incMethodDropdown">
-                    <div class="custom-option" onclick="selectCustomOption('incMethod', 'แอปธนาคาร / โอนเข้าบัญชี', 'แอปธนาคาร / โอนเข้าบัญชี')">แอปธนาคาร / โอนเข้าบัญชี</div>
-                    <div class="custom-option" onclick="selectCustomOption('incMethod', 'เงินสด', 'เงินสด')">เงินสด</div>
-                </div>
+                <select id="newIncMethod" onchange="toggleIncBankFields()">
+                    <option value="แอปธนาคาร / โอนเข้าบัญชี">แอปธนาคาร / โอนเข้าบัญชี</option>
+                    <option value="เงินสด">เงินสด</option>
+                </select>
             </div>
             <div id="incBankAccountFields" style="background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-color);">
                 <div class="form-group">
@@ -423,19 +370,14 @@
             </div>
             <div class="form-group">
                 <label>หมวดหมู่</label>
-                <div class="custom-select-box" onclick="toggleCustomDropdown('billCatDropdown')">
-                    <span id="selectedBillCatText">ความบันเทิง & สตรีมมิ่ง</span>
-                    <i data-lucide="chevron-down" size="16"></i>
-                </div>
-                <input type="hidden" id="newBillCat" value="entertainment">
-                <div class="custom-dropdown-options" id="billCatDropdown">
-                    <div class="custom-option" onclick="selectCustomOption('billCat', 'entertainment', 'ความบันเทิง & สตรีมมิ่ง')">ความบันเทิง & สตรีมมิ่ง</div>
-                    <div class="custom-option" onclick="selectCustomOption('billCat', 'software', 'ซอฟต์แวร์ทำงาน')">ซอฟต์แวร์ทำงาน</div>
-                    <div class="custom-option" onclick="selectCustomOption('billCat', 'housing', 'ที่พักอาศัย')">ที่พักอาศัย</div>
-                    <div class="custom-option" onclick="selectCustomOption('billCat', 'utility', 'สาธารณูปโภค / สื่อสาร')">สาธารณูปโภค / สื่อสาร</div>
-                    <div class="custom-option" onclick="selectCustomOption('billCat', 'loan', 'สินเชื่อ / ผ่อนชำระ')">สินเชื่อ / ผ่อนชำระ</div>
-                    <div class="custom-option" onclick="selectCustomOption('billCat', 'work', 'อุปกรณ์ทำงาน / สื่อ')">อุปกรณ์ทำงาน / สื่อ</div>
-                </div>
+                <select id="newBillCat">
+                    <option value="entertainment">ความบันเทิง & สตรีมมิ่ง</option>
+                    <option value="software">ซอฟต์แวร์ทำงาน</option>
+                    <option value="housing">ที่พักอาศัย</option>
+                    <option value="utility">สาธารณูปโภค / สื่อสาร</option>
+                    <option value="loan">สินเชื่อ / ผ่อนชำระ</option>
+                    <option value="work">อุปกรณ์ทำงาน / สื่อ</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>ยอดเงินที่ต้องจ่าย (฿)</label>
@@ -443,17 +385,12 @@
             </div>
             <div class="form-group">
                 <label>กำหนดวันตัดจ่ายประจำเดือน</label>
-                <div class="custom-select-box" onclick="toggleCustomDropdown('billDateDropdown')">
-                    <span id="selectedBillDateText">วันแรกของเดือน (วันที่ 1)</span>
-                    <i data-lucide="chevron-down" size="16"></i>
-                </div>
-                <input type="hidden" id="newBillDateType" value="day1">
-                <div class="custom-dropdown-options" id="billDateDropdown">
-                    <div class="custom-option" onclick="selectCustomOption('billDate', 'day1', 'วันแรกของเดือน (วันที่ 1)')">วันแรกของเดือน (วันที่ 1)</div>
-                    <div class="custom-option" onclick="selectCustomOption('billDate', 'dayLast', 'วันสุดท้ายของเดือน')">วันสุดท้ายของเดือน</div>
-                    <div class="custom-option" onclick="selectCustomOption('billDate', 'customDate', 'ระบุวันที่จากปฏิทิน')">ระบุวันที่จากปฏิทิน</div>
-                    <div class="custom-option" onclick="selectCustomOption('billDate', 'customText', 'ระบุข้อความกำหนดเอง')">ระบุข้อความกำหนดเอง</div>
-                </div>
+                <select id="newBillDateType" onchange="toggleBillDateInput()">
+                    <option value="day1">วันแรกของเดือน (วันที่ 1)</option>
+                    <option value="dayLast">วันสุดท้ายของเดือน</option>
+                    <option value="customDate">ระบุวันที่จากปฏิทิน</option>
+                    <option value="customText">ระบุข้อความกำหนดเอง</option>
+                </select>
             </div>
             <div class="form-group" id="billDateInputContainer" style="display:none;">
                 <label id="billDateLabel">เลือกวันที่</label>
@@ -461,16 +398,11 @@
             </div>
             <div class="form-group">
                 <label>ช่องทางชำระเงิน</label>
-                <div class="custom-select-box" onclick="toggleCustomDropdown('billMethodDropdown')">
-                    <span id="selectedBillMethodText">แอปธนาคาร / โอนบิล</span>
-                    <i data-lucide="chevron-down" size="16"></i>
-                </div>
-                <input type="hidden" id="newBillMethod" value="แอปธนาคาร / โอนบิล">
-                <div class="custom-dropdown-options" id="billMethodDropdown">
-                    <div class="custom-option" onclick="selectCustomOption('billMethod', 'แอปธนาคาร / โอนบิล', 'แอปธนาคาร / โอนบิล')">แอปธนาคาร / โอนบิล</div>
-                    <div class="custom-option" onclick="selectCustomOption('billMethod', 'ตัดบัตรเครดิต / เดบิต', 'ตัดบัตรเครดิต / เดบิต')">ตัดบัตรเครดิต / เดบิต</div>
-                    <div class="custom-option" onclick="selectCustomOption('billMethod', 'เงินสด / โอนจ่าย', 'เงินสด / โอนจ่าย')">เงินสด / โอนจ่าย</div>
-                </div>
+                <select id="newBillMethod" onchange="toggleBankFields()">
+                    <option value="แอปธนาคาร / โอนบิล">แอปธนาคาร / โอนบิล</option>
+                    <option value="ตัดบัตรเครดิต / เดบิต">ตัดบัตรเครดิต / เดบิต</option>
+                    <option value="เงินสด / โอนจ่าย">เงินสด / โอนจ่าย</option>
+                </select>
             </div>
             <div id="bankAccountFields" style="background:var(--input-bg); padding:12px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border-color);">
                 <div class="form-group">
@@ -496,15 +428,10 @@
         <form id="txForm" onsubmit="submitTransaction(event);">
             <div class="form-group">
                 <label>ประเภท</label>
-                <div class="custom-select-box" onclick="toggleCustomDropdown('txTypeDropdown')">
-                    <span id="selectedTxTypeText">รายจ่าย</span>
-                    <i data-lucide="chevron-down" size="16"></i>
-                </div>
-                <input type="hidden" id="inputType" value="expense">
-                <div class="custom-dropdown-options" id="txTypeDropdown">
-                    <div class="custom-option" onclick="selectCustomOption('txType', 'expense', 'รายจ่าย')">รายจ่าย</div>
-                    <div class="custom-option" onclick="selectCustomOption('txType', 'income', 'รายได้เสริม (ครั้งคราว)')">รายได้เสริม (ครั้งคราว)</div>
-                </div>
+                <select id="inputType">
+                    <option value="expense">รายจ่าย</option>
+                    <option value="income">รายได้เสริม (ครั้งคราว)</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>จำนวนเงิน (฿)</label>
@@ -516,18 +443,13 @@
             </div>
             <div class="form-group">
                 <label>หมวดหมู่</label>
-                <div class="custom-select-box" onclick="toggleCustomDropdown('txCatDropdown')">
-                    <span id="selectedTxCatText">อาหาร</span>
-                    <i data-lucide="chevron-down" size="16"></i>
-                </div>
-                <input type="hidden" id="inputCategory" value="food">
-                <div class="custom-dropdown-options" id="txCatDropdown">
-                    <div class="custom-option" onclick="selectCustomOption('txCat', 'food', 'อาหาร')">อาหาร</div>
-                    <div class="custom-option" onclick="selectCustomOption('txCat', 'grocery', 'ของใช้')">ของใช้</div>
-                    <div class="custom-option" onclick="selectCustomOption('txCat', 'transport', 'เดินทาง')">เดินทาง</div>
-                    <div class="custom-option" onclick="selectCustomOption('txCat', 'shopping', 'ช้อปปิ้ง')">ช้อปปิ้ง</div>
-                    <div class="custom-option" onclick="selectCustomOption('txCat', 'others', 'อื่นๆ')">อื่นๆ</div>
-                </div>
+                <select id="inputCategory">
+                    <option value="food">อาหาร</option>
+                    <option value="grocery">ของใช้</option>
+                    <option value="transport">เดินทาง</option>
+                    <option value="shopping">ช้อปปิ้ง</option>
+                    <option value="others">อื่นๆ</option>
+                </select>
             </div>
             <button type="submit" class="submit-btn">บันทึก</button>
         </form>
@@ -570,58 +492,6 @@
 
     let currentUser = null;
     let isRegisterMode = false;
-
-    // ฟังก์ชันจัดการ Custom Dropdown
-    function toggleCustomDropdown(dropdownId) {
-        // ปิดอันอื่นก่อน
-        document.querySelectorAll('.custom-dropdown-options').forEach(el => {
-            if (el.id !== dropdownId) el.classList.remove('active');
-        });
-        document.getElementById(dropdownId).classList.toggle('active');
-    }
-
-    window.addEventListener('click', function(e) {
-        if (!e.target.closest('.custom-select-box') && !e.target.closest('.custom-dropdown-options')) {
-            document.querySelectorAll('.custom-dropdown-options').forEach(el => el.classList.remove('active'));
-        }
-    });
-
-    function selectCustomOption(type, value, text) {
-        if (type === 'incDate') {
-            document.getElementById('newIncDateType').value = value;
-            document.getElementById('selectedIncDateText').innerText = text;
-            document.getElementById('incDateDropdown').classList.remove('active');
-            toggleIncDateInput();
-        } else if (type === 'incMethod') {
-            document.getElementById('newIncMethod').value = value;
-            document.getElementById('selectedIncMethodText').innerText = text;
-            document.getElementById('incMethodDropdown').classList.remove('active');
-            toggleIncBankFields();
-        } else if (type === 'billCat') {
-            document.getElementById('newBillCat').value = value;
-            document.getElementById('selectedBillCatText').innerText = text;
-            document.getElementById('billCatDropdown').classList.remove('active');
-        } else if (type === 'billDate') {
-            document.getElementById('newBillDateType').value = value;
-            document.getElementById('selectedBillDateText').innerText = text;
-            document.getElementById('billDateDropdown').classList.remove('active');
-            toggleBillDateInput();
-        } else if (type === 'billMethod') {
-            document.getElementById('newBillMethod').value = value;
-            document.getElementById('selectedBillMethodText').innerText = text;
-            document.getElementById('billMethodDropdown').classList.remove('active');
-            toggleBankFields();
-        } else if (type === 'txType') {
-            document.getElementById('inputType').value = value;
-            document.getElementById('selectedTxTypeText').innerText = text;
-            document.getElementById('txTypeDropdown').classList.remove('active');
-        } else if (type === 'txCat') {
-            document.getElementById('inputCategory').value = value;
-            document.getElementById('selectedTxCatText').innerText = text;
-            document.getElementById('txCatDropdown').classList.remove('active');
-        }
-        lucide.createIcons();
-    }
 
     function showAuthError(msg) {
         const el = document.getElementById('authErrorMsg');
@@ -796,8 +666,6 @@
 
     function openAddRecurringIncomeModal() {
         document.getElementById('addRecurringIncomeForm').reset();
-        selectCustomOption('incDate', 'day1', 'วันแรกของเดือน (วันที่ 1)');
-        selectCustomOption('incMethod', 'แอปธนาคาร / โอนเข้าบัญชี', 'แอปธนาคาร / โอนเข้าบัญชี');
         document.getElementById('incBankAccountFields').style.display = 'block';
         document.getElementById('incDateInputContainer').style.display = 'none';
         document.getElementById('addRecurringIncomeModal').classList.add('active');
@@ -926,9 +794,6 @@
 
     function openAddBillModal() {
         document.getElementById('addBillForm').reset();
-        selectCustomOption('billCat', 'entertainment', 'ความบันเทิง & สตรีมมิ่ง');
-        selectCustomOption('billDate', 'day1', 'วันแรกของเดือน (วันที่ 1)');
-        selectCustomOption('billMethod', 'แอปธนาคาร / โอนบิล', 'แอปธนาคาร / โอนบิล');
         document.getElementById('bankAccountFields').style.display = 'block';
         document.getElementById('billDateInputContainer').style.display = 'none';
         document.getElementById('addBillModal').classList.add('active');
@@ -965,8 +830,7 @@
 
     function openTxModal(type = 'expense') {
         document.getElementById('txForm').reset();
-        selectCustomOption('txType', type, type === 'expense' ? 'รายจ่าย' : 'รายได้เสริม (ครั้งคราว)');
-        selectCustomOption('txCat', 'food', 'อาหาร');
+        document.getElementById('inputType').value = type;
         document.getElementById('txModal').classList.add('active');
     }
 
