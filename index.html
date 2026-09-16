@@ -89,12 +89,11 @@
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; margin-top: 10px;}
         .cal-day-header { font-size: 11px; font-weight: 500; color: var(--text-light); padding: 6px 0; }
         .cal-cell { aspect-ratio: 1; background: #f8fafc; border-radius: 8px; display: flex; flex-direction: column; align-items: center; padding: 4px; font-size: 11px; border: 1px solid #f1f5f9; cursor: pointer; font-weight: 400;}
-        .cal-cell:hover { background: #e2e8f0; }
         .cal-cell.has-bill { background: #eff6ff; border-color: #bfdbfe; font-weight: 600;}
         .cal-cell.today { background: var(--primary); color: white; }
         .bill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--danger); margin-top: auto; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.2s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { background: white; width: 92%; max-width: 420px; border-radius: 20px; padding: 20px; transform: scale(0.95); transition: 0.2s; max-height: 90vh; overflow-y: auto; }
         .modal-overlay.active .modal-content { transform: scale(1); }
@@ -115,7 +114,7 @@
         .editable-price { cursor: pointer; border-bottom: 1px dashed var(--primary); transition: color 0.2s; }
         .editable-price:hover { color: var(--primary); }
 
-        /* Unified Custom Web App UI Dropdown (Image 2 style) */
+        /* Unified Custom Web App UI Dropdown */
         .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
         .custom-select { 
             display: flex; 
@@ -139,8 +138,8 @@
             background: #ffffff; 
             border: 1px solid #e2e8f0; 
             border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
-            z-index: 300; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12); 
+            z-index: 500; 
             display: none; 
             max-height: 220px; 
             overflow-y: auto; 
@@ -340,7 +339,7 @@
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายจ่ายประจำ (ใช้ Custom Web App UI Dropdown เหมือนภาพที่ 2 ทั้งหมด) -->
+<!-- Modal 2: เพิ่มรายจ่ายประจำ -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -353,7 +352,7 @@
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, ค่าห้อง" required>
             </div>
 
-            <!-- Custom Select 1: หมวดหมู่ (เหมือนภาพที่ 2) -->
+            <!-- Custom Select: หมวดหมู่ -->
             <div class="form-group">
                 <label id="txt-lbl-cat">หมวดหมู่</label>
                 <div class="custom-select-wrapper">
@@ -362,12 +361,12 @@
                         <i data-lucide="chevron-down" size="14"></i>
                     </div>
                     <div class="custom-options" id="catDropdown">
-                        <div class="custom-option" onclick="selectCategory('entertainment', '<i data-lucide=\'film\' size=\'15\'></i> ความบันเทิง & สตรีมมิ่ง')"><i data-lucide="film" size="15"></i> ความบันเทิง & สตรีมมิ่ง</div>
-                        <div class="custom-option" onclick="selectCategory('software', '<i data-lucide=\'code\' size=\'15\'></i> ซอฟต์แวร์ทำงาน')"><i data-lucide="code" size="15"></i> ซอฟต์แวร์ทำงาน</div>
-                        <div class="custom-option" onclick="selectCategory('housing', '<i data-lucide=\'home\' size=\'15\'></i> ที่พักอาศัย')"><i data-lucide="home" size="15"></i> ที่พักอาศัย</div>
-                        <div class="custom-option" onclick="selectCategory('utility', '<i data-lucide=\'zap\' size=\'15\'></i> สาธารณูปโภค / สื่อสาร')"><i data-lucide="zap" size="15"></i> สาธารณูปโภค / สื่อสาร</div>
-                        <div class="custom-option" onclick="selectCategory('loan', '<i data-lucide=\'credit-card\' size=\'15\'></i> สินเชื่อ / ผ่อนชำระ')"><i data-lucide="credit-card" size="15"></i> สินเชื่อ / ผ่อนชำระ</div>
-                        <div class="custom-option" onclick="selectCategory('work', '<i data-lucide=\'briefcase\' size=\'15\'></i> อุปกรณ์ทำงาน / สื่อ')"><i data-lucide="briefcase" size="15"></i> อุปกรณ์ทำงาน / สื่อ</div>
+                        <div class="custom-option" onclick="selectCategory('entertainment')"><i data-lucide="film" size="15"></i> ความบันเทิง & สตรีมมิ่ง</div>
+                        <div class="custom-option" onclick="selectCategory('software')"><i data-lucide="code" size="15"></i> ซอฟต์แวร์ทำงาน</div>
+                        <div class="custom-option" onclick="selectCategory('housing')"><i data-lucide="home" size="15"></i> ที่พักอาศัย</div>
+                        <div class="custom-option" onclick="selectCategory('utility')"><i data-lucide="zap" size="15"></i> สาธารณูปโภค / สื่อสาร</div>
+                        <div class="custom-option" onclick="selectCategory('loan')"><i data-lucide="credit-card" size="15"></i> สินเชื่อ / ผ่อนชำระ</div>
+                        <div class="custom-option" onclick="selectCategory('work')"><i data-lucide="briefcase" size="15"></i> อุปกรณ์ทำงาน / สื่อ</div>
                     </div>
                 </div>
                 <input type="hidden" id="newBillCat" value="entertainment">
@@ -384,7 +383,7 @@
                 </div>
             </div>
 
-            <!-- Custom Select 2: วันที่ครบกำหนดตัดรอบ (เหมือนภาพที่ 2) -->
+            <!-- Custom Select: วันที่ครบกำหนดตัดรอบ -->
             <div class="form-group">
                 <label id="txt-lbl-due">วันที่ครบกำหนดตัดรอบ</label>
                 <div class="custom-select-wrapper" style="margin-bottom: 6px;">
@@ -393,13 +392,13 @@
                         <i data-lucide="chevron-down" size="14"></i>
                     </div>
                     <div class="custom-options" id="dueTypeDropdown">
-                        <div class="custom-option" onclick="selectDueType('custom', '<i data-lucide=\'calendar\' size=\'15\'></i> ระบุวันที่ (1-31)')"><i data-lucide="calendar" size="15"></i> ระบุวันที่ (1-31)</div>
-                        <div class="custom-option" onclick="selectDueType('last_day', '<i data-lucide=\'calendar-off\' size=\'15\'></i> วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)')"><i data-lucide="calendar-off" size="15"></i> วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)</div>
-                        <div class="custom-option" onclick="selectDueType('first_day', '<i data-lucide=\'calendar-days\' size=\'15\'></i> วันแรกของเดือน (วันที่ 1)')"><i data-lucide="calendar-days" size="15"></i> วันแรกของเดือน (วันที่ 1)</div>
+                        <div class="custom-option" onclick="selectDueType('custom')"><i data-lucide="calendar" size="15"></i> ระบุวันที่ (1-31)</div>
+                        <div class="custom-option" onclick="selectDueType('last_day')"><i data-lucide="calendar-off" size="15"></i> วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)</div>
+                        <div class="custom-option" onclick="selectDueType('first_day')"><i data-lucide="calendar-days" size="15"></i> วันแรกของเดือน (วันที่ 1)</div>
                     </div>
                 </div>
                 <input type="hidden" id="newBillDueType" value="custom">
-                <input type="number" id="newBillDueDay" placeholder="ใส่วันที่ (1-31)" min="1" max="31" value="30" required>
+                <input type="number" id="newBillDueDay" placeholder="ใส่วันที่ (1-31)" min="1" max="31" value="30">
             </div>
 
             <div class="form-group">
@@ -407,7 +406,7 @@
                 <input type="number" id="newBillAmount" placeholder="0" min="0" step="0.01" required>
             </div>
 
-            <!-- Custom Select 3: ช่องทางชำระเงิน (เหมือนภาพที่ 2) -->
+            <!-- Custom Select: ช่องทางชำระเงิน -->
             <div class="form-group">
                 <label id="txt-lbl-method">ช่องทางชำระเงิน</label>
                 <div class="custom-select-wrapper">
@@ -416,17 +415,17 @@
                         <i data-lucide="chevron-down" size="14"></i>
                     </div>
                     <div class="custom-options" id="methodDropdown">
-                        <div class="custom-option" onclick="selectMethod('แอปธนาคาร / โอนบิล', '<i data-lucide=\'smartphone\' size=\'15\'></i> แอปธนาคาร / โอนบิล')"><i data-lucide="smartphone" size="15"></i> แอปธนาคาร / โอนบิล</div>
-                        <div class="custom-option" onclick="selectMethod('ตัดบัตรเครดิต / เดบิต', '<i data-lucide=\'credit-card\' size=\'15\'></i> ตัดบัตรเครดิต / เดบิต')"><i data-lucide="credit-card" size="15"></i> ตัดบัตรเครดิต / เดบิต</div>
-                        <div class="custom-option" onclick="selectMethod('ShopeePay / แอปธนาคาร', '<i data-lucide=\'shopping-bag\' size=\'15\'></i> ShopeePay / แอปธนาคาร')"><i data-lucide="shopping-bag" size="15"></i> ShopeePay / แอปธนาคาร</div>
-                        <div class="custom-option" onclick="selectMethod('Google Play / ตัดบัตร', '<i data-lucide=\'globe\' size=\'15\'></i> Google Play / ตัดบัตร')"><i data-lucide="globe" size="15"></i> Google Play / ตัดบัตร</div>
-                        <div class="custom-option" onclick="selectMethod('เงินสด / โอนจ่าย', '<i data-lucide=\'banknote\' size=\'15\'></i> เงินสด / โอนจ่าย')"><i data-lucide="banknote" size="15"></i> เงินสด / โอนจ่าย</div>
+                        <div class="custom-option" onclick="selectMethod('แอปธนาคาร / โอนบิล')"><i data-lucide="smartphone" size="15"></i> แอปธนาคาร / โอนบิล</div>
+                        <div class="custom-option" onclick="selectMethod('ตัดบัตรเครดิต / เดบิต')"><i data-lucide="credit-card" size="15"></i> ตัดบัตรเครดิต / เดบิต</div>
+                        <div class="custom-option" onclick="selectMethod('ShopeePay / แอปธนาคาร')"><i data-lucide="shopping-bag" size="15"></i> ShopeePay / แอปธนาคาร</div>
+                        <div class="custom-option" onclick="selectMethod('Google Play / ตัดบัตร')"><i data-lucide="globe" size="15"></i> Google Play / ตัดบัตร</div>
+                        <div class="custom-option" onclick="selectMethod('เงินสด / โอนจ่าย')"><i data-lucide="banknote" size="15"></i> เงินสด / โอนจ่าย</div>
                     </div>
                 </div>
                 <input type="hidden" id="newBillMethod" value="แอปธนาคาร / โอนบิล">
             </div>
 
-            <!-- Custom Select 4: เลือกธนาคาร (เหมือนภาพที่ 2) -->
+            <!-- Custom Select: เลือกธนาคาร -->
             <div id="bankAccountFields" style="background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #e2e8f0;">
                 <div class="form-group" style="margin-bottom: 8px;">
                     <label id="txt-lbl-bank">เลือกธนาคาร</label>
@@ -436,12 +435,12 @@
                             <i data-lucide="chevron-down" size="14"></i>
                         </div>
                         <div class="custom-options" id="bankDropdown">
-                            <div class="custom-option" onclick="selectBank('ธ.ไทยพาณิชย์ (SCB)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.ไทยพาณิชย์ (SCB)')"><i data-lucide="landmark" size="15"></i> ธ.ไทยพาณิชย์ (SCB)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กสิกรไทย (KBANK)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กสิกรไทย (KBANK)')"><i data-lucide="landmark" size="15"></i> ธ.กสิกรไทย (KBANK)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กรุงไทย (KTB)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กรุงไทย (KTB)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงไทย (KTB)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กรุงเทพ (BBL)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กรุงเทพ (BBL)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงเทพ (BBL)</div>
-                            <div class="custom-option" onclick="selectBank('ธ.กรุงศรีอยุธยา (BAY)', '<i data-lucide=\'landmark\' size=\'15\'></i> ธ.กรุงศรีอยุธยา (BAY)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงศรีอยุธยา (BAY)</div>
-                            <div class="custom-option" onclick="selectBank('พร้อมเพย์ (PromptPay)', '<i data-lucide=\'credit-card\' size=\'15\'></i> พร้อมเพย์ (PromptPay)')"><i data-lucide="credit-card" size="15"></i> พร้อมเพย์ (PromptPay)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.ไทยพาณิชย์ (SCB)')"><i data-lucide="landmark" size="15"></i> ธ.ไทยพาณิชย์ (SCB)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กสิกรไทย (KBANK)')"><i data-lucide="landmark" size="15"></i> ธ.กสิกรไทย (KBANK)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงไทย (KTB)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงไทย (KTB)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงเทพ (BBL)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงเทพ (BBL)</div>
+                            <div class="custom-option" onclick="selectBank('ธ.กรุงศรีอยุธยา (BAY)')"><i data-lucide="landmark" size="15"></i> ธ.กรุงศรีอยุธยา (BAY)</div>
+                            <div class="custom-option" onclick="selectBank('พร้อมเพย์ (PromptPay)')"><i data-lucide="credit-card" size="15"></i> พร้อมเพย์ (PromptPay)</div>
                         </div>
                     </div>
                     <input type="hidden" id="newBankName" value="ธ.ไทยพาณิชย์ (SCB)">
@@ -483,7 +482,7 @@
     </div>
 </div>
 
-<!-- Modal รายวัน (ใช้ Custom Dropdown เช่นเดียวกัน) -->
+<!-- Modal รายวัน -->
 <div class="modal-overlay" id="txModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -499,8 +498,8 @@
                         <i data-lucide="chevron-down" size="14"></i>
                     </div>
                     <div class="custom-options" id="txTypeDropdown">
-                        <div class="custom-option" onclick="selectTxType('expense', '<i data-lucide=\'arrow-down-circle\' size=\'15\'></i> รายจ่าย')"><i data-lucide="arrow-down-circle" size="15"></i> รายจ่าย</div>
-                        <div class="custom-option" onclick="selectTxType('income', '<i data-lucide=\'arrow-up-circle\' size=\'15\'></i> รายได้เสริม (งานนอก)')"><i data-lucide="arrow-up-circle" size="15"></i> รายได้เสริม (งานนอก)</div>
+                        <div class="custom-option" onclick="selectTxType('expense')"><i data-lucide="arrow-down-circle" size="15"></i> รายจ่าย</div>
+                        <div class="custom-option" onclick="selectTxType('income')"><i data-lucide="arrow-up-circle" size="15"></i> รายได้เสริม (งานนอก)</div>
                     </div>
                 </div>
                 <input type="hidden" id="inputType" value="expense">
@@ -543,70 +542,123 @@
 </div>
 
 <script>
-    lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
+    // Data definition maps for Dropdowns
+    const categoryMap = {
+        entertainment: { icon: 'film', th: 'ความบันเทิง & สตรีมมิ่ง', en: 'Entertainment & Streaming' },
+        software: { icon: 'code', th: 'ซอฟต์แวร์ทำงาน', en: 'Work Software' },
+        housing: { icon: 'home', th: 'ที่พักอาศัย', en: 'Housing' },
+        utility: { icon: 'zap', th: 'สาธารณูปโภค / สื่อสาร', en: 'Utilities & Telecom' },
+        loan: { icon: 'credit-card', th: 'สินเชื่อ / ผ่อนชำระ', en: 'Loan / Installment' },
+        work: { icon: 'briefcase', th: 'อุปกรณ์ทำงาน / สื่อ', en: 'Work & Media Equipment' }
+    };
 
-    // Custom Web App UI Dropdown Controller
+    const dueTypeMap = {
+        custom: { icon: 'calendar', th: 'ระบุวันที่ (1-31)', en: 'Specific Date (1-31)' },
+        last_day: { icon: 'calendar-off', th: 'วันสุดท้ายของเดือน (สิ้นเดือนทุกเดือน)', en: 'Last day of month' },
+        first_day: { icon: 'calendar-days', th: 'วันแรกของเดือน (วันที่ 1)', en: '1st of month' }
+    };
+
+    const methodMap = {
+        'แอปธนาคาร / โอนบิล': { icon: 'smartphone', th: 'แอปธนาคาร / โอนบิล', en: 'Mobile Banking' },
+        'ตัดบัตรเครดิต / เดบิต': { icon: 'credit-card', th: 'ตัดบัตรเครดิต / เดบิต', en: 'Credit/Debit Card' },
+        'ShopeePay / แอปธนาคาร': { icon: 'shopping-bag', th: 'ShopeePay / แอปธนาคาร', en: 'ShopeePay' },
+        'Google Play / ตัดบัตร': { icon: 'globe', th: 'Google Play / ตัดบัตร', en: 'Google Play' },
+        'เงินสด / โอนจ่าย': { icon: 'banknote', th: 'เงินสด / โอนจ่าย', en: 'Cash' }
+    };
+
+    const bankMap = {
+        'ธ.ไทยพาณิชย์ (SCB)': { icon: 'landmark', text: 'ธ.ไทยพาณิชย์ (SCB)' },
+        'ธ.กสิกรไทย (KBANK)': { icon: 'landmark', text: 'ธ.กสิกรไทย (KBANK)' },
+        'ธ.กรุงไทย (KTB)': { icon: 'landmark', text: 'ธ.กรุงไทย (KTB)' },
+        'ธ.กรุงเทพ (BBL)': { icon: 'landmark', text: 'ธ.กรุงเทพ (BBL)' },
+        'ธ.กรุงศรีอยุธยา (BAY)': { icon: 'landmark', text: 'ธ.กรุงศรีอยุธยา (BAY)' },
+        'พร้อมเพย์ (PromptPay)': { icon: 'credit-card', text: 'พร้อมเพย์ (PromptPay)' }
+    };
+
+    const txCatIcons = {
+        food: { icon: 'utensils', th: 'อาหาร', en: 'Food' },
+        grocery: { icon: 'shopping-cart', th: 'ของใช้', en: 'Grocery' },
+        transport: { icon: 'bus', th: 'เดินทาง', en: 'Transport' },
+        shopping: { icon: 'shopping-bag', th: 'ช้อปปิ้ง', en: 'Shopping' },
+        others: { icon: 'more-horizontal', th: 'อื่นๆ', en: 'Others' },
+        freelance: { icon: 'briefcase', th: 'งานนอก 1', en: 'Freelance 1' },
+        extra: { icon: 'zap', th: 'งานนอก 2', en: 'Extra Job' }
+    };
+
+    // Controller for unified dropdowns
     function toggleDropdown(dropdownId) {
-        const dropdown = document.getElementById(dropdownId);
+        const target = document.getElementById(dropdownId);
         document.querySelectorAll('.custom-options').forEach(el => {
-            if(el.id !== dropdownId) el.classList.remove('open');
+            if (el.id !== dropdownId) el.classList.remove('open');
         });
-        dropdown.classList.toggle('open');
+        target.classList.toggle('open');
     }
 
-    function selectCategory(value, htmlText) {
-        document.getElementById('newBillCat').value = value;
-        document.getElementById('selectedCatText').innerHTML = htmlText;
+    function selectCategory(key) {
+        document.getElementById('newBillCat').value = key;
+        const item = categoryMap[key];
+        const label = currentLang === 'th' ? item.th : item.en;
+        document.getElementById('selectedCatText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
         document.getElementById('catDropdown').classList.remove('open');
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         toggleInstallmentFields();
     }
 
-    function selectDueType(value, htmlText) {
-        document.getElementById('newBillDueType').value = value;
-        document.getElementById('selectedDueTypeText').innerHTML = htmlText;
+    function selectDueType(key) {
+        document.getElementById('newBillDueType').value = key;
+        const item = dueTypeMap[key];
+        const label = currentLang === 'th' ? item.th : item.en;
+        document.getElementById('selectedDueTypeText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
         document.getElementById('dueTypeDropdown').classList.remove('open');
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         toggleDueType();
     }
 
-    function selectMethod(value, htmlText) {
-        document.getElementById('newBillMethod').value = value;
-        document.getElementById('selectedMethodText').innerHTML = htmlText;
+    function selectMethod(key) {
+        document.getElementById('newBillMethod').value = key;
+        const item = methodMap[key];
+        const label = currentLang === 'th' ? item.th : item.en;
+        document.getElementById('selectedMethodText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
         document.getElementById('methodDropdown').classList.remove('open');
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         toggleBankFields();
     }
 
-    function selectBank(value, htmlText) {
-        document.getElementById('newBankName').value = value;
-        document.getElementById('selectedBankText').innerHTML = htmlText;
+    function selectBank(key) {
+        document.getElementById('newBankName').value = key;
+        const item = bankMap[key];
+        document.getElementById('selectedBankText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${item.text}`;
         document.getElementById('bankDropdown').classList.remove('open');
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
-    function selectTxType(value, htmlText) {
-        document.getElementById('inputType').value = value;
-        document.getElementById('selectedTxTypeText').innerHTML = htmlText;
+    function selectTxType(type) {
+        document.getElementById('inputType').value = type;
+        const isExp = type === 'expense';
+        const label = isExp ? (currentLang === 'th' ? 'รายจ่าย' : 'Expense') : (currentLang === 'th' ? 'รายได้เสริม (งานนอก)' : 'Extra Income');
+        const icon = isExp ? 'arrow-down-circle' : 'arrow-up-circle';
+        document.getElementById('selectedTxTypeText').innerHTML = `<i data-lucide="${icon}" size="15"></i> ${label}`;
         document.getElementById('txTypeDropdown').classList.remove('open');
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
         changeCategoryOptions();
     }
 
-    function selectTxCategory(value, htmlText) {
-        document.getElementById('inputCategory').value = value;
-        document.getElementById('selectedTxCatText').innerHTML = htmlText;
+    function selectTxCategory(key) {
+        document.getElementById('inputCategory').value = key;
+        const item = txCatIcons[key] || { icon: 'tag', th: key, en: key };
+        const label = currentLang === 'th' ? item.th : item.en;
+        document.getElementById('selectedTxCatText').innerHTML = `<i data-lucide="${item.icon}" size="15"></i> ${label}`;
         document.getElementById('txCatDropdown').classList.remove('open');
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
-    // ปิด Custom Dropdown เมื่อคลิกส่วนอื่นของหน้าจอ
     window.addEventListener('click', function(e) {
         if (!e.target.closest('.custom-select-wrapper')) {
             document.querySelectorAll('.custom-options').forEach(el => el.classList.remove('open'));
         }
     });
 
+    // Date & Storage Logic with immediate local cache
     const dateObj = new Date();
     let currentViewMonth = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}`;
     const actualCurrentMonth = currentViewMonth;
@@ -644,11 +696,8 @@
             statusGood: "สภาพคล่องดี", statusWarn: "ปานกลาง", statusDanger: "ควรประหยัดเพิ่ม", statusNoSpend: "ยังไม่มีการใช้จ่าย", statusOver: "เกินงบรายวัน!", statusInBudget: "อยู่ในงบ", statusClosed: "ปิดรอบแล้ว",
             modalAddBill: "เพิ่มรายจ่ายประจำใหม่", lblName: "ชื่อรายการ / บริการ", lblCat: "หมวดหมู่", lblInstTot: "จำนวนงวดทั้งหมด (เดือน)", lblInstPaid: "งวดที่จ่ายไปแล้ว", lblDue: "วันที่ครบกำหนดตัดรอบ", lblAmt: "ยอดเงินที่ต้องจ่ายรายเดือน (฿)", lblMethod: "ช่องทางชำระเงิน", lblBank: "เลือกธนาคาร", lblAccName: "ชื่อบัญชี / ผู้รับเงิน", lblAccNo: "เลขที่บัญชี (ตัวอย่าง)", btnSaveBill: "เพิ่มรายจ่ายประจำ",
             modalEditPrice: "แก้ไขราคารายจ่ายประจำ", lblEditName: "ชื่อรายการ", lblEditAmt: "ยอดเงินใหม่ (฿)", btnSavePrice: "บันทึกราคาใหม่",
-            modalTx: "บันทึกรายการรายวัน", lblTxType: "ประเภท", optExp: "รายจ่าย", optInc: "รายได้เสริม (งานนอก)", lblTxAmt: "จำนวนเงิน (฿)", lblTxName: "ชื่อรายการ", lblTxCat: "หมวดหมู่", btnSaveTx: "บันทึก",
-            days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'],
-            catsExpense: { "food": "อาหาร", "grocery": "ของใช้", "transport": "เดินทาง", "shopping": "ช้อปปิ้ง", "others": "อื่นๆ" },
-            catsIncome: { "freelance": "งานนอก 1", "extra": "งานนอก 2", "others": "รายได้อื่นๆ" },
-            fixedCats: { "housing": "ที่พักอาศัย", "device": "ผ่อนอุปกรณ์สื่อสาร", "software": "ซอฟต์แวร์ทำงาน", "work": "อุปกรณ์ทำงาน/สื่อ", "loan": "สินเชื่อ / ผ่อนชำระ", "utility": "สาธารณูปโภค/สื่อสาร", "entertainment": "ความบันเทิง&สตรีมมิ่ง" }
+            modalTx: "บันทึกรายการรายวัน", lblTxType: "ประเภท", lblTxAmt: "จำนวนเงิน (฿)", lblTxName: "ชื่อรายการ", lblTxCat: "หมวดหมู่", btnSaveTx: "บันทึก",
+            days: ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.']
         },
         en: {
             subtitle: "Monthly Budget & Expense Tracker",
@@ -664,18 +713,23 @@
             statusGood: "Good", statusWarn: "Fair", statusDanger: "Save More", statusNoSpend: "No spending", statusOver: "Over budget!", statusInBudget: "In budget", statusClosed: "Month Closed",
             modalAddBill: "Add New Fixed Expense", lblName: "Item Name / Service", lblCat: "Category", lblInstTot: "Total Installments (Months)", lblInstPaid: "Paid Installments", lblDue: "Due Date", lblAmt: "Monthly Amount (฿)", lblMethod: "Payment Method", lblBank: "Select Bank", lblAccName: "Account Name", lblAccNo: "Account No. (Example)", btnSaveBill: "Add Fixed Expense",
             modalEditPrice: "Edit Fixed Expense Price", lblEditName: "Item Name", lblEditAmt: "New Amount (฿)", btnSavePrice: "Save New Price",
-            modalTx: "Add Daily Transaction", lblTxType: "Type", optExp: "Expense", optInc: "Extra Income", lblTxAmt: "Amount (฿)", lblTxName: "Title", lblTxCat: "Category", btnSaveTx: "Save",
-            days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            catsExpense: { "food": "Food", "grocery": "Grocery", "transport": "Transport", "shopping": "Shopping", "others": "Others" },
-            catsIncome: { "freelance": "Freelance", "extra": "Extra Job", "others": "Others" },
-            fixedCats: { "housing": "Housing", "device": "Device Installment", "software": "Software", "work": "Work Tools", "loan": "Loan / Installment", "utility": "Utilities", "entertainment": "Entertainment" }
+            modalTx: "Add Daily Transaction", lblTxType: "Type", lblTxAmt: "Amount (฿)", lblTxName: "Title", lblTxCat: "Category", btnSaveTx: "Save",
+            days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         }
     };
 
     function toggleLanguage() {
         currentLang = currentLang === 'th' ? 'en' : 'th';
         document.getElementById('lang-toggle').innerText = currentLang.toUpperCase();
-        applyTranslations(); updateDashboard(); renderCalendar([]); processBills(); processHistory(); changeCategoryOptions();
+        applyTranslations();
+        updateDashboard();
+        renderCalendar([]);
+        processBills();
+        processHistory();
+        selectCategory(document.getElementById('newBillCat').value);
+        selectDueType(document.getElementById('newBillDueType').value);
+        selectMethod(document.getElementById('newBillMethod').value);
+        selectTxType(document.getElementById('inputType').value);
     }
 
     function applyTranslations() {
@@ -715,7 +769,6 @@
 
         document.getElementById('txt-cal-title').innerHTML = `<i data-lucide="calendar" size="16"></i> ${t.calTitle}`;
 
-        // Modals
         document.getElementById('txt-modal-add-bill').innerText = t.modalAddBill;
         document.getElementById('txt-lbl-name').innerText = t.lblName;
         document.getElementById('txt-lbl-cat').innerText = t.lblCat;
@@ -749,28 +802,61 @@
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
-    const firebaseConfig = { apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", authDomain: "todaypaying-7e8b0.firebaseapp.com", projectId: "todaypaying-7e8b0", storageBucket: "todaypaying-7e8b0.firebasestorage.app", messagingSenderId: "584971063665", appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" };
+    // Firebase Setup with LocalStorage Cache
+    const firebaseConfig = { 
+        apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", 
+        authDomain: "todaypaying-7e8b0.firebaseapp.com", 
+        projectId: "todaypaying-7e8b0", 
+        storageBucket: "todaypaying-7e8b0.firebasestorage.app", 
+        messagingSenderId: "584971063665", 
+        appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" 
+    };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/"); 
 
-    let settingsData = { salary: 17625, daily_target: 150 };
+    let settingsData = JSON.parse(localStorage.getItem('tp_settings')) || { salary: 17625, daily_target: 150 };
+    let globalBillsData = JSON.parse(localStorage.getItem('tp_bills')) || null;
+    let globalTxData = JSON.parse(localStorage.getItem(`tp_tx_${currentViewMonth}`)) || null;
+
     let totalExtraIncome = 0;
     let totalFixedPaid = 0, totalFixedUnpaid = 0, totalVariableExpense = 0;
     let spentToday = 0; 
     let totalBills = 0, paidBills = 0;
-    let globalBillsData = null, globalTxData = null, billsForCalendar = [];
-    let activeTxListener = null; let myChart = null; let trendChart = null;
+    let billsForCalendar = [];
+    let activeTxListener = null; 
+    let myChart = null; 
+    let trendChart = null;
 
+    // Realtime listeners
     db.ref('todaypaying/settings').on('value', (snap) => {
-        if(snap.val()) settingsData = { ...settingsData, ...snap.val() };
+        if(snap.val()) {
+            settingsData = { ...settingsData, ...snap.val() };
+            localStorage.setItem('tp_settings', JSON.stringify(settingsData));
+        }
         updateDashboard();
     });
 
     function loadDataForMonth() {
-        db.ref('todaypaying/fixed_expenses').on('value', (snap) => { globalBillsData = snap.val(); processBills(); });
+        globalTxData = JSON.parse(localStorage.getItem(`tp_tx_${currentViewMonth}`)) || null;
+        processHistory();
+        
+        db.ref('todaypaying/fixed_expenses').on('value', (snap) => { 
+            if (snap.val()) {
+                globalBillsData = snap.val();
+                localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
+            }
+            processBills(); 
+        });
+
         if (activeTxListener) { db.ref(activeTxListener).off(); }
         activeTxListener = `todaypaying/transactions/${currentViewMonth}`;
-        db.ref(activeTxListener).on('value', (snap) => { globalTxData = snap.val(); processHistory(); });
+        db.ref(activeTxListener).on('value', (snap) => { 
+            if (snap.val()) {
+                globalTxData = snap.val();
+                localStorage.setItem(`tp_tx_${currentViewMonth}`, JSON.stringify(globalTxData));
+            }
+            processHistory(); 
+        });
     }
 
     function getLastDayOfMonth(yearMonthStr) {
@@ -779,16 +865,17 @@
     }
 
     function processBills() {
-        const container = document.getElementById('fixed-expenses-container'); container.innerHTML = '';
-        const debtBody = document.getElementById('debt-table-body'); debtBody.innerHTML = '';
+        const container = document.getElementById('fixed-expenses-container'); 
+        container.innerHTML = '';
+        const debtBody = document.getElementById('debt-table-body'); 
+        debtBody.innerHTML = '';
         
         totalFixedPaid = 0; totalFixedUnpaid = 0; totalBills = 0; paidBills = 0; billsForCalendar = [];
         const isPastMonth = currentViewMonth !== actualCurrentMonth;
         const today = new Date().getDate(); 
         const maxDaysInCurrentMonth = getLastDayOfMonth(currentViewMonth);
-        const t = translations[currentLang];
 
-        if (globalBillsData) {
+        if (globalBillsData && Object.keys(globalBillsData).length > 0) {
             Object.keys(globalBillsData).forEach(key => {
                 const b = globalBillsData[key];
                 const amt = b.amount || 0;
@@ -816,7 +903,8 @@
                     else dueText = `<span style="color:var(--text-light); font-weight:400;">${currentLang==='th'?'วันที่ ':'Day '}${dueDay}</span>`;
                 }
                 
-                const catName = t.fixedCats[b.category] || b.category || 'General';
+                const catObj = categoryMap[b.category] || { th: b.category, en: b.category };
+                const catName = currentLang === 'th' ? catObj.th : catObj.en;
                 const checkClass = isPaid ? 'check-btn checked' : 'check-btn';
 
                 let paymentDisplay = b.payment_method || 'โอน';
@@ -876,34 +964,36 @@
 
     function processHistory() {
         totalVariableExpense = 0; spentToday = 0; totalExtraIncome = 0;
-        const historyContainer = document.getElementById('history-container'); historyContainer.innerHTML = '';
-        const extraIncomeContainer = document.getElementById('extra-income-container'); extraIncomeContainer.innerHTML = '';
+        const historyContainer = document.getElementById('history-container'); 
+        historyContainer.innerHTML = '';
+        const extraIncomeContainer = document.getElementById('extra-income-container'); 
+        extraIncomeContainer.innerHTML = '';
         
         let catTotals = {}; 
         let dailyTrend = {}; 
         const isPastMonth = currentViewMonth !== actualCurrentMonth;
         const todayStr = new Date().toISOString().split('T')[0];
-        const t = translations[currentLang];
 
-        if(globalTxData){
+        if(globalTxData && Object.keys(globalTxData).length > 0){
             const txArray = Object.keys(globalTxData).map(key => ({ key, ...globalTxData[key] }));
             
             txArray.forEach(tx => {
                 const amt = tx.amount || 0;
+                const catObj = txCatIcons[tx.category] || { th: tx.category, en: tx.category };
+                const catName = currentLang === 'th' ? catObj.th : catObj.en;
+
                 if(tx.type === 'income') {
                     totalExtraIncome += amt;
-                    const catName = t.catsIncome[tx.category] || tx.category;
                     extraIncomeContainer.innerHTML += `
                     <div class="item-card" style="margin-top:10px; border-left: 4px solid var(--primary-light); padding:10px 15px;">
                         <div><h4 style="font-size:13px;">${catName}</h4><p style="color:var(--text-light); font-weight:300;">${tx.name}</p></div>
-                        <div style="display:flex; align-items:center; gap:10px;"><div style="font-weight:600;">฿${amt.toLocaleString()}</div><button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button></div></div>`;
+                        <div style="display:flex; align-items:center; gap:10px;"><div style="font-weight:600;">฿${amt.toLocaleString()}</div><button class="del-btn" onclick="deleteTx('${tx.key}')"><i data-lucide="trash-2" size="14"></i></button></div></div>`;
                 } 
                 else if (tx.type === 'expense') {
                     totalVariableExpense += amt; 
                     if (tx.date === todayStr && !isPastMonth) spentToday += amt;
                     if(tx.date) dailyTrend[tx.date] = (dailyTrend[tx.date] || 0) + amt;
                     
-                    const catName = t.catsExpense[tx.category] || tx.category;
                     catTotals[catName] = (catTotals[catName] || 0) + amt;
                 }
             });
@@ -911,25 +1001,29 @@
             [...txArray].reverse().forEach(tx => {
                 if(tx.type === 'expense') {
                     const amt = tx.amount || 0;
-                    const catName = t.catsExpense[tx.category] || tx.category;
+                    const catObj = txCatIcons[tx.category] || { th: tx.category, en: tx.category };
+                    const catName = currentLang === 'th' ? catObj.th : catObj.en;
+
                     historyContainer.innerHTML += `
                     <div class="item-card">
                         <div><div class="item-info"><h4>${tx.name}</h4><p>${catName} • ${tx.date}</p></div></div>
-                        <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:600;">-฿${amt.toLocaleString()}</span><button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button></div>
+                        <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:600;">-฿${amt.toLocaleString()}</span><button class="del-btn" onclick="deleteTx('${tx.key}')"><i data-lucide="trash-2" size="14"></i></button></div>
                     </div>`;
                 }
             });
 
             updateChartAndTable(catTotals, dailyTrend);
         } else {
-            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">${currentLang==='th'?'ไม่มีประวัติรายวัน':'No history'}</p>`; updateChartAndTable({}, {});
+            historyContainer.innerHTML = `<p style="text-align:center; font-size: 13px; color: gray;">${currentLang==='th'?'ไม่มีประวัติรายวัน':'No history'}</p>`; 
+            updateChartAndTable({}, {});
         }
-        lucide.createIcons({ attrs: { width: '1em', height: '1em' } }); updateDashboard();
+        lucide.createIcons({ attrs: { width: '1em', height: '1em' } }); 
+        updateDashboard();
     }
 
     function updateDashboard() {
-        document.getElementById('ui-salary-val').innerText = settingsData.salary.toLocaleString();
-        const totalIncome = settingsData.salary + totalExtraIncome;
+        document.getElementById('ui-salary-val').innerText = (settingsData.salary || 0).toLocaleString();
+        const totalIncome = (settingsData.salary || 0) + totalExtraIncome;
         document.getElementById('ui-total-income').innerText = `฿${totalIncome.toLocaleString()}`;
 
         const totalFixedExpenses = totalFixedPaid + totalFixedUnpaid;
@@ -938,7 +1032,7 @@
         document.getElementById('ui-overview-income').innerText = `฿${totalIncome.toLocaleString()}`;
         document.getElementById('ui-overview-fixed').innerText = `฿${totalFixedExpenses.toLocaleString()}`;
         document.getElementById('ui-overview-savings').innerText = `฿${netSavings.toLocaleString()}`;
-        document.getElementById('ui-overview-target').innerText = settingsData.daily_target;
+        document.getElementById('ui-overview-target').innerText = settingsData.daily_target || 150;
 
         let runwayDays = 0;
         if(settingsData.daily_target > 0) runwayDays = netSavings / settingsData.daily_target;
@@ -957,8 +1051,8 @@
         const spendStatus = document.getElementById('ui-spent-status');
         if (currentViewMonth !== actualCurrentMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusClosed}</span>`; }
         else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusNoSpend}</span>`; }
-        else if (spentToday > settingsData.daily_target) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">${t.statusOver}</span>`; }
-        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">อยู่ในงบ</span>`; }
+        else if (spentToday > (settingsData.daily_target || 150)) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">${t.statusOver}</span>`; }
+        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">${t.statusInBudget}</span>`; }
 
         document.getElementById('ui-bill-tracker').innerText = `${paidBills}/${totalBills}`;
         document.getElementById('ui-unpaid-amount').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
@@ -988,7 +1082,8 @@
             });
         }
 
-        const tableBody = document.getElementById('breakdown-table-body'); tableBody.innerHTML = '';
+        const tableBody = document.getElementById('breakdown-table-body'); 
+        tableBody.innerHTML = '';
         let totalVal = values.reduce((a, b) => a + b, 0);
         labels.forEach((label, i) => {
             tableBody.innerHTML += `<tr><td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${colors[i%colors.length]}; margin-right:8px;"></span>${label}</td><td style="text-align:right;">฿${values[i].toLocaleString()}</td></tr>`;
@@ -1049,14 +1144,17 @@
         e.preventDefault();
         const key = document.getElementById('settingKey').value;
         const val = Number(document.getElementById('settingValue').value);
-        db.ref(`todaypaying/settings/${key}`).set(val).then(()=>{ closeModal('settingsModal'); }).catch(err => alert("Error: " + err));
+        settingsData[key] = val;
+        localStorage.setItem('tp_settings', JSON.stringify(settingsData));
+        updateDashboard();
+        closeModal('settingsModal');
+        db.ref(`todaypaying/settings/${key}`).set(val);
     }
 
     function toggleInstallmentFields() {
         const cat = document.getElementById('newBillCat').value;
         const fields = document.getElementById('installmentFields');
-        if(cat === 'loan') fields.style.display = 'block';
-        else fields.style.display = 'none';
+        fields.style.display = (cat === 'loan') ? 'block' : 'none';
     }
 
     function toggleDueType() {
@@ -1072,23 +1170,21 @@
     function toggleBankFields() {
         const method = document.getElementById('newBillMethod').value;
         const bankFields = document.getElementById('bankAccountFields');
-        if(method.includes('แอปธนาคาร')) {
-            bankFields.style.display = 'block';
-        } else {
-            bankFields.style.display = 'none';
-        }
+        bankFields.style.display = method.includes('แอปธนาคาร') ? 'block' : 'none';
     }
 
     function openAddBillModal() { 
-        document.getElementById('installmentFields').style.display = 'none';
-        document.getElementById('bankAccountFields').style.display = 'block';
-        document.getElementById('newBillDueDay').style.display = 'block';
+        document.getElementById('addBillForm').reset();
+        selectCategory('entertainment');
+        selectDueType('custom');
+        selectMethod('แอปธนาคาร / โอนบิล');
+        selectBank('ธ.ไทยพาณิชย์ (SCB)');
         document.getElementById('addBillModal').classList.add('active'); 
     }
 
     function saveNewBill(e) {
         e.preventDefault();
-        const name = document.getElementById('newBillName').value;
+        const name = document.getElementById('newBillName').value.trim();
         const category = document.getElementById('newBillCat').value;
         const dueType = document.getElementById('newBillDueType').value;
         
@@ -1097,7 +1193,7 @@
         else if(dueType === 'first_day') dueDate = 'first_day';
         else dueDate = Number(document.getElementById('newBillDueDay').value) || 30;
 
-        const amount = Number(document.getElementById('newBillAmount').value);
+        const amount = Number(document.getElementById('newBillAmount').value) || 0;
         const payment_method = document.getElementById('newBillMethod').value;
         
         let billData = { name, category, dueDate, amount, payment_method, status: 'unpaid' };
@@ -1112,14 +1208,25 @@
             billData.installment_paid = Number(document.getElementById('newInstallmentPaid').value) || 0;
         }
 
-        db.ref('todaypaying/fixed_expenses').push(billData).then(() => {
-            closeModal('addBillModal');
-            document.getElementById('addBillForm').reset();
-        }).catch(err => alert("Error: " + err));
+        // Generate key and update locally immediately
+        const newKey = 'bill_' + Date.now();
+        if(!globalBillsData) globalBillsData = {};
+        globalBillsData[newKey] = billData;
+        localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
+        processBills();
+        closeModal('addBillModal');
+
+        // Sync to Firebase
+        db.ref('todaypaying/fixed_expenses').push(billData);
     }
 
     function deleteFixedBill(key) {
         if(confirm(currentLang==='th'?"ต้องการลบรายจ่ายประจำรายการนี้ใช่หรือไม่?":"Delete this fixed expense?")) {
+            if(globalBillsData && globalBillsData[key]) {
+                delete globalBillsData[key];
+                localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
+                processBills();
+            }
             db.ref(`todaypaying/fixed_expenses/${key}`).remove();
         }
     }
@@ -1135,19 +1242,29 @@
         e.preventDefault();
         const key = document.getElementById('editBillKey').value;
         const newAmount = Number(document.getElementById('editBillAmount').value);
-        db.ref(`todaypaying/fixed_expenses/${key}`).update({ amount: newAmount }).then(() => {
-            closeModal('editBillModal');
-        }).catch(err => alert("Error: " + err));
+        if(globalBillsData && globalBillsData[key]) {
+            globalBillsData[key].amount = newAmount;
+            localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
+            processBills();
+        }
+        closeModal('editBillModal');
+        db.ref(`todaypaying/fixed_expenses/${key}`).update({ amount: newAmount });
     }
 
     function toggleBillStatus(billKey, currentStatus) {
         if(currentViewMonth !== actualCurrentMonth) return;
-        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ status: currentStatus === 'paid' ? 'unpaid' : 'paid' });
+        const nextStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
+        if(globalBillsData && globalBillsData[billKey]) {
+            globalBillsData[billKey].status = nextStatus;
+            localStorage.setItem('tp_bills', JSON.stringify(globalBillsData));
+            processBills();
+        }
+        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ status: nextStatus });
     }
 
     function openTxModal(defaultType = 'expense') { 
-        selectTxType(defaultType, defaultType === 'expense' ? '<i data-lucide=\'arrow-down-circle\' size=\'15\'></i> ' + (currentLang==='th'?'รายจ่าย':'Expense') : '<i data-lucide=\'arrow-up-circle\' size=\'15\'></i> ' + (currentLang==='th'?'รายได้เสริม (งานนอก)':'Extra Income'));
-        changeCategoryOptions();
+        document.getElementById('txForm').reset();
+        selectTxType(defaultType);
         document.getElementById('txModal').classList.add('active'); 
     }
     
@@ -1155,32 +1272,52 @@
         const type = document.getElementById('inputType').value;
         const container = document.getElementById('txCatDropdown');
         container.innerHTML = '';
-        const cats = type === 'income' ? translations[currentLang].catsIncome : translations[currentLang].catsExpense;
-        const catIcons = {
-            "food": "utensils", "grocery": "shopping-cart", "transport": "bus", "shopping": "shopping-bag", "others": "more-horizontal",
-            "freelance": "briefcase", "extra": "zap"
-        };
         
-        let firstKey = Object.keys(cats)[0];
-        Object.keys(cats).forEach((key, idx) => {
-            let iconName = catIcons[key] || "tag";
-            let labelHtml = `<i data-lucide="${iconName}" size="15"></i> ${cats[key]}`;
-            container.innerHTML += `<div class="custom-option" onclick="selectTxCategory('${key}', '<i data-lucide=\\'${iconName}\\' size=\\'15\\'></i> ${cats[key]}')">${labelHtml}</div>`;
-            if (idx === 0) {
-                selectTxCategory(key, labelHtml);
-            }
+        const catKeys = type === 'income' ? ['freelance', 'extra'] : ['food', 'grocery', 'transport', 'shopping', 'others'];
+        catKeys.forEach((key, idx) => {
+            const item = txCatIcons[key];
+            const label = currentLang === 'th' ? item.th : item.en;
+            container.innerHTML += `<div class="custom-option" onclick="selectTxCategory('${key}')"><i data-lucide="${item.icon}" size="15"></i> ${label}</div>`;
+            if(idx === 0) selectTxCategory(key);
         });
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
     function submitTransaction(e) {
         e.preventDefault(); 
-        const type = document.getElementById('inputType').value, amt = Number(document.getElementById('inputAmount').value), name = document.getElementById('inputName').value, cat = document.getElementById('inputCategory').value, dateStr = new Date().toISOString().split('T')[0];
-        db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({ type: type, amount: amt, name: name, category: cat, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => { 
-            closeModal('txModal'); document.getElementById('txForm').reset();
-        }).catch(err => alert("Error: " + err));
+        const type = document.getElementById('inputType').value;
+        const amt = Number(document.getElementById('inputAmount').value) || 0;
+        const name = document.getElementById('inputName').value.trim();
+        const cat = document.getElementById('inputCategory').value;
+        const dateStr = new Date().toISOString().split('T')[0];
+
+        const newTx = { type, amount: amt, name, category: cat, date: dateStr, timestamp: Date.now() };
+        const txKey = 'tx_' + Date.now();
+
+        if(!globalTxData) globalTxData = {};
+        globalTxData[txKey] = newTx;
+        localStorage.setItem(`tp_tx_${actualCurrentMonth}`, JSON.stringify(globalTxData));
+        
+        processHistory();
+        closeModal('txModal');
+
+        // Sync to Firebase
+        db.ref(`todaypaying/transactions/${actualCurrentMonth}`).push({
+            ...newTx,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
     }
 
+    function deleteTx(key) {
+        if(globalTxData && globalTxData[key]) {
+            delete globalTxData[key];
+            localStorage.setItem(`tp_tx_${currentViewMonth}`, JSON.stringify(globalTxData));
+            processHistory();
+        }
+        db.ref(`${activeTxListener}/${key}`).remove();
+    }
+
+    // Startup
     initMonthSelector(); 
     applyTranslations(); 
     loadDataForMonth();
