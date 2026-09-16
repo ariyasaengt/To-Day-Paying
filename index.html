@@ -174,7 +174,7 @@
         <span id="ui-spent-status">สถานะ: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
-    <!-- กราฟแสดงการใช้จ่ายรายเดือน (Trend Chart) -->
+    <!-- กราฟแนวโน้ม -->
     <div class="panel">
         <div class="panel-header">
             <h3><i data-lucide="trending-up"></i> กราฟแนวโน้มการใช้จ่ายรายวัน (Monthly Spending Trend)</h3>
@@ -252,14 +252,14 @@
     <i data-lucide="plus" size="24"></i>
 </div>
 
-<!-- Modal 1: ตั้งค่าเงินเดือน -->
+<!-- Modal 1 -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2 id="settingsModalTitle">ตั้งค่า</h2>
             <button class="close-btn" onclick="closeModal('settingsModal')"><i data-lucide="x" size="20"></i></button>
         </div>
-        <form onsubmit="saveSettings(event)">
+        <form id="settingsForm" onsubmit="saveSettings(event)">
             <input type="hidden" id="settingKey">
             <div class="form-group">
                 <label id="settingLabel">จำนวนเงิน (฿)</label>
@@ -270,14 +270,14 @@
     </div>
 </div>
 
-<!-- Modal 2: เพิ่มรายจ่ายประจำ (เปลี่ยนช่องวันที่เป็น Date Picker หรือเลือกวัน) -->
+<!-- Modal 2: เพิ่มรายจ่ายประจำ -->
 <div class="modal-overlay" id="addBillModal">
     <div class="modal-content">
         <div class="modal-header">
             <h2>เพิ่มรายจ่ายประจำใหม่</h2>
             <button class="close-btn" onclick="closeModal('addBillModal')"><i data-lucide="x" size="20"></i></button>
         </div>
-        <form onsubmit="saveNewBill(event)">
+        <form id="addBillForm" onsubmit="saveNewBill(event)">
             <div class="form-group">
                 <label>ชื่อรายการ / บริการ</label>
                 <input type="text" id="newBillName" placeholder="เช่น ค่าเน็ตบ้าน, Netflix" required>
@@ -295,7 +295,6 @@
             </div>
             <div class="form-group">
                 <label>วันที่ครบกำหนดตัดรอบ (เลือกวันที่)</label>
-                <!-- เปลี่ยนเป็น type="date" หรือช่องเลือกวันที่แบบปฏิทิน -->
                 <input type="date" id="newBillDue" required>
             </div>
             <div class="form-group">
@@ -318,7 +317,7 @@
             <h2>แก้ไขราคารายจ่ายประจำ</h2>
             <button class="close-btn" onclick="closeModal('editBillModal')"><i data-lucide="x" size="20"></i></button>
         </div>
-        <form onsubmit="saveBillPrice(event)">
+        <form id="editBillForm" onsubmit="saveBillPrice(event)">
             <input type="hidden" id="editBillKey">
             <div class="form-group">
                 <label>ชื่อรายการ</label>
@@ -429,7 +428,7 @@
         lucide.createIcons({ attrs: { width: '1em', height: '1em' } });
     }
 
-    const firebaseConfig = { apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", authDomain: "todaypaying-7e8b0.firebaseapp.com", projectId: "todaypaying-7e8b0", storageBucket: "todaypaying-7e8b0.firebasestorage.app", messagingSenderId: "584971063665", appID: "1:584971063665:web:3a42354f8136e5c4ebe6d0" };
+    const firebaseConfig = { apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8", authDomain: "todaypaying-7e8b0.firebaseapp.com", projectId: "todaypaying-7e8b0", storageBucket: "todaypaying-7e8b0.firebasestorage.app", messagingSenderId: "584971063665", appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/"); 
 
@@ -472,7 +471,6 @@
                 totalBills++;
                 if(isPaid) { totalFixedPaid += amt; paidBills++; } else { totalFixedUnpaid += amt; }
                 
-                // ดึงวันจาก dueDate (รองรับทั้งแบบตัวเลขเดิมและแบบวันที่ YYYY-MM-DD)
                 let dueDay = b.dueDate;
                 if(typeof dueDay === 'string' && dueDay.includes('-')) {
                     dueDay = new Date(dueDay).getDate();
@@ -537,7 +535,7 @@
         const extraIncomeContainer = document.getElementById('extra-income-container'); extraIncomeContainer.innerHTML = '';
         
         let catTotals = {}; 
-        let dailyTrend = {}; // สำหรับกราฟแนวโน้มรายเดือน
+        let dailyTrend = {}; 
         const isPastMonth = currentViewMonth !== actualCurrentMonth;
         const todayStr = new Date().toISOString().split('T')[0];
         const t = translations[currentLang];
@@ -547,41 +545,32 @@
             
             txArray.forEach(tx => {
                 const amt = tx.amount || 0;
-                const delBtn = isPastMonth ? '' : `<button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button>`;
-
                 if(tx.type === 'income') {
                     totalExtraIncome += amt;
                     const catName = t.catsIncome[tx.category] || tx.category;
                     extraIncomeContainer.innerHTML += `
                     <div class="item-card" style="margin-top:10px; border-left: 4px solid var(--primary-light); padding:10px 15px;">
                         <div><h4 style="font-size:13px;">${catName}</h4><p style="color:var(--text-light); font-weight:300;">${tx.name}</p></div>
-                        <div style="display:flex; align-items:center; gap:10px;"><div style="font-weight:600;">฿${amt.toLocaleString()}</div>${delBtn}</div>
-                    </div>`;
+                        <div style="display:flex; align-items:center; gap:10px;"><div style="font-weight:600;">฿${amt.toLocaleString()}</div><button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button></div></div>`;
                 } 
                 else if (tx.type === 'expense') {
                     totalVariableExpense += amt; 
                     if (tx.date === todayStr && !isPastMonth) spentToday += amt;
+                    if(tx.date) dailyTrend[tx.date] = (dailyTrend[tx.date] || 0) + amt;
                     
-                    // สะสมยอดตามวันสำหรับกราฟ Trend
-                    if(tx.date) {
-                        dailyTrend[tx.date] = (dailyTrend[tx.date] || 0) + amt;
-                    }
-
                     const catName = t.catsExpense[tx.category] || tx.category;
                     catTotals[catName] = (catTotals[catName] || 0) + amt;
                 }
             });
 
-            // Render ประวัติแบบเรียงจากใหม่ไปเก่า
             [...txArray].reverse().forEach(tx => {
                 if(tx.type === 'expense') {
                     const amt = tx.amount || 0;
-                    const delBtn = isPastMonth ? '' : `<button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button>`;
                     const catName = t.catsExpense[tx.category] || tx.category;
                     historyContainer.innerHTML += `
                     <div class="item-card">
                         <div><div class="item-info"><h4>${tx.name}</h4><p>${catName} • ${tx.date}</p></div></div>
-                        <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:600;">-฿${amt.toLocaleString()}</span>${delBtn}</div>
+                        <div style="display:flex; align-items:center; gap:10px;"><span style="font-weight:600;">-฿${amt.toLocaleString()}</span><button class="del-btn" onclick="db.ref('${activeTxListener}/${tx.key}').remove()"><i data-lucide="trash-2" size="14"></i></button></div>
                     </div>`;
                 }
             });
@@ -630,7 +619,6 @@
     }
 
     function updateChartAndTable(catData, trendData) {
-        // 1. โดนัทชาร์ตสัดส่วน
         const ctx = document.getElementById('expenseChart').getContext('2d');
         const labels = Object.keys(catData); const values = Object.values(catData);
         const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
@@ -638,7 +626,6 @@
         if(myChart) { myChart.data.labels = labels; myChart.data.datasets[0].data = values; myChart.update(); } 
         else { myChart = new Chart(ctx, { type: 'doughnut', data: { labels: labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '70%' } }); }
 
-        // 2. กราฟเส้นแนวโน้มรายเดือน (Trend Chart)
         const tCtx = document.getElementById('trendChart').getContext('2d');
         const sortedDates = Object.keys(trendData || {}).sort();
         const trendValues = sortedDates.map(d => trendData[d]);
@@ -650,23 +637,8 @@
         } else {
             trendChart = new Chart(tCtx, {
                 type: 'line',
-                data: {
-                    labels: sortedDates,
-                    datasets: [{
-                        label: 'รายจ่าย (บาท)',
-                        data: trendValues,
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true } }
-                }
+                data: { labels: sortedDates, datasets: [{ label: 'รายจ่าย (บาท)', data: trendValues, borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.1)', fill: true, tension: 0.3 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
             });
         }
 
@@ -739,8 +711,8 @@
         e.preventDefault();
         const name = document.getElementById('newBillName').value;
         const category = document.getElementById('newBillCat').value;
-        const dueDateVal = document.getElementById('newBillDue').value; // ได้ค่ามาเป็น "2026-09-21"
-        const dueDate = new Date(dueDateVal).getDate(); // ดึงเฉพาะวันที่ (1-31)
+        const dueDateVal = document.getElementById('newBillDue').value; 
+        const dueDate = new Date(dueDateVal).getDate(); 
         const amount = Number(document.getElementById('newBillAmount').value);
         const payment_method = document.getElementById('newBillMethod').value || 'โอนจ่าย';
 
@@ -748,7 +720,7 @@
             name, category, dueDate, amount, payment_method, status: 'unpaid'
         }).then(() => {
             closeModal('addBillModal');
-            document.getElementById('addBillModal').querySelector('form').reset();
+            document.getElementById('addBillForm').reset();
         }).catch(err => alert("เพิ่มไม่สำเร็จ: " + err));
     }
 
