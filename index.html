@@ -5,29 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todaypaying - Budget Buddy</title>
     
-    <!-- โหลด Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- โหลด Firebase SDK v9 (Compat) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* --- ตัวแปรสีและโครงสร้างหลัก --- */
         :root {
             --bg-color: #f4f6fc; --primary: #8a78ff; --primary-light: #d8d4ff;
             --text-dark: #2d3142; --text-light: #9094a6; --card-bg: #ffffff;
             --success: #34d399; --danger: #ef4444;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: #e5e5e5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        .mobile-app { width: 100%; max-width: 400px; height: 100vh; background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg-color) 30%); position: relative; box-sizing: border-box; display: flex; flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,0.1); overflow: hidden;}
-        @media (min-width: 480px) { .mobile-app { height: 85vh; max-height: 850px; border-radius: 40px; border: 8px solid #fff; } }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--bg-color); 
+            margin: 0; display: flex; justify-content: center; 
+            min-height: 100vh;
+        }
+        
+        .mobile-app { 
+            width: 100%; 
+            background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg-color) 30%); 
+            position: relative; box-sizing: border-box; 
+            display: flex; flex-direction: column;
+            min-height: 100vh;
+        }
         
         .content-scroll { flex: 1; overflow-y: auto; padding: 30px 20px 100px 20px; }
         .content-scroll::-webkit-scrollbar { width: 0px; background: transparent; }
 
-        /* --- สไตล์ UI --- */
+        /* --- ปรับแต่งสำหรับหน้าจอคอมพิวเตอร์ (Desktop Layout) --- */
+        @media (min-width: 768px) {
+            body { align-items: center; background-color: #e5e5e5; }
+            .mobile-app { 
+                max-width: 1000px; min-height: 80vh; height: 850px; 
+                border-radius: 40px; border: 8px solid #fff; 
+                box-shadow: 0 0 50px rgba(0,0,0,0.1); 
+                background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-color) 40%);
+                padding: 40px; 
+                display: grid; grid-template-columns: 1fr 1fr; gap: 40px; 
+                align-items: start; overflow: hidden;
+            }
+            .content-scroll { padding: 0; overflow: visible; display: contents; }
+            .left-panel { display: flex; flex-direction: column; gap: 20px; }
+            .right-panel { 
+                display: flex; flex-direction: column; height: 100%;
+                background: white; border-radius: 30px; padding: 30px; 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            }
+            .header { grid-column: 1 / -1; margin-bottom: 10px; }
+            .bottom-nav { display: none !important; } /* ซ่อนเมนูมือถือเมื่ออยู่บนคอม */
+            .desktop-add-btn { 
+                display: flex !important; background: var(--text-dark); color: white; 
+                border: none; width: 36px; height: 36px; border-radius: 50%; 
+                justify-content: center; align-items: center; cursor: pointer; 
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            }
+            .expense-list { max-height: 500px; overflow-y: auto; padding-right: 10px; }
+            .expense-list::-webkit-scrollbar { width: 6px; }
+            .expense-list::-webkit-scrollbar-thumb { background: #dcdcdc; border-radius: 10px; }
+        }
+
+        /* --- สไตล์ UI ทั่วไป --- */
+        .desktop-add-btn { display: none; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
         .header h1 { margin: 0; font-size: 24px; color: var(--text-dark); }
         .header p { margin: 5px 0 0; font-size: 14px; color: var(--text-light); }
@@ -52,25 +92,17 @@
         .check-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #e2e8f0; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s;}
         .check-btn.checked { background: var(--success); border-color: var(--success); color: white; }
 
-        .bottom-nav { position: absolute; bottom: 20px; left: 20px; right: 20px; background: white; border-radius: 25px; height: 65px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.08); z-index: 10; }
+        .bottom-nav { position: fixed; bottom: 20px; left: 20px; right: 20px; background: white; border-radius: 25px; height: 65px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.08); z-index: 10; }
         .nav-item { color: var(--text-light); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: color 0.3s;}
         .nav-item.active { color: var(--primary); }
         .add-btn { background: var(--text-dark); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; position: relative; top: -15px; box-shadow: 0 10px 20px rgba(45,49,66,0.3); cursor: pointer; transition: transform 0.2s; }
         .add-btn:hover { transform: scale(1.05); }
 
-        /* --- สไตล์ Popup Modal สำหรับเพิ่มรายจ่าย --- */
-        .modal-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 100; display: flex;
-            justify-content: center; align-items: flex-end;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
+        /* --- สไตล์ Popup Modal --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: flex; justify-content: center; align-items: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            background: white; width: 100%; border-radius: 30px 30px 0 0;
-            padding: 30px 25px; box-sizing: border-box; transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 30px 30px 0 0; padding: 30px 25px; box-sizing: border-box; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @media (min-width: 768px) { .modal-content { border-radius: 30px; align-self: center; transform: scale(0.9); } .modal-overlay.active .modal-content { transform: scale(1); } }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .modal-header h2 { margin: 0; font-size: 20px; color: var(--text-dark); }
@@ -78,17 +110,9 @@
         
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-light); }
-        .form-group input, .form-group select {
-            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;
-            background: #f9fafb; font-size: 15px; box-sizing: border-box;
-            font-family: inherit;
-        }
+        .form-group input, .form-group select { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f9fafb; font-size: 15px; box-sizing: border-box; font-family: inherit; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
-        .submit-btn {
-            background: var(--primary); color: white; border: none; width: 100%;
-            padding: 16px; border-radius: 15px; font-size: 16px; font-weight: bold;
-            margin-top: 10px; cursor: pointer; box-shadow: 0 10px 20px rgba(138, 120, 255, 0.3);
-        }
+        .submit-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 16px; border-radius: 15px; font-size: 16px; font-weight: bold; margin-top: 10px; cursor: pointer; box-shadow: 0 10px 20px rgba(138, 120, 255, 0.3); }
         .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
     </style>
 </head>
@@ -96,15 +120,16 @@
 
 <div class="mobile-app">
     
-    <div class="content-scroll">
-        <div class="header">
-            <div>
-                <h1>Hey, Ariya</h1>
-                <p>Ready to manage your budget?</p>
-            </div>
-            <div class="profile-btn"><i data-lucide="user"></i></div>
+    <div class="header">
+        <div>
+            <h1>Hey, Ariya</h1>
+            <p>Ready to manage your budget?</p>
         </div>
+        <div class="profile-btn"><i data-lucide="user"></i></div>
+    </div>
 
+    <!-- Panel ฝั่งซ้ายสำหรับ Desktop -->
+    <div class="left-panel">
         <div class="summary-cards">
             <div class="card">
                 <i data-lucide="arrow-down-to-line"></i>
@@ -128,9 +153,14 @@
             <div class="bar-bg"><div class="bar-fill" id="ui-progress"></div></div>
             <p style="margin: 10px 0 0; font-size: 12px; opacity: 0.9;" id="ui-days-left">คำนวณข้อมูล...</p>
         </div>
+    </div>
 
+    <!-- Panel ฝั่งขวาสำหรับ Desktop -->
+    <div class="right-panel">
         <div class="section-title">
             <span>This Month's Bills</span>
+            <!-- ปุ่มบวกที่จะโผล่มาเฉพาะบน Desktop -->
+            <button class="desktop-add-btn" onclick="openModal()"><i data-lucide="plus" size="20"></i></button>
         </div>
         
         <div class="expense-list" id="fixed-expenses-container">
@@ -138,6 +168,7 @@
         </div>
     </div> 
 
+    <!-- เมนูด้านล่างสำหรับมือถือ -->
     <div class="bottom-nav">
         <div class="nav-item active"><i data-lucide="home"></i></div>
         <div class="nav-item"><i data-lucide="pie-chart"></i></div>
@@ -146,7 +177,7 @@
         <div class="nav-item"><i data-lucide="settings"></i></div>
     </div>
 
-    <!-- ส่วนของ Popup Modal -->
+    <!-- Popup Modal -->
     <div class="modal-overlay" id="addModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -188,7 +219,6 @@
 <script>
     lucide.createIcons();
 
-    // 🔴 วาง Firebase Config ที่คุณให้มา
     const firebaseConfig = {
         apiKey: "AIzaSyA81Ez9tZgdiE8pAVxlWhuSnkxfp6AaFU8",
         authDomain: "todaypaying-7e8b0.firebaseapp.com",
@@ -199,17 +229,12 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-    
-    // สำคัญ: ต้องระบุ URL ฐานข้อมูลเพิ่มเติม เนื่องจากมันขาดหายไปจาก Config เบื้องต้น
-    // ลิงก์ฐานข้อมูลของคุณจะชื่อคล้ายๆ แบบนี้ครับ
     const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/"); 
-    // หากมันไม่เชื่อมต่อ ให้ไปดูในหน้า Realtime Database ว่าลิงก์มันคืออะไรแล้วเอามาเปลี่ยนตรงนี้นะครับ
 
     let totalIncome = 0;
     let totalFixed = 0;
-    let totalVariableExpense = 0; // เก็บยอดรายจ่ายอื่นๆ ที่ไม่ใช่ Fixed
+    let totalVariableExpense = 0;
 
-    // ดึงค่าใช้จ่ายคงที่แบบ Realtime
     const fixedExpensesRef = db.ref('todaypaying/fixed_expenses'); 
     
     fixedExpensesRef.on('value', (snapshot) => {
@@ -266,7 +291,6 @@
         }
     });
 
-    // ดึงประวัติรายรับและรายจ่ายทั่วไป
     const txRef = db.ref('todaypaying/transactions');
     txRef.on('value', (snapshot) => {
         totalIncome = 0;
@@ -284,16 +308,14 @@
         updateDashboard();
     });
 
-    // อัปเดตหน้าจอหลัก (รวมรายจ่ายทั่วไปเข้าไปคำนวณแล้ว)
     function updateDashboard() {
         document.getElementById('ui-income').innerText = `฿${totalIncome.toLocaleString()}`;
-        document.getElementById('ui-fixed').innerText = `฿${totalFixed.toLocaleString()}`; // ยังคงโชว์แค่ Fixed
+        document.getElementById('ui-fixed').innerText = `฿${totalFixed.toLocaleString()}`;
 
         const daysInMonth = 30; 
         const today = new Date().getDate();
         const daysLeft = daysInMonth - today + 1;
         
-        // Runway: เงินที่เหลือจากรายรับ หัก Fixed หักรายจ่ายทั่วไป แล้วหารจำนวนวันที่เหลือ
         let runway = 0;
         if(daysLeft > 0) {
             runway = (totalIncome - totalFixed - totalVariableExpense) / daysLeft;
@@ -302,7 +324,6 @@
         document.getElementById('ui-runway').innerText = `${Math.max(0, runway).toLocaleString('en-US', {maximumFractionDigits: 0})} / Day`;
         document.getElementById('ui-days-left').innerText = `เหลืออีก ${daysLeft} วันในเดือนนี้`;
         
-        // Progress Bar
         let totalAllExpense = totalFixed + totalVariableExpense;
         let percent = (totalAllExpense / totalIncome) * 100;
         if(isNaN(percent) || percent === Infinity) percent = 0;
@@ -311,79 +332,46 @@
         document.getElementById('ui-progress').style.width = `${percent}%`; 
     }
 
-    // ฟังก์ชันสำหรับ Modal (Popup)
     const modal = document.getElementById('addModal');
     
-    function openModal() {
-        modal.classList.add('active');
-    }
-    function closeModal() {
-        modal.classList.remove('active');
-        document.getElementById('addForm').reset();
-    }
+    function openModal() { modal.classList.add('active'); }
+    function closeModal() { modal.classList.remove('active'); document.getElementById('addForm').reset(); }
     
     function changeCategoryOptions() {
         const type = document.getElementById('inputType').value;
         const catSelect = document.getElementById('inputCategory');
-        
         if (type === 'income') {
-            catSelect.innerHTML = `
-                <option value="เงินเดือน">เงินเดือน (Salary)</option>
-                <option value="รายได้เสริม">รายได้เสริม (Freelance)</option>
-                <option value="อื่นๆ">อื่นๆ (Others)</option>
-            `;
+            catSelect.innerHTML = `<option value="เงินเดือน">เงินเดือน (Salary)</option><option value="รายได้เสริม">รายได้เสริม (Freelance)</option><option value="อื่นๆ">อื่นๆ (Others)</option>`;
         } else {
-            catSelect.innerHTML = `
-                <option value="อาหาร">อาหาร (Food)</option>
-                <option value="ของใช้">ของใช้ (Grocery)</option>
-                <option value="เดินทาง">เดินทาง (Transport)</option>
-                <option value="ช้อปปิ้ง">ช้อปปิ้ง (Shopping)</option>
-                <option value="อื่นๆ">อื่นๆ (Others)</option>
-            `;
+            catSelect.innerHTML = `<option value="อาหาร">อาหาร (Food)</option><option value="ของใช้">ของใช้ (Grocery)</option><option value="เดินทาง">เดินทาง (Transport)</option><option value="ช้อปปิ้ง">ช้อปปิ้ง (Shopping)</option><option value="อื่นๆ">อื่นๆ (Others)</option>`;
         }
     }
 
-    // ฟังก์ชันบันทึกข้อมูลลง Firebase
     function submitTransaction(event) {
-        event.preventDefault(); // ป้องกันหน้าเว็บรีเฟรช
-        
+        event.preventDefault(); 
         const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.innerText = "กำลังบันทึก...";
+        btn.disabled = true; btn.innerText = "กำลังบันทึก...";
 
         const type = document.getElementById('inputType').value;
         const amount = Number(document.getElementById('inputAmount').value);
         const name = document.getElementById('inputName').value;
         const category = document.getElementById('inputCategory').value;
-        const dateStr = new Date().toISOString().split('T')[0]; // ได้วันที่ปัจจุบันเช่น "2026-09-16"
+        const dateStr = new Date().toISOString().split('T')[0];
 
-        // Push ข้อมูลลง Firebase ภายใต้ก้อน transactions
         db.ref('todaypaying/transactions').push({
-            type: type,
-            amount: amount,
-            name: name,
-            category: category,
-            date: dateStr,
-            timestamp: firebase.database.ServerValue.TIMESTAMP
+            type: type, amount: amount, name: name, category: category, date: dateStr, timestamp: firebase.database.ServerValue.TIMESTAMP
         }).then(() => {
-            // สำเร็จ
-            closeModal();
-            btn.disabled = false;
-            btn.innerText = "บันทึก (Save)";
-            alert("บันทึกข้อมูลเรียลไทม์สำเร็จแล้ว! 🥳");
+            closeModal(); btn.disabled = false; btn.innerText = "บันทึก (Save)";
+            alert("บันทึกข้อมูลสำเร็จ! 🥳");
         }).catch((error) => {
             alert("เกิดข้อผิดพลาด: " + error);
-            btn.disabled = false;
-            btn.innerText = "บันทึก (Save)";
+            btn.disabled = false; btn.innerText = "บันทึก (Save)";
         });
     }
 
-    // ฟังก์ชันเปลี่ยนสถานะบิล
     function toggleBillStatus(billKey, currentStatus) {
         const newStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
-        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({
-            status: newStatus
-        });
+        db.ref(`todaypaying/fixed_expenses/${billKey}`).update({ status: newStatus });
     }
 
 </script>
