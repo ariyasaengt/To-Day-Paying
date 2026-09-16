@@ -244,7 +244,7 @@
 
         <div class="divider"><span>หรือใช้อีเมล</span></div>
 
-        <!-- ฟอร์มเข้าสู่ระบบ (เอา Required ออก ป้องกันบั๊กมือถือ) -->
+        <!-- ฟอร์มเข้าสู่ระบบ -->
         <form id="emailAuthForm">
             <div class="form-group" style="text-align:left;">
                 <label>อีเมล</label>
@@ -434,7 +434,6 @@
                     <input type="text" id="newIncAccNo" placeholder="เช่น 012-3-45678-9">
                 </div>
             </div>
-            <!-- ปุ่มเปลี่ยนเป็น type="button" ป้องกันการพังจากเบราว์เซอร์ -->
             <button type="button" class="submit-btn" onclick="saveNewRecurringIncome()">เพิ่มรายรับประจำ</button>
         </form>
     </div>
@@ -604,13 +603,14 @@
         projectId: "todaypaying-7e8b0", 
         storageBucket: "todaypaying-7e8b0.firebasestorage.app", 
         messagingSenderId: "584971063665", 
-        appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0" 
+        appId: "1:584971063665:web:3a42354f8136e5c4ebe6d0",
+        databaseURL: "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/" 
     };
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
     const auth = firebase.auth();
-    const db = firebase.database(firebase.app(), "https://todaypaying-7e8b0-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    const db = firebase.database(); 
 
     let currentUser = null;
     let isRegisterMode = false;
