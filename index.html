@@ -66,6 +66,18 @@
         .auth-card h2 { margin: 0 0 6px; color: var(--primary); font-size: 22px; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .auth-card p { margin: 0 0 18px; font-size: 13px; color: var(--text-light); }
 
+        .auth-error-msg {
+            display: none;
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
         .auth-tab-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -268,6 +280,8 @@
         <h2><i data-lucide="layout-dashboard"></i> To-Day Paying</h2>
         <p>เข้าสู่ระบบเพื่อจัดการข้อมูลส่วนบุคคลของคุณ</p>
 
+        <div class="auth-error-msg" id="authErrorMsg"></div>
+
         <button class="google-btn" onclick="loginWithGoogle()">
             <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
             เข้าสู่ระบบด้วย Google
@@ -307,9 +321,9 @@
             <div id="phoneStep1">
                 <div class="form-group" style="text-align:left;">
                     <label>เบอร์โทรศัพท์มือถือ</label>
-                    <input type="tel" id="phoneNumber" placeholder="+66812345678 (ใส่รหัสประเทศ)" required>
+                    <input type="tel" id="phoneNumber" placeholder="+66812345678 (ใส่รหัสประเทศ เช่น +66)">
                 </div>
-                <div id="recaptcha-container" style="display: flex; justify-content: center; margin-bottom: 10px;"></div>
+                <div id="recaptcha-container" style="margin-bottom: 10px;"></div>
                 <button type="button" class="submit-btn" onclick="sendPhoneOtp()">ส่งรหัส OTP</button>
             </div>
 
@@ -327,7 +341,6 @@
 
 <!-- 📱 Main Workspace -->
 <div class="app-container" id="appMainSection" style="display: none;">
-    <!-- Header: อัปเดตชื่อแบรนด์เป็น To-Day Paying -->
     <div class="header">
         <div>
             <h1><i data-lucide="layout-dashboard" size="18"></i> To-Day Paying</h1>
@@ -342,7 +355,6 @@
         </div>
     </div>
 
-    <!-- Alert Banner -->
     <div class="alert-banner" id="billAlertBanner">
         <div style="display:flex; align-items:center; gap:8px;">
             <i data-lucide="alert-circle" size="16"></i>
@@ -351,7 +363,6 @@
         <span style="font-weight:600; cursor:pointer;" onclick="scrollToFixedBills()" id="txt-view-bill">ดูรายการ →</span>
     </div>
 
-    <!-- Quick Presets -->
     <div class="quick-presets-bar">
         <div class="preset-chip" onclick="quickLog('กาแฟ / เครื่องดื่ม', 50, 'food')"><i data-lucide="coffee" size="13"></i> กาแฟ 50฿</div>
         <div class="preset-chip" onclick="quickLog('ข้าว / อาหารกลางวัน', 60, 'food')"><i data-lucide="utensils" size="13"></i> ข้าว 60฿</div>
@@ -360,7 +371,6 @@
         <div class="preset-chip" onclick="quickLog('ของใช้ทั่วไป', 100, 'grocery')"><i data-lucide="shopping-bag" size="13"></i> ของใช้ 100฿</div>
     </div>
 
-    <!-- ส่วนที่ 1: สรุปภาพรวม -->
     <div class="top-dashboard-grid">
         <div class="panel" style="margin-bottom:0;">
             <div class="panel-header">
@@ -417,7 +427,6 @@
         </div>
     </div>
 
-    <!-- แถบค่ากินอยู่รายวัน -->
     <div class="daily-tracker-bar">
         <span><i data-lucide="shopping-bag" size="14" style="margin-right:6px;"></i> <span id="txt-daily-track">บันทึกค่ากินอยู่รายวัน</span> <span id="ui-current-month-lbl" style="font-weight:400;"></span></span>
         <span><span id="txt-spent-today">ใช้วันนี้:</span> <span id="ui-spent-today" style="font-size:14px; font-weight:600;">0.00 บ.</span></span>
@@ -425,7 +434,6 @@
         <span id="ui-spent-status">Status: <span style="color:var(--text-light); font-weight:400;">รอข้อมูล</span></span>
     </div>
 
-    <!-- 🎯 Savings Goals -->
     <div class="panel">
         <div class="panel-header">
             <h3 id="txt-goal-title"><i data-lucide="target" size="16"></i> กระปุกเป้าหมายการเงิน (Savings Goal)</h3>
@@ -434,7 +442,6 @@
         <div id="goalsContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
     </div>
 
-    <!-- กราฟแนวโน้ม -->
     <div class="panel">
         <div class="panel-header">
             <h3 id="txt-trend-title"><i data-lucide="trending-up" size="16"></i> กราฟแนวโน้มการใช้จ่ายรายวัน</h3>
@@ -445,7 +452,6 @@
     </div>
 
     <div class="main-dashboard-grid">
-        <!-- รายจ่ายประจำ -->
         <div class="panel" id="fixedBillsSection">
             <div class="panel-header">
                 <h3 id="txt-bills-title"><i data-lucide="calendar-check" size="16"></i> รายการค่าใช้จ่ายประจำ</h3>
@@ -480,7 +486,6 @@
         </div>
     </div>
 
-    <!-- หนี้สิน & ปฏิทิน -->
     <div class="top-dashboard-grid" style="margin-top:15px;">
         <div class="panel">
             <div class="panel-header">
@@ -753,8 +758,22 @@
     let currentUser = null;
     let isRegisterMode = false;
     let confirmationResultGlobal = null;
+    let recaptchaWidgetId = null;
+
+    function showAuthError(msg) {
+        const el = document.getElementById('authErrorMsg');
+        el.innerText = msg;
+        el.style.display = 'block';
+    }
+
+    function clearAuthError() {
+        const el = document.getElementById('authErrorMsg');
+        el.style.display = 'none';
+        el.innerText = '';
+    }
 
     function switchAuthTab(tab) {
+        clearAuthError();
         const isEmail = tab === 'email';
         document.getElementById('emailAuthContainer').style.display = isEmail ? 'block' : 'none';
         document.getElementById('phoneAuthContainer').style.display = isEmail ? 'none' : 'block';
@@ -772,14 +791,17 @@
                 'size': 'normal',
                 'callback': () => {}
             });
-            window.recaptchaVerifier.render();
+            window.recaptchaVerifier.render().then(id => {
+                recaptchaWidgetId = id;
+            });
         }
     }
 
     function sendPhoneOtp() {
+        clearAuthError();
         const phone = document.getElementById('phoneNumber').value.trim();
         if (!phone) {
-            alert("กรุณากรอกเบอร์โทรศัพท์ (เช่น +66812345678)");
+            showAuthError("กรุณากรอกเบอร์โทรศัพท์ (เช่น +66812345678)");
             return;
         }
         initRecaptcha();
@@ -788,31 +810,30 @@
                 confirmationResultGlobal = confirmationResult;
                 document.getElementById('phoneStep1').style.display = 'none';
                 document.getElementById('phoneStep2').style.display = 'block';
-                alert("ส่งรหัสยืนยัน OTP ไปยังเบอร์ " + phone + " แล้ว");
             }).catch((err) => {
-                alert("ส่ง OTP ไม่สำเร็จ: " + err.message);
-                if (window.recaptchaVerifier) {
-                    window.recaptchaVerifier.render().then(widgetId => {
-                        grecaptcha.reset(widgetId);
-                    });
+                showAuthError("ส่ง OTP ไม่สำเร็จ: " + err.message);
+                if (window.grecaptcha && recaptchaWidgetId !== null) {
+                    grecaptcha.reset(recaptchaWidgetId);
                 }
             });
     }
 
     function verifyPhoneOtp() {
+        clearAuthError();
         const code = document.getElementById('verificationCode').value.trim();
         if (!code) {
-            alert("กรุณากรอกรหัส OTP 6 หลัก");
+            showAuthError("กรุณากรอกรหัส OTP 6 หลัก");
             return;
         }
         if (confirmationResultGlobal) {
             confirmationResultGlobal.confirm(code).catch(err => {
-                alert("รหัส OTP ไม่ถูกต้อง: " + err.message);
+                showAuthError("รหัส OTP ไม่ถูกต้องหรือหมดอายุ: " + err.message);
             });
         }
     }
 
     function resetPhoneAuth() {
+        clearAuthError();
         document.getElementById('phoneStep1').style.display = 'block';
         document.getElementById('phoneStep2').style.display = 'none';
     }
@@ -834,6 +855,7 @@
     });
 
     function toggleAuthMode() {
+        clearAuthError();
         isRegisterMode = !isRegisterMode;
         document.getElementById('authSubmitBtn').innerText = isRegisterMode ? 'สมัครสมาชิก' : 'เข้าสู่ระบบ';
         document.getElementById('authToggleText').innerText = isRegisterMode ? 'มีบัญชีอยู่แล้วใช่หรือไม่?' : 'ยังไม่มีบัญชีใช่หรือไม่?';
@@ -842,19 +864,27 @@
 
     function handleEmailAuth(e) {
         e.preventDefault();
-        const email = document.getElementById('authEmail').value;
+        clearAuthError();
+        const email = document.getElementById('authEmail').value.trim();
         const pass = document.getElementById('authPassword').value;
 
         if (isRegisterMode) {
-            auth.createUserWithEmailAndPassword(email, pass).catch(err => alert("สมัครสมาชิกไม่สำเร็จ: " + err.message));
+            auth.createUserWithEmailAndPassword(email, pass).catch(err => {
+                showAuthError("สมัครสมาชิกไม่สำเร็จ: " + err.message);
+            });
         } else {
-            auth.signInWithEmailAndPassword(email, pass).catch(err => alert("เข้าสู่ระบบไม่สำเร็จ: " + err.message));
+            auth.signInWithEmailAndPassword(email, pass).catch(err => {
+                showAuthError("เข้าสู่ระบบไม่สำเร็จ: " + err.message);
+            });
         }
     }
 
     function loginWithGoogle() {
+        clearAuthError();
         const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider).catch(err => alert("Google Login Error: " + err.message));
+        auth.signInWithPopup(provider).catch(err => {
+            showAuthError("Google Login ไม่สำเร็จ: " + err.message);
+        });
     }
 
     function logoutUser() {
@@ -1216,7 +1246,7 @@
         if (currentViewMonth !== actualCurrentMonth) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusClosed}</span>`; }
         else if (spentToday === 0) { spendStatus.innerHTML = `Status: <span style="color:var(--text-light); font-weight:400;">${t.statusNoSpend}</span>`; }
         else if (spentToday > (settingsData.daily_target || 150)) { spendStatus.innerHTML = `Status: <span style="color:var(--danger); font-weight:600;">${t.statusOver}</span>`; }
-        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">${t.statusInBudget}</span>`; }
+        else { spendStatus.innerHTML = `Status: <span style="color:var(--success); font-weight:600;">อยู่ในงบ</span>`; }
 
         document.getElementById('ui-bill-tracker').innerText = `${paidBills}/${totalBills}`;
         document.getElementById('ui-unpaid-amount').innerText = `฿${totalFixedUnpaid.toLocaleString()}`;
